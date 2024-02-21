@@ -1,123 +1,203 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<svg
-			class="astro-a"
-			width="495"
-			height="623"
-			viewBox="0 0 495 623"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			aria-hidden="true"
-		>
-			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M167.19 364.254C83.4786 364.254 0 404.819 0 404.819C0 404.819 141.781 19.4876 142.087 18.7291C146.434 7.33701 153.027 0 162.289 0H332.441C341.703 0 348.574 7.33701 352.643 18.7291C352.92 19.5022 494.716 404.819 494.716 404.819C494.716 404.819 426.67 364.254 327.525 364.254L264.41 169.408C262.047 159.985 255.147 153.581 247.358 153.581C239.569 153.581 232.669 159.985 230.306 169.408L167.19 364.254ZM160.869 530.172C160.877 530.18 160.885 530.187 160.894 530.195L160.867 530.181C160.868 530.178 160.868 530.175 160.869 530.172ZM136.218 411.348C124.476 450.467 132.698 504.458 160.869 530.172C160.997 529.696 161.125 529.242 161.248 528.804C161.502 527.907 161.737 527.073 161.917 526.233C165.446 509.895 178.754 499.52 195.577 500.01C211.969 500.487 220.67 508.765 223.202 527.254C224.141 534.12 224.23 541.131 224.319 548.105C224.328 548.834 224.337 549.563 224.347 550.291C224.563 566.098 228.657 580.707 237.264 593.914C245.413 606.426 256.108 615.943 270.749 622.478C270.593 621.952 270.463 621.508 270.35 621.126C270.045 620.086 269.872 619.499 269.685 618.911C258.909 585.935 266.668 563.266 295.344 543.933C298.254 541.971 301.187 540.041 304.12 538.112C310.591 533.854 317.059 529.599 323.279 525.007C345.88 508.329 360.09 486.327 363.431 457.844C364.805 446.148 363.781 434.657 359.848 423.275C358.176 424.287 356.587 425.295 355.042 426.275C351.744 428.366 348.647 430.33 345.382 431.934C303.466 452.507 259.152 455.053 214.03 448.245C184.802 443.834 156.584 436.019 136.218 411.348Z"
-				fill="url(#paint0_linear_1805_24383)"></path>
-			<defs>
-				<linearGradient
-					id="paint0_linear_1805_24383"
-					x1="247.358"
-					y1="0"
-					x2="247.358"
-					y2="622.479"
-					gradientUnits="userSpaceOnUse"
-				>
-					<stop stop-opacity="0.9"></stop>
-					<stop offset="1" stop-opacity="0.2"></stop>
-				</linearGradient>
-			</defs>
-		</svg>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#8f7ada" />
+    <link rel="shortcut icon" href="/logo_mini_enhance.png" type="image/png" />
+    <meta
+      name="description"
+      content="Esta es la web oficial de Talleres Marcelino en Albacete, tlf: 967226001"
+    />
+    <!-- OPEN GRAPH (COMO SE VE LA WEB EN LAS REDES SOCIALES)-->
+    <meta property="og:title" content="Web oficial Motos Marcelino" />
+    <meta property="og:site_name" content="Performarce.com" />
+    <meta property="og:url" content="https://www.performarce.com" />
+    <meta
+      property="og:description"
+      content="Web oficial de Motos Marcelino, Reparacion y venta de motocicletas y forestal, tfl:967226001"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./../../public/logo_invert.png" />
+    <meta property="og:image:alt" content="Logo de www.Performarce.com" />
 
-<style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
-	}
-</style>
+    <!-- SEO -->
+    <!-- en caso de tener una web en otro idioma deberiamos usar esta etiqueta -->
+    <!-- <link rel="alternate" href="https://performarce.com/en" hreflang="en-GB"> -->
+    <link rel="canonical" href="https://performarce.com" />
+    <script>
+      const divImagen = document.getElementById(".imagen") as HTMLDivElement;
+
+      const imagenes = [
+        {
+          url: "/assets/H150-0226.jpg",
+        },
+        {
+          url: "/assets/H350-0432.jpg",
+        },
+        {
+          url: "/assets/H360-0231b.jpg",
+        },
+      ];
+
+      let indiceImagenActual = 0;
+
+      function cambiarImagen() {
+        indiceImagenActual = (indiceImagenActual + 1) % imagenes.length;
+
+        const imagenActual = imagenes[indiceImagenActual];
+
+        //agregar y remover las animaciones
+        // divImagen.classList.remove("animate-fade-out-left");
+        divImagen.classList.add("animate-fade-in-right");
+
+        //Agregar la imagen
+        divImagen.style.backgroundImage = `url(${imagenActual.url})`;
+
+        // Eliminar la clase de animación después de la transición
+        setTimeout(() => {
+          //   divImagen.classList.add("animate-fade-out-left");
+          divImagen.classList.remove("animate-fade-in-right");
+        }, 1000);
+      }
+      setInterval(cambiarImagen, 5000);
+
+      // Ajusta el tiempo a la duración de la animación
+    </script>
+
+    <!-- para mover los elemento de las marcas -->
+  </head>
+
+  <!-- con tailwind agregar una imagen de fondo class="bg-[url('../public/images/tailwind.png')]" con css: style="background-image: url(https://source.unsplash.com/1800x1600/)" para meter blur en tailwindcss "blur"-->
+  <body class="dark:bg-gray-900">
+    <Layout title="🏍️ Performarce">
+      <div class="w-full">
+        <div class="flex pb-2 bg-white dark:bg-gray-900" style="height:500px;">
+          <div
+            class="flex items-center px-8 text-center md:w-1/2 md:px-12 lg:text-left"
+          >
+            <div>
+              <h2
+                class="text-3xl font-semibold text-gray-600 dark:text-gray-100 md:text-4xl"
+              >
+                <span class="text-rose-400">Motocicletas</span> y <span
+                  class="text-rose-400">Forestal</span
+                >
+              </h2>
+              <p
+                class="mt-2 text-sm text-gray-500 dark:text-gray-300 md:text-base"
+              >
+                En Motos Marcelino tenemos decadas de experiencia en Reparacion
+                y venta de maquinaria forestal y motocicletas. <br />
+                No dude en contactanos.
+              </p>
+              <div class="mt-6 flex justify-center lg:justify-start">
+                <a
+                  class="rounded bg-rose-500 px-4 py-3 text-xs font-semibold text-gray-200 hover:bg-rose-600"
+                  >Contactanos</a
+                ><a
+                  class="mx-4 rounded bg-gray-300 px-4 py-3 text-xs font-semibold text-gray-900 hover:bg-gray-400"
+                  >Saber mas</a
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="hidden w-1/2 md:block"
+            style="clip-path:polygon(15% 0, 100% 0%, 100% 100%, 0 100%)"
+          >
+            <div
+              id=".imagen"
+              class="h-full object-cover bg-no-repeat"
+              style="background-image: url(/assets/H150-0226.jpg)"
+            >
+              <div class="h-full bg-black opacity-50"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- marcas -->
+
+      <div class="flex flex-col items-center">
+        <!-- Texto Marcas -->
+        <div
+          class="relative flex w-full justify-center items-center bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Feskipaper.com%2Fimages%2Fgrass-pictures-1.jpg&f=1&nofb=1&ipt=36b716f826ddc78102f8763a19f1c870f2882c35ee7e0478e4523c983b5debb8&ipo=images')] bg-fixed bg-no-repeat"
+        >
+          <!-- oscurecer/gradiante -->
+          <div
+            class="absolute w-full bg-gradient-to-b from-gray-900 from-10% to-Custom_Black/50 h-full"
+          >
+          </div>
+          <h3
+            class="text-4xl font-bold drop-shadow-lg text-Custom_White mt-16 mb-5"
+          >
+            Marcas
+          </h3>
+        </div>
+        <!--  -->
+
+        <!-- logos forestal -->
+        <div
+          class="relative self-start w-full bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Feskipaper.com%2Fimages%2Fgrass-pictures-1.jpg&f=1&nofb=1&ipt=36b716f826ddc78102f8763a19f1c870f2882c35ee7e0478e4523c983b5debb8&ipo=images')] bg-fixed bg-no-repeat"
+        >
+          <!-- oscurecer/gradiante -->
+          <div
+            class="absolute w-full h-full bg-gradient-to-b from-Custom_Black/50 from-10% to-gray-900 to-95%%"
+          >
+          </div>
+
+          <p class="relative ml-10 my-5 text-white font-bold text-3xl">
+            Forestal
+          </p>
+          <!-- carrusel forestal -->
+          <div
+            class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
+          >
+            <ul
+              class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
+            >
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+            </ul>
+            <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
+            <ul
+              class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
+              aria-hidden:"true"
+            >
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 w-36 bg-white"></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Logos ciclomotor -->
+        <div class="self-end">
+          <p>Ciclomotor</p>
+        </div>
+      </div>
+    </Layout>
+  </body>
+</html>
