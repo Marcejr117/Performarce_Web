@@ -91,10 +91,11 @@ import Layout from "../layouts/Layout.astro";
                 >
               </h2>
               <p
-                class="mt-2 text-sm text-gray-500 dark:text-gray-300 md:text-base"
+                class="mt-2 text-sm text-gray-500 dark:text-gray-300 md:text-base text-justify font-mono"
               >
-                En Motos Marcelino tenemos decadas de experiencia en Reparacion
-                y venta de maquinaria forestal y motocicletas. <br />
+                En <strong>Motos Marcelino</strong> tenemos decadas de experiencia
+                en Reparacion y venta de maquinaria forestal y motocicletas. <br
+                /><br />
                 No dude en contactanos.
               </p>
               <div class="mt-6 flex justify-center lg:justify-start">
@@ -117,7 +118,7 @@ import Layout from "../layouts/Layout.astro";
               class="h-full object-cover bg-no-repeat"
               style="background-image: url(/assets/H150-0226.jpg)"
             >
-              <div class="h-full bg-black opacity-50"></div>
+              <div class="h-full bg-black opacity-20"></div>
             </div>
           </div>
         </div>
@@ -127,19 +128,22 @@ import Layout from "../layouts/Layout.astro";
 
       <div class="flex flex-col items-center">
         <!-- Texto Marcas -->
+        <h3
+          class="text-4xl font-bold drop-shadow-lg text-Custom_White mt-16 mb-5"
+        >
+          Marcas
+        </h3>
+        <!-- El fondo de forestal -->
         <div
           class="relative flex w-full justify-center items-center bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Feskipaper.com%2Fimages%2Fgrass-pictures-1.jpg&f=1&nofb=1&ipt=36b716f826ddc78102f8763a19f1c870f2882c35ee7e0478e4523c983b5debb8&ipo=images')] bg-fixed bg-no-repeat"
         >
           <!-- oscurecer/gradiante -->
           <div
-            class="absolute w-full bg-gradient-to-b from-gray-900 from-10% to-Custom_Black/50 h-full"
+            class="absolute w-full h-full bg-gradient-to-b from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
           >
           </div>
-          <h3
-            class="text-4xl font-bold drop-shadow-lg text-Custom_White mt-16 mb-5"
-          >
-            Marcas
-          </h3>
+          <!-- como de grande quiero que sea el gradiante -->
+          <div class="mt-10 mb-10"></div>
         </div>
         <!--  -->
 
@@ -149,53 +153,443 @@ import Layout from "../layouts/Layout.astro";
         >
           <!-- oscurecer/gradiante -->
           <div
-            class="absolute w-full h-full bg-gradient-to-b from-Custom_Black/50 from-10% to-gray-900 to-95%%"
+            class="absolute w-full h-full bg-gradient-to-t from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
           >
           </div>
 
-          <p class="relative ml-10 my-5 text-white font-bold text-3xl">
-            Forestal
-          </p>
+          <div class="relative flex">
+            <p
+              class="pl-10 pr-10 my-5 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
+              style="clip-path:polygon(0% 0%, 85% 0%, 100% 100%, 0 100%)"
+            >
+              Forestal
+            </p>
+          </div>
           <!-- carrusel forestal -->
           <div
-            class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
+            class="pb-32 w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
           >
             <ul
               class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
             >
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Benza.jpg"
+                  alt="Benza logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/biss_stratton.png"
+                  alt="biss stratton logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Camon.png"
+                  alt="Camon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Cubcadet_logo.jpg"
+                  alt="cubcadet_logo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Echo_logo.jpg"
+                  alt="Echo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/garland.png"
+                  alt="garland logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Honda_logo.png"
+                  alt="Honda logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/husqvarna_Logo.png"
+                  alt="husqvarna logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
+                  alt="Husqvarna vertical logo"
+                />
+              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/MTD.png"
+                  alt="MTD logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oleomac-logo.png"
+                  alt="oleomac logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oregon.png"
+                  alt="oregon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl"
+                  src="/assets/marcas/forestal/Snapper.jpg"
+                  alt="Snapper logo"
+                />
+              </li>
             </ul>
             <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
             <ul
               class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
               aria-hidden:"true"
             >
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
-              <li class="h-20 w-36 bg-white"></li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Benza.jpg"
+                  alt="Benza logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/biss_stratton.png"
+                  alt="biss stratton logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Camon.png"
+                  alt="Camon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Cubcadet_logo.jpg"
+                  alt="cubcadet_logo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Echo_logo.jpg"
+                  alt="Echo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/garland.png"
+                  alt="garland logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Honda_logo.png"
+                  alt="Honda logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/husqvarna_Logo.png"
+                  alt="husqvarna logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
+                  alt="Husqvarna vertical logo"
+                />
+              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/MTD.png"
+                  alt="MTD logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oleomac-logo.png"
+                  alt="oleomac logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oregon.png"
+                  alt="oregon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl"
+                  src="/assets/marcas/forestal/Snapper.jpg"
+                  alt="Snapper logo"
+                />
+              </li>
             </ul>
           </div>
         </div>
 
         <!-- Logos ciclomotor -->
-        <div class="self-end">
-          <p>Ciclomotor</p>
+
+        <!-- El fondo de Ciclomotor -->
+        <div
+          class="relative flex w-full justify-center items-center bg-fixed bg-no-repeat"
+          style="background-image: url(/assets/fondos/carretera.jpg)"
+        >
+          <!-- oscurecer/gradiante -->
+          <div
+            class="absolute w-full h-full bg-gradient-to-b from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+          >
+          </div>
+          <!-- como de grande quiero que sea el gradiante -->
+          <div class="mt-10 mb-10"></div>
+        </div>
+        <div
+          style="background-image: url(/assets/fondos/carretera.jpg)"
+          class="relative self-start w-full bg-fixed bg-no-repeat overflow-hidden"
+        >
+          <!-- oscurecer/gradiante -->
+          <div
+            class="absolute w-full h-full bg-gradient-to-t from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+          >
+          </div>
+
+          <div class="relative flex flex-row-reverse">
+            <p
+              class="pl-10 pr-10 my-5 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
+              style="clip-path:polygon(15% 0%, 100% 0%, 100% 100%, 0 100%)"
+            >
+              Ciclomotor
+            </p>
+          </div>
+          <!-- carrusel Ciclomotor -->
+          <div
+            class="pb-32 w-full inline-flex flex-row-reverse flex-nowrap [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
+          >
+            <ul
+              class="flex flex-row-reverse items-center justify-end md:justify-end [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverse"
+            >
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Benza.jpg"
+                  alt="Benza logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/biss_stratton.png"
+                  alt="biss stratton logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Camon.png"
+                  alt="Camon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Cubcadet_logo.jpg"
+                  alt="cubcadet_logo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Echo_logo.jpg"
+                  alt="Echo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/garland.png"
+                  alt="garland logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Honda_logo.png"
+                  alt="Honda logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/husqvarna_Logo.png"
+                  alt="husqvarna logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
+                  alt="Husqvarna vertical logo"
+                />
+              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/MTD.png"
+                  alt="MTD logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oleomac-logo.png"
+                  alt="oleomac logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oregon.png"
+                  alt="oregon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl"
+                  src="/assets/marcas/forestal/Snapper.jpg"
+                  alt="Snapper logo"
+                />
+              </li>
+            </ul>
+            <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
+            <ul
+              class="flex flex-row-reverse items-center justify-end md:justify-end [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverse"
+              aria-hidden:"true"
+            >
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Benza.jpg"
+                  alt="Benza logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/biss_stratton.png"
+                  alt="biss stratton logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Camon.png"
+                  alt="Camon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Cubcadet_logo.jpg"
+                  alt="cubcadet_logo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Echo_logo.jpg"
+                  alt="Echo logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/garland.png"
+                  alt="garland logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Honda_logo.png"
+                  alt="Honda logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/husqvarna_Logo.png"
+                  alt="husqvarna logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
+                  alt="Husqvarna vertical logo"
+                />
+              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/MTD.png"
+                  alt="MTD logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oleomac-logo.png"
+                  alt="oleomac logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl m-1"
+                  src="/assets/marcas/forestal/oregon.png"
+                  alt="oregon logo"
+                />
+              </li>
+              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+                <img
+                  class="rounded-2xl"
+                  src="/assets/marcas/forestal/Snapper.jpg"
+                  alt="Snapper logo"
+                />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </Layout>
