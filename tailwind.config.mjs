@@ -6,8 +6,8 @@ export default {
 	theme: {
 		extend: {
 			animation: {
-				'infinite-scroll': 'infinite-scroll 20s linear infinite',
-				'infinite-scroll-inverse': 'infinite-scroll-inverse 20s linear infinite',
+				'infinite-scroll': 'infinite-scroll 10s linear infinite',
+				'infinite-scroll-inverse': 'infinite-scroll-inverse 10s linear infinite',
 			},
 			keyframes: {
 				'infinite-scroll': {
