@@ -1,0 +1,29 @@
+---
+const { banner, image } = Astro.props;
+---
+
+<div
+    class="group flex max-w-xs flex-col overflow-hidden rounded-lg bg-gray-200 p-2 shadow-xl dark:bg-gray-900 sm:max-w-7xl sm:flex-row hover:animate-tilt justify-center items-center"
+>
+    <div class="p-2 sm:w-1/2">
+        <slot name="image" />
+    </div>
+    <div class="p-3 sm:w-1/2 sm:p-6">
+        <div class="p-2 flex flex-col h-full">
+            <span
+                class="text-center block text-2xl font-semibold text-rose-500/70 sm:mt-2"
+            >
+                <slot name="title" />
+            </span>
+            <div class="">-</div>
+            <p
+                class="mt-2 text-sm text-gray-600 dark:text-gray-300 text-justify"
+            >
+                <slot name="content" />
+            </p>
+            <p class="w-auto m-auto mt-16">
+                <slot name="icon" />
+            </p>
+        </div>
+    </div>
+</div>
