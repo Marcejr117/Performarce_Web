@@ -1,10 +1,15 @@
 ---
 const { title, current_page } = Astro.props;
+import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" class="dark:bg-gray-900">
   <head>
+    <!-- hace que navegar entre las paginas sea mas fluido -->
+    <ViewTransitions />
+
+    <!-- Metadatos -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Performarce</title>
@@ -156,17 +161,17 @@ const { title, current_page } = Astro.props;
                     aria-current="page">Inicio</a
                   >
                   <a
-                    href="info"
+                    href="/info"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Informacion</a
                   >
                   <a
-                    href="location"
+                    href="/location"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Ubicacion</a
                   >
                   <a
-                    href="contact"
+                    href="/contact"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Contacto</a
                   >
@@ -216,8 +221,8 @@ const { title, current_page } = Astro.props;
 
     <!-- Main content -->
 
-    <body class="">
-      <slot class="" />
+    <body class="flex-1">
+      <slot />
     </body>
 
     <!-- Footer content -->
@@ -351,6 +356,4 @@ const { title, current_page } = Astro.props;
       </div>
     </footer>
   </div>
-
-
 </html>
