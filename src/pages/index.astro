@@ -47,7 +47,7 @@ import Layout from "../layouts/Layout.astro";
 <main class="dark:bg-gray-900">
   <Layout title="🏍️ Performarce">
     <div class="w-full">
-      <div class="flex pb-2 bg-white dark:bg-gray-900" style="height:500px;">
+      <div class="flex pb-2 bg-sky-200 dark:bg-gray-900" style="height:500px;">
         <div
           class="flex items-center px-8 text-center md:w-1/2 md:px-12 lg:text-left"
         >
@@ -55,26 +55,30 @@ import Layout from "../layouts/Layout.astro";
             <h2
               class="text-3xl font-semibold text-gray-600 dark:text-gray-100 md:text-4xl"
             >
-              <span class="text-rose-400">Motocicletas</span> y <span
-                class="text-rose-400">Forestal</span
+              <span class="text-orange-700">Motos</span> y <span
+                class="text-orange-700">Forestal</span
               >
             </h2>
             <p
-              class="mt-2 text-sm text-gray-500 dark:text-gray-300 md:text-base text-justify"
+              class="mt-2 text-sm text-gray-600 dark:text-gray-300 md:text-base text-justify"
             >
               En <strong>Motos Marcelino</strong> tenemos decadas de experiencia
-              en Reparacion y venta de maquinaria forestal y motocicletas. <br
-              /><br />
-              No dude en contactanos.
+              en <span class="font-bold">Reparación</span> y <span
+                class="font-bold">Venta</span
+              > de maquinaria forestal y motos. Asi como
+              <span class="font-bold">Repuestos.</span>
+              <br /><br />
+              No dude en contactarnos.
             </p>
             <div class="mt-6 flex justify-center lg:justify-start">
               <a
-                class="rounded bg-rose-500 px-4 py-3 text-xs font-semibold text-gray-200 hover:bg-rose-600 cursor-pointer"
+                href="/contact"
+                class="animate-pulse rounded dark:bg-rose-500 bg-red-700 px-4 py-3 text-xs font-semibold text-gray-200 hover:bg-rose-600 cursor-pointer"
                 >Contactanos</a
               ><a
                 href="/info"
                 class="mx-4 rounded bg-gray-300 px-4 py-3 text-xs font-semibold text-gray-900 hover:bg-gray-400 cursor-pointer"
-                >Saber mas</a
+                >Saber más</a
               >
             </div>
           </div>
@@ -96,10 +100,10 @@ import Layout from "../layouts/Layout.astro";
 
     <!-- marcas -->
 
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center bg-sky-200 dark:bg-gray-900">
       <!-- Texto Marcas -->
       <h3
-        class="text-4xl font-bold drop-shadow-lg text-Custom_White mt-16 mb-5"
+        class="text-4xl font-bold drop-shadow-lg dark:text-Custom_White text-Custom_Black mt-16 mb-5"
       >
         Marcas
       </h3>
@@ -109,7 +113,7 @@ import Layout from "../layouts/Layout.astro";
       >
         <!-- oscurecer/gradiante -->
         <div
-          class="absolute w-full h-full bg-gradient-to-b from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+          class="absolute w-full h-full bg-gradient-to-b dark:from-gray-900 from-sky-200 from-5% dark:to-gray-900/50 to-sky-200/0 to-15% dark:via-gray-900/70 via-sky-200/70"
         >
         </div>
         <!-- como de grande quiero que sea el gradiante -->
@@ -123,7 +127,7 @@ import Layout from "../layouts/Layout.astro";
       >
         <!-- oscurecer/gradiante -->
         <div
-          class="absolute w-full h-full bg-gradient-to-t from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+          class="absolute w-full h-full bg-gradient-to-t dark:from-gray-900 from-sky-200 from-5% dark:to-gray-900/50 to-15% dark:via-gray-900/70"
         >
         </div>
 
@@ -341,7 +345,7 @@ import Layout from "../layouts/Layout.astro";
       >
         <!-- oscurecer/gradiante -->
         <div
-          class="absolute w-full h-full bg-gradient-to-b from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+          class="absolute w-full h-full bg-gradient-to-b dark:from-gray-900 from-sky-200 from-5% dark:to-gray-900/50 to-15% dark:via-gray-900/70"
         >
         </div>
         <!-- como de grande quiero que sea el gradiante -->
@@ -353,7 +357,7 @@ import Layout from "../layouts/Layout.astro";
       >
         <!-- oscurecer/gradiante -->
         <div
-          class="absolute w-full h-full bg-gradient-to-t from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+          class="absolute w-full h-full bg-gradient-to-t dark:from-gray-900 from-sky-300 from-5% dark:to-gray-900/50 to-15% dark:via-gray-900/70"
         >
         </div>
 
@@ -362,7 +366,7 @@ import Layout from "../layouts/Layout.astro";
             class="pl-10 pr-10 my-5 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
             style="clip-path:polygon(15% 0%, 100% 0%, 100% 100%, 0 100%)"
           >
-            Ciclomotor
+            Motos
           </p>
         </div>
         <!-- carrusel Ciclomotor -->

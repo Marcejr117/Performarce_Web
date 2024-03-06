@@ -6,7 +6,7 @@ const { title, current_page } = Astro.props;
 <!doctype html>
 <html
   lang="es"
-  class="dark:bg-gray-900 dark"
+  class="dark:bg-gray-900 bg-sky-300 dark transition duration-300"
   id="html"
   onload="restaurarEstado()"
 >
@@ -117,11 +117,17 @@ const { title, current_page } = Astro.props;
       function cambiarImagen() {
         const darkImage = document.getElementById("darkImage");
         const lightImage = document.getElementById("lightImage");
+
+        const darkImage_mobile = document.getElementById("darkImage-mobile");
+        const lightImage_mobile = document.getElementById("lightImage-mobile");
+
         const html = document.getElementById("html");
 
-        // Toggle classes for images and body
+        // cambiar valores
         darkImage?.classList.toggle("hidden");
         lightImage?.classList.toggle("hidden");
+        darkImage_mobile?.classList.toggle("hidden");
+        lightImage_mobile?.classList.toggle("hidden");
         html?.classList.toggle("dark");
         html?.classList.toggle("light");
 
@@ -130,8 +136,13 @@ const { title, current_page } = Astro.props;
           "theme",
           darkImage?.classList.contains("hidden") ? "light" : "dark",
         );
+        localStorage.setItem(
+          "theme",
+          darkImage_mobile?.classList.contains("hidden") ? "light" : "dark",
+        );
       }
       document.getElementById("dark-mode")!.onclick = cambiarImagen;
+      document.getElementById("dark-mode-mobile")!.onclick = cambiarImagen;
 
       function restaurarEstado() {
         const estadoGuardado = localStorage.getItem("theme");
@@ -153,21 +164,23 @@ const { title, current_page } = Astro.props;
       }
     </style>
   </head>
-  <div class="flex flex-col dark:bg-gray-900">
+  <div class="flex flex-col dark:bg-gray-900 bg-sky-200">
     <header class="header z-10">
-      <nav class="nav bg-gray-800">
+      <nav
+        class="nav dark:bg-gray-800 bg-sky-300 dark:border-none border-b-[2px] border-l-[1px] border-r-[1px] border-Custom_Black"
+      >
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div class="relative flex h-16 items-center justify-between">
             <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <!-- Boton del menu de movil-->
               <button
                 type="button"
-                class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                class="relative inline-flex items-center justify-center rounded-md p-2 text-Custom_Black dark:text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
               >
                 <span class="absolute -inset-0.5"></span>
-                <span class="sr-only">Open main menu</span>
+                <span class="sr-only">abrir menu principal</span>
 
                 <svg
                   class="block h-6 w-6"
@@ -188,7 +201,9 @@ const { title, current_page } = Astro.props;
             <div
               class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-center"
             >
-              <div class="flex flex-shrink-0 items-center">
+              <div
+                class="flex flex-shrink-0 items-center rounded-xl bg-Custom_Black/90 dark:bg-transparent"
+              >
                 <img
                   class="h-10 w-auto"
                   src="/logo_mini_enhance.png"
@@ -196,28 +211,32 @@ const { title, current_page } = Astro.props;
                 />
               </div>
               <div class="hidden sm:ml-6 sm:block">
-                <div class="flex space-x-4">
+                <div class="flex space-x-12">
                   <a
                     href="/"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    class="text-Custom_Black dark:text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     aria-current="page">Inicio</a
                   >
                   <a
                     href="/info"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >Informacion</a
+                    class="text-Custom_Black dark:text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >Información</a
                   >
                   <a
                     href="/location"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >Ubicacion</a
+                    class="text-Custom_Black dark:text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >Ubicación</a
                   >
                   <a
                     href="/contact"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    class="text-Custom_Black dark:text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Contacto</a
                   >
-                  <button class="" id="dark-mode" onclick="toggleTheme()">
+                  <button
+                    class="text-Custom_Black dark:text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    id="dark-mode"
+                    onclick="cambiarImagen()"
+                  >
                     <img
                       src="icons/dark_mode.svg"
                       alt=""
@@ -261,6 +280,24 @@ const { title, current_page } = Astro.props;
             class="bg-gray-900/90 text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >Contacto</a
           >
+          <button
+            class="bg-gray-900/90 text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium w-full"
+            id="dark-mode-mobile"
+            onclick="cambiarImagen()"
+          >
+            <img
+              src="icons/dark_mode.svg"
+              alt=""
+              class="block"
+              id="darkImage-mobile"
+            />
+            <img
+              src="icons/light_mode.svg"
+              alt=""
+              class="hidden"
+              id="lightImage-mobile"
+            />
+          </button>
         </div>
       </div>
     </header>
@@ -273,57 +310,63 @@ const { title, current_page } = Astro.props;
 
     <!-- Footer content -->
 
-    <footer class="mx-auto w-full px-4 pt-16 dark:bg-gray-900 md:px-24 lg:px-8">
+    <footer
+      class="mx-auto w-full px-4 pt-16 dark:bg-gray-900 bg-sky-300 md:px-24 lg:px-8"
+    >
       <div class="row-gap-6 mb-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div class="sm:col-span-2">
           <a
             class="title-font flex items-center font-medium text-gray-900 md:justify-start"
           >
-            <img class="h-14 rounded-full ml-[-12px]" src="/logo.png" alt="" />
+            <img
+              class="h-14 rounded-full ml-[-12px] dark:bg-transparent bg-Custom_Black"
+              src="/logo.png"
+              alt=""
+            />
           </a>
           <div class="mt-6 lg:max-w-sm">
-            <p class="text-sm text-gray-600">
-              Performarce.com es la pagina oficial de Talleres Marcelino, una
-              empresa de venta y reparacion de forestal y motocicletas. Gracias
+            <p class="text-sm dark:text-gray-600 text-gray-800">
+              Performarce.com es la página oficial de Talleres Marcelino, una.
+              Empresa de venta y reparación de forestal y motocicletas. Gracias
               por elegirnos
             </p>
           </div>
         </div>
         <div class="space-y-2 text-sm">
           <p
-            class="text-base font-bold tracking-wide text-rose-400 dark:text-rose-300"
+            class="text-base font-bold tracking-wide text-rose-700 dark:text-rose-300"
           >
-            Contactanos
+            Contáctanos
           </p>
           <div class="flex">
-            <p class="mr-1 text-gray-600">Telefono:</p>
+            <p class="mr-2 dark:text-gray-600 text-gray-800">Teléfono:</p>
             <a
               aria-label="Our phone"
-              title="nuestro telefono"
+              title="Nuestro Teléfono"
               href="tel:+34967226001"
-              class="text-gray-600 transition-colors duration-300 hover:text-rose-500"
+              class="text-gray-800 dark:text-gray-600 transition duration-300 hover:dark:text-rose-500 hover:text-rose-950 ease-in-out hover:scale-105"
               >967-226-001</a
             >
           </div>
           <div class="flex">
-            <p class="mr-1 text-gray-600">Email:</p>
+            <p class="mr-2 dark:text-gray-600 text-gray-800">E-Mail:</p>
             <a
               href="mailto:oficina@performarce.com"
               aria-label="Our email"
-              title="nuestro email"
-              class="text-gray-600 transition-colors duration-300 hover:text-rose-500"
+              title="Nuestro E-Mail de contacto"
+              class="text-gray-800 dark:text-gray-600 transition duration-300 hover:dark:text-rose-500 hover:text-rose-950 ease-in-out hover:scale-105"
               >oficina@performarce.com</a
             >
           </div>
           <div class="flex">
-            <p class="mr-1 text-gray-600">Direccion:</p>
+            <p class="mr-2 dark:text-gray-600 text-gray-800">Dirección:</p>
             <a
               target="_blank"
               href="https://www.google.es/maps/place/Talleres+Marcelino/@38.998388,-1.8699614,17.5z/data=!4m6!3m5!1s0xd665fb487f1ea51:0x578c1f902ab4afec!8m2!3d38.9982411!4d-1.8684794!16s%2Fg%2F11cnsm_v5w?entry=ttu"
               rel="noopener noreferrer"
               aria-label="Our address"
-              title="nuestra direccion"
-              class="text-gray-600 transition-colors duration-300 hover:text-rose-500"
+              title="Nuestra dirección física"
+              class="text-gray-800 dark:text-gray-600 transition duration-300 hover:dark:text-rose-500 hover:text-rose-950 ease-in-out hover:scale-105"
             >
               Av. los Toreros, 22, 02005 Albacete.
             </a>
@@ -331,7 +374,7 @@ const { title, current_page } = Astro.props;
         </div>
         <div>
           <span
-            class="text-base font-bold tracking-wide text-rose-400 dark:text-rose-300"
+            class="text-base font-bold tracking-wide text-rose-700 dark:text-rose-300"
             >Redes Sociales</span
           >
           <div class="mt-1 flex items-center space-x-3">
@@ -339,7 +382,7 @@ const { title, current_page } = Astro.props;
             <a
               target="_blank"
               href="https://wa.me/+34608353343"
-              class="text-gray-500 transition-colors duration-300 hover:text-rose-400"
+              class="text-green-700 transition-colors duration-300 hover:dark:text-green-400 hover:text-green-900"
             >
               <svg viewBox="0 0 30.667 30.667" fill="currentColor" class="h-5"
                 ><path
@@ -358,7 +401,7 @@ const { title, current_page } = Astro.props;
               >
             </a>
             <a
-              class="text-gray-500 transition-colors duration-300 hover:text-rose-400"
+              class="text-rose-500 transition-colors duration-300 hover:text-red-700"
               href="https://www.youtube.com/@motosmarcelinomotosmarceli8261"
               target="_blank"
             >
@@ -379,7 +422,7 @@ const { title, current_page } = Astro.props;
             <a
               href="https://www.facebook.com/profile.php?id=100063714483433"
               target="_blank"
-              class="text-gray-500 transition-colors duration-300 hover:text-rose-400"
+              class="text-blue-500 transition-colors duration-300 hover:text-blue-700"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" class="h-5"
                 ><path
@@ -388,13 +431,13 @@ const { title, current_page } = Astro.props;
               >
             </a>
           </div>
-          <p class="mt-4 text-sm text-gray-500">
-            Si quieres saber mas de nosotros mira nuestras redes sociales.
+          <p class="mt-4 text-sm dark:text-gray-500 text-gray-800">
+            Si quiere saber más sobre nosotros, revisa nuestras redes sociales !
           </p>
         </div>
       </div>
       <div
-        class="flex flex-col-reverse justify-between border-t pt-5 pb-10 lg:flex-row"
+        class="flex flex-col-reverse justify-between border-t dark:border-t-Custom_White border-t-Custom_Brown_light pt-5 pb-10 lg:flex-row"
       >
         <p class="text-sm text-gray-600">
           © Copyright 2024 Motos Marcelino. All rights reserved.
