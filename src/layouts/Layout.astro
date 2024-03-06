@@ -1,13 +1,18 @@
 ---
 const { title, current_page } = Astro.props;
-import { ViewTransitions } from "astro:transitions";
+// import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
-<html lang="es" class="dark:bg-gray-900">
+<html
+  lang="es"
+  class="dark:bg-gray-900 dark"
+  id="html"
+  onload="restaurarEstado()"
+>
   <head>
     <!-- hace que navegar entre las paginas sea mas fluido -->
-    <ViewTransitions />
+    <!-- <ViewTransitions /> -->
 
     <!-- Metadatos -->
     <meta charset="UTF-8" />
@@ -105,6 +110,43 @@ import { ViewTransitions } from "astro:transitions";
       });
     </script>
 
+    <!-- dark-mode -->
+
+    <!-- cambiar la imagen del boton darkmode -->
+    <script>
+      function cambiarImagen() {
+        const darkImage = document.getElementById("darkImage");
+        const lightImage = document.getElementById("lightImage");
+        const html = document.getElementById("html");
+
+        // Toggle classes for images and body
+        darkImage?.classList.toggle("hidden");
+        lightImage?.classList.toggle("hidden");
+        html?.classList.toggle("dark");
+        html?.classList.toggle("light");
+
+        // Almacenar el estado actual en localStorage
+        localStorage.setItem(
+          "theme",
+          darkImage?.classList.contains("hidden") ? "light" : "dark",
+        );
+      }
+      document.getElementById("dark-mode")!.onclick = cambiarImagen;
+
+      function restaurarEstado() {
+        const estadoGuardado = localStorage.getItem("theme");
+
+        if (estadoGuardado === "light") {
+          // Iniciar la página en modo claro
+          // (Asumiendo que inicia en modo oscuro por defecto)
+          cambiarImagen();
+        }
+      }
+
+      // Ejecutar la función al cargar la página
+      restaurarEstado();
+    </script>
+
     <style>
       .sticky {
         top: 0; /* O cualquier posición deseada */
@@ -175,11 +217,20 @@ import { ViewTransitions } from "astro:transitions";
                     class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Contacto</a
                   >
-                  <a
-                    href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    ><img src="icons/dark_mode.svg" alt="" /></a
-                  >
+                  <button class="" id="dark-mode" onclick="toggleTheme()">
+                    <img
+                      src="icons/dark_mode.svg"
+                      alt=""
+                      class="block"
+                      id="darkImage"
+                    />
+                    <img
+                      src="icons/light_mode.svg"
+                      alt=""
+                      class="hidden"
+                      id="lightImage"
+                    />
+                  </button>
                 </div>
               </div>
             </div>
@@ -196,24 +247,19 @@ import { ViewTransitions } from "astro:transitions";
             aria-current="page">Inicio</a
           >
           <a
-            href="info"
+            href="/info"
             class="bg-gray-900/90 text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >Informacion</a
           >
           <a
-            href="location"
+            href="/location"
             class="bg-gray-900/90 text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >Ubicacion</a
           >
           <a
-            href="contact"
+            href="/contact"
             class="bg-gray-900/90 text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >Contacto</a
-          >
-          <a
-            href="#"
-            class="bg-gray-900/90 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium block"
-            ><img src="icons/dark_mode.svg" alt="" /></a
           >
         </div>
       </div>
@@ -356,4 +402,6 @@ import { ViewTransitions } from "astro:transitions";
       </div>
     </footer>
   </div>
+
+
 </html>

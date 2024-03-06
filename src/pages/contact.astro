@@ -17,7 +17,7 @@ import Layout from "../layouts/Layout.astro";
             </p>
             <form
                 class="flex flex-col justify-center items-start gap-4 w-full *:w-full *:*:w-full"
-                action="https://formsubmit.co/12b3f4882031dfd3f883650d669082ad"
+                action="https://formsubmit.co/marce3secundaria@gmail.com"
                 method="POST"
             >
                 <fieldset>
@@ -25,7 +25,7 @@ import Layout from "../layouts/Layout.astro";
                         >Nombre</legend
                     >
                     <input
-                        class="h-10 pb-1 dark:text-gray-50 px-3 focus:outline-none rounded-lg dark:border-gray-200 border-[1px] focus:border-sky-300 focus:border-[2px] dark:bg-gray-600 opacity-50"
+                        class="transition-transform duration-300 ease-in-out focus:scale-105 h-10 pb-1 dark:text-gray-50 px-3 focus:outline-none rounded-lg dark:border-gray-200 border-[1px] focus:border-sky-300 focus:border-[2px] dark:bg-gray-600 opacity-50"
                         type="text"
                         placeholder="Su nombre (Opcional)"
                         name="Nombre_Cliente"
@@ -38,7 +38,7 @@ import Layout from "../layouts/Layout.astro";
                         >E-Mail</legend
                     >
                     <input
-                        class="h-10 pb-1 dark:text-gray-50 px-3 focus:outline-none rounded-lg dark:border-gray-200 border-[1px] focus:border-sky-300 focus:border-[2px] dark:bg-gray-600 opacity-50"
+                        class="transition-transform duration-300 ease-in-out focus:scale-105 h-10 pb-1 dark:text-gray-50 px-3 focus:outline-none rounded-lg dark:border-gray-200 border-[1px] focus:border-sky-300 focus:border-[2px] dark:bg-gray-600 opacity-50"
                         type="text"
                         placeholder="E-Mail de contacto"
                         name="Email"
@@ -51,16 +51,21 @@ import Layout from "../layouts/Layout.astro";
                         >Mensaje</legend
                     >
                     <textarea
-                        class="h-16 pb-1 dark:text-gray-50 px-3 focus:outline-none rounded-lg dark:border-gray-200 border-[1px] focus:border-sky-300 focus:border-[2px] dark:bg-gray-600 opacity-50"
+                        class="transition-transform duration-300 ease-in-out focus:scale-105 h-16 pb-1 dark:text-gray-50 px-3 focus:outline-none rounded-lg dark:border-gray-200 border-[1px] focus:border-sky-300 focus:border-[2px] dark:bg-gray-600 opacity-50"
                         placeholder="Contenido de mensaje"
                         name="Mensaje"
                         id="Mensaje"></textarea>
                 </fieldset>
                 <button
-                    class="bg-sky-700 rounded-lg h-10 transition-colors duration-0 hover:bg-sky-400 hover:duration-500"
+                    class="transition-transform duration-300 ease-in-out hover:scale-105 rounded-lg h-10 bg-sky-600 hover:bg-sky-400"
                     type="submit">Enviar</button
                 >
-                <input type="hidden" name="_next" value="/contact/index.html" />
+                <input
+                    type="hidden"
+                    name="_next"
+                    value="http://jr117.com.es/"
+                />
+                <input type="hidden" name="_captcha" value="false" />
             </form>
         </div>
     </section>
