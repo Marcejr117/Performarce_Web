@@ -30,6 +30,11 @@ export default {
 				'Custom_Blue': '#66A1A7',
 				'Custom_Brown': '#816F61',
 				'Custom_Black': '#0E1D20',
+				'Light_white':'#FAF8F7',
+				'Light_Blue_Acent':'#106CE8',
+				'Light_Blue':'#1EC7D0',
+				'Light_Orange':'#E36B22',
+				'Light_Blue_deep':'#283252',
 				'primary': {
 					'50': '#f4f6fa',
 					'100': '#e6eaf3',
