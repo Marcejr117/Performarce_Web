@@ -9,7 +9,7 @@ export default {
 			
 			animation: {
 				'infinite-scroll': 'infinite-scroll 20s linear infinite',
-				'infinite-scroll-inverse': 'infinite-scroll-inverse 20s linear infinite',
+				'infinite-scroll-inverse': 'infinite-scroll-inverse 35s linear infinite',
 			},
 			keyframes: {
 				'infinite-scroll': {
