@@ -16,10 +16,6 @@ await client.access({
 await client.cd("forestal");
 const fileList = await client.list();
 console.log(fileList);
-// await client.downloadTo(
-//     "WT_WIAB_Reworked_ch_3_Full.pdf",
-//     "WT_WIAB_Reworked_ch_3_Full.pdf",
-// );
 
 for (let i = 0; i < fileList.length; i++) {
     const FileInfo = fileList[i];
@@ -30,22 +26,17 @@ for (let i = 0; i < fileList.length; i++) {
 client.close();
 ---
 
-<Layout>
+<Layout title="Performarce" current_page="Ofertas Forestal">
     <h1
         class="dark:text-gray-300 text-center font-bold text-4xl my-5 text-Light_Orange"
     >
-        Ofertas de Forestal
+        Ofertas de Jardineria y Forestal
     </h1>
     <hr class="dark:border-gray-500 mx-10 border-black" />
     <main class="flex gap-16 justify-center flex-wrap my-10 mx-5">
         {
             fileList.map((FileInfo) => (
                 <OfertasCard nombre={FileInfo.name} direccion={FileInfo.name} />
-
-                // <div class="mt-5 justify-center text-center flex-col flex">
-                //     <iframe class="" src={FileInfo.name} frameborder="0" />
-                //     <h2 class="">{FileInfo.name}</h2>
-                // </div>
             ))
         }
     </main>

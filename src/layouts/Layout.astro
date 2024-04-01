@@ -1,6 +1,6 @@
 ---
 const { title, current_page } = Astro.props;
-import { ViewTransitions } from "astro:transitions";
+// import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
@@ -18,7 +18,7 @@ import { ViewTransitions } from "astro:transitions";
     <!-- Metadatos -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Performarce</title>
+    <title>{title} | {current_page}</title>
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#8f7ada" />
     <link rel="shortcut icon" href="/logo_mini_enhance.png" type="image/png" />

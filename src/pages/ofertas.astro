@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout>
+<Layout title="Performarce" current_page="Ofertas">
     <style>
         .custom-text {
             color: white;
@@ -17,33 +17,33 @@ import Layout from "../layouts/Layout.astro";
         class="flex-col md:flex-row h-[60vh] flex justify-center items-center md:animate-fade-in ease-in-out flex-wrap md:overflow-hidden"
     >
         <a
-            href="ofertas_moto"
+            href="/ofertas_moto"
             class="bg-black w-full md:w-1/2 h-1/2 md:h-full md:hover:scale-[1.22] transition-transform duration-200 flex justify-center items-center"
             style="clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%) "
         >
             <img
                 class="blur-[2px]"
-                src="https://images.pexels.com/photos/1161996/pexels-photo-1161996.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="/assets/fondos/oferta_moto.jpeg"
                 alt=""
             />
-            <h1 class="absolute font-bold text-5xl custom-text">
-                Ofertas de Motos
+            <h1 class="absolute font-bold text-5xl custom-text text-center">
+                Motos y Complementos
             </h1>
         </a>
         <a
-            href="ofertas_forestal"
+            href="/ofertas_forestal"
             class="bg-yellow-500 w-full md:w-1/2 h-1/2 md:h-full md:hover:scale-[1.22] transition-transform duration-150 flex justify-center items-center"
             style="clip-path:polygon(10% 0, 100% 0%, 100% 100%, 0 100%)"
         >
             <img
                 class="blur-[2px]"
-                src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Farteforestal.com%2Fwp-content%2Fuploads%2F2017%2F10%2FIMG_6401.jpg&f=1&nofb=1&ipt=f1ca7d45f66cfd6583bf895bbdfc1ccc8268ada5a7f4d480313265244d6dbd73&ipo=images"
+                src="/assets/fondos/oferta_forestal.jpg"
                 alt=""
             />
             <h1
-                class="absolute font-bold text-5xl custom-text rounded-xl px-10"
+                class="absolute font-bold text-5xl custom-text rounded-xl px-10 text-center"
             >
-                Ofertas de Forestal
+                Jardineria y Forestal
             </h1>
         </a>
     </div>
