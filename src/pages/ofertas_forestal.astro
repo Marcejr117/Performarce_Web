@@ -4,6 +4,23 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Performarce" current_page="Ofertas Forestal">
     <script>
+        //----------------------------------------------------------------
+        console.log("holaa");
+        var directory = "https://www.jr117.com.es/ofertasPDF/forestal/";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", directory, false); // false for synchronous request
+        xmlHttp.send(null);
+        var ret = xmlHttp.responseText;
+        var fileList = ret.split("\n");
+        console.log(fileList);
+        for (let i = 0; i < fileList.length; i++) {
+            var fileinfo = fileList[i].split(" ");
+            if (fileinfo[0] == "201:") {
+                document.write(fileinfo[1] + "<br>");
+                document.write('<img src="' + directory + fileinfo[1] + '"/>');
+            }
+        }
+
         // Elemento padre
         const lista = document.getElementById("lista") as HTMLDivElement;
         // lista de nombres a iterar

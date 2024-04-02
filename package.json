@@ -19,6 +19,7 @@
     "typescript": "^5.4.3"
   },
   "devDependencies": {
+    "@types/node": "^20.12.3",
     "daisyui": "^4.9.0"
   }
 }
