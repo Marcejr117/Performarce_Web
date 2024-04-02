@@ -62,7 +62,10 @@ import Layout from "../layouts/Layout.astro";
 
         nombreDocumentos.forEach((elemento) => {
             //ajustamos el enlace
-            var enlace = "http://www.jr117.com.es/ofertasPDF/motos/" + elemento;
+            //TODO: vamos a hacer una prueba con la direccion
+            var enlace =
+                "https://github.com/Marcejr117/Performarce_Web/blob/main/public/ofertasPDF/motos/" +
+                elemento;
             //creamos el elemento
             createComponent(enlace, elemento.replace(/\.pdf$/, ""));
         });
