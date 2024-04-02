@@ -1,13 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 import animations from '@midudev/tailwind-animations'
-
 export default {
 	darkMode: 'selector',
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
-		extend: {
-			
-			animation: {
+		extend: {animation: {
 				'infinite-scroll': 'infinite-scroll 20s linear infinite',
 				'infinite-scroll-inverse': 'infinite-scroll-inverse 35s linear infinite',
 			},
@@ -49,8 +46,6 @@ export default {
 					'950': '#2d2e43',
 				},
       		},
-			
-
 		},
 	},
 	plugins: [animations,require("daisyui")],

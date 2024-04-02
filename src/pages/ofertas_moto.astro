@@ -1,17 +1,78 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import OfertasCard from "../components/OfertasCard.astro";
 ---
 
-<Layout title="Performarce" current_page="Ofertas Motos">
-    <script></script>
+<Layout title="Performarce" current_page="Ofertas Forestal">
+    <script>
+        //Elemento padre
+        const lista = document.getElementById("lista") as HTMLDivElement;
+        //lista de nombres a iterar
+        const nombreDocumentos = ["Calendario.pdf"];
+
+        //Funcion para crear la tarjata
+        function createComponent(
+            nombre: string,
+            nombre_sinExtention: string | null,
+            targetElement = lista,
+        ) {
+            // Create the main container div
+            const mainDiv = document.createElement("div");
+            mainDiv.setAttribute(
+                "class",
+                "group relative bg-Light_Orange/90 dark:bg-Light_Orange rounded-xl p-2 flex flex-col justify-center items-center overflow-hidden hover:scale-105 transition-transform ease-in-out",
+            );
+
+            // Create the inner div with the link
+            const innerDiv = document.createElement("div");
+            innerDiv.setAttribute(
+                "class",
+                "group md:hidden block md:group-hover:block absolute md:group-hover:absolute bg-none md:bg-white/50 w-full h-full",
+            );
+            mainDiv.appendChild(innerDiv);
+
+            // Create the link within the inner div
+            const link = document.createElement("a");
+            link.setAttribute("href", nombre);
+            link.setAttribute("target", "_blank");
+            link.setAttribute("class", "h-full w-full");
+            innerDiv.appendChild(link);
+
+            // Craemos el div dentro del enlace y lo agramos
+            const divLink = document.createElement("div");
+            divLink.setAttribute("class", "w-full h-full");
+            link.appendChild(divLink); // Empty div for spacing
+
+            // Create the iframe
+            const iframe = document.createElement("iframe");
+            iframe.setAttribute("src", nombre);
+            iframe.setAttribute("class", "h-96 rounded-xl");
+            mainDiv.appendChild(iframe);
+
+            // Create the heading
+            const heading = document.createElement("h4");
+            heading.textContent = nombre_sinExtention;
+            heading.setAttribute(
+                "class",
+                "dark:bg-gray-700/85 dark:text-gray-300 text-black bg-none border-[1px] border-black rounded-xl dark:border-none p-1 w-full text-center mt-1",
+            );
+            mainDiv.appendChild(heading);
+
+            targetElement.appendChild(mainDiv); // Append the component to the target element
+        }
+
+        nombreDocumentos.forEach((elemento) => {
+            //ajustamos el enlace
+            var enlace = "http://www.jr117.com.es/ofertasPDF/motos/" + elemento;
+            //creamos el elemento
+            createComponent(enlace, elemento.replace(/\.pdf$/, ""));
+        });
+    </script>
     <h1
         class="dark:text-gray-300 text-center font-bold text-4xl my-5 text-Light_Orange"
     >
-        Ofertas de Motos y Complementos
+        Ofertas de Motos
     </h1>
     <hr class="dark:border-gray-500 mx-10 border-black" />
-    <main class="flex gap-16 justify-center flex-wrap my-10 mx-5">
-        <ul id="lista-archivos"></ul>
+    <main id="lista" class="flex gap-16 justify-center flex-wrap my-10 mx-5">
     </main>
 </Layout>
