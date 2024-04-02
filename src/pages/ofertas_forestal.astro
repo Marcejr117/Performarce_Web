@@ -62,8 +62,7 @@ import Layout from "../layouts/Layout.astro";
 
         nombreDocumentos.forEach((elemento) => {
             //ajustamos el enlace
-            var enlace =
-                "http://www.jr117.com.es/ofertasPDF/forestal/" + elemento;
+            var enlace = "/ofertasPDF/forestal/" + elemento;
             //creamos el elemento
             createComponent(enlace, elemento.replace(/\.pdf$/, ""));
         });
