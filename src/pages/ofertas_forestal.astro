@@ -35,7 +35,7 @@ client.close();
     <hr class="dark:border-gray-500 mx-10 border-black" />
     <main class="flex gap-16 justify-center flex-wrap my-10 mx-5">
         {
-            fileList.map((FileInfo) => (
+            fileList.map((FileInfo: { name: any }) => (
                 <OfertasCard nombre={FileInfo.name} direccion={FileInfo.name} />
             ))
         }

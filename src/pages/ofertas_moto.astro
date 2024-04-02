@@ -1,60 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import OfertasCard from "../components/OfertasCard.astro";
-import Client from "basic-ftp";
-
-// import { Client } from "basic-ftp";
-// const client = new Client();
-
-// client.ftp.verbose = false;
-
-// await client.access({
-//     host: "jr117.com.es", // Replace with your actual host
-//     user: "sem3993", // Replace with your actual username
-//     password: "MiWeb1234", // Replace with your actual password
-//     secure: false, // Adjust for secure connections if needed
-// });
-// await client.cd("motos");
-// const fileList = await client.list();
-// console.log(fileList);
-
-// for (let i = 0; i < fileList.length; i++) {
-//     const FileInfo = fileList[i];
-//     await client.downloadTo(FileInfo.name, FileInfo.name);
-//     console.log(FileInfo.name);
-// }
-
-// client.close();
 ---
 
 <Layout title="Performarce" current_page="Ofertas Motos">
-    <script>
-        console.log("holaaaaaaaaaaaaaaaaa");
-        import { Client } from "basic-ftp";
-        // const { Client } = require("basic-ftp");
-        const client = new Client();
-
-        client.ftp.verbose = false;
-
-        await client.access({
-            host: "jr117.com.es", // Replace with your actual host
-            user: "sem3993", // Replace with your actual username
-            password: "MiWeb1234", // Replace with your actual password
-            secure: false, // Adjust for secure connections if needed
-        });
-        await client.cd("motos");
-        const fileList = await client.list();
-        console.log(fileList);
-        const a = document.getElementById("lista");
-        for (let i = 0; i < fileList.length; i++) {
-            const FileInfo = fileList[i];
-            await client.downloadTo(FileInfo.name, FileInfo.name);
-            console.log(FileInfo.name);
-            a!.textContent = fileList[i].name;
-        }
-
-        client.close();
-    </script>
+    <script></script>
     <h1
         class="dark:text-gray-300 text-center font-bold text-4xl my-5 text-Light_Orange"
     >
@@ -62,14 +12,6 @@ import Client from "basic-ftp";
     </h1>
     <hr class="dark:border-gray-500 mx-10 border-black" />
     <main class="flex gap-16 justify-center flex-wrap my-10 mx-5">
-        <!-- <ul id="lista">
-
-        </ul> -->
-        <p id="lista"></p>
-        <!-- {
-            fileList.map((FileInfo) => (
-                <OfertasCard nombre={FileInfo.name} direccion={FileInfo.name} />
-            ))
-        } -->
+        <ul id="lista-archivos"></ul>
     </main>
 </Layout>
