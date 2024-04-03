@@ -4,9 +4,9 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Performarce" current_page="Ofertas Forestal">
     <script>
-        // Elemento padre
+        //Elemento padre
         const lista = document.getElementById("lista") as HTMLDivElement;
-        // lista de nombres a iterar
+        //lista de nombres a iterar
         const nombreDocumentos = ["Calendario.pdf"];
 
         //Funcion para crear la tarjata
@@ -62,6 +62,7 @@ import Layout from "../layouts/Layout.astro";
 
         nombreDocumentos.forEach((elemento) => {
             //ajustamos el enlace
+            //TODO: vamos a hacer una prueba con la direccion
             var enlace = "/ofertasPDF/forestal/" + elemento;
             //creamos el elemento
             createComponent(enlace, elemento.replace(/\.pdf$/, ""));
@@ -70,7 +71,7 @@ import Layout from "../layouts/Layout.astro";
     <h1
         class="dark:text-gray-300 text-center font-bold text-4xl my-5 text-Light_Orange"
     >
-        Ofertas de Jardineria y Forestal
+        Ofertas de Forestal
     </h1>
     <hr class="dark:border-gray-500 mx-10 border-black" />
     <main id="lista" class="flex gap-16 justify-center flex-wrap my-10 mx-5">
