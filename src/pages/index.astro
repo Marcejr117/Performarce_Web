@@ -3,782 +3,717 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#8f7ada" />
-    <link rel="shortcut icon" href="/logo_mini_enhance.png" type="image/png" />
-    <meta
-      name="description"
-      content="Esta es la web oficial de Talleres Marcelino en Albacete, tlf: 967226001"
-    />
-    <!-- OPEN GRAPH (COMO SE VE LA WEB EN LAS REDES SOCIALES)-->
-    <meta property="og:title" content="Web oficial Motos Marcelino" />
-    <meta property="og:site_name" content="Performarce.com" />
-    <meta property="og:url" content="https://www.performarce.com" />
-    <meta
-      property="og:description"
-      content="Web oficial de Motos Marcelino, Reparacion y venta de motocicletas y forestal, tfl:967226001"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="./../../public/logo_invert.png" />
-    <meta property="og:image:alt" content="Logo de www.Performarce.com" />
+<script>
+  const divImagen = document.getElementById(".imagen") as HTMLDivElement;
 
-    <!-- SEO -->
-    <!-- en caso de tener una web en otro idioma deberiamos usar esta etiqueta -->
-    <!-- <link rel="alternate" href="https://performarce.com/en" hreflang="en-GB"> -->
-    <link rel="canonical" href="https://performarce.com" />
-    <script>
-      const divImagen = document.getElementById(".imagen") as HTMLDivElement;
+  const imagenes = [
+    {
+      url: "/assets/H150-0226.jpg",
+    },
+    {
+      url: "/assets/H350-0432.jpg",
+    },
+    {
+      url: "/assets/H360-0231b.jpg",
+    },
+  ];
 
-      const imagenes = [
-        {
-          url: "/assets/H150-0226.jpg",
-        },
-        {
-          url: "/assets/H350-0432.jpg",
-        },
-        {
-          url: "/assets/H360-0231b.jpg",
-        },
-      ];
+  let indiceImagenActual = 0;
 
-      let indiceImagenActual = 0;
+  function cambiarImagen() {
+    indiceImagenActual = (indiceImagenActual + 1) % imagenes.length;
 
-      function cambiarImagen() {
-        indiceImagenActual = (indiceImagenActual + 1) % imagenes.length;
+    const imagenActual = imagenes[indiceImagenActual];
 
-        const imagenActual = imagenes[indiceImagenActual];
+    //agregar y remover las animaciones
+    // divImagen.classList.remove("animate-fade-out-left");
+    divImagen.classList.add("animate-fade-in-right");
 
-        //agregar y remover las animaciones
-        // divImagen.classList.remove("animate-fade-out-left");
-        divImagen.classList.add("animate-fade-in-right");
+    //Agregar la imagen
+    divImagen.style.backgroundImage = `url(${imagenActual.url})`;
 
-        //Agregar la imagen
-        divImagen.style.backgroundImage = `url(${imagenActual.url})`;
+    // Eliminar la clase de animación después de la transición
+    setTimeout(() => {
+      //   divImagen.classList.add("animate-fade-out-left");
+      divImagen.classList.remove("animate-fade-in-right");
+    }, 1000);
+  }
+  setInterval(cambiarImagen, 5000);
 
-        // Eliminar la clase de animación después de la transición
-        setTimeout(() => {
-          //   divImagen.classList.add("animate-fade-out-left");
-          divImagen.classList.remove("animate-fade-in-right");
-        }, 1000);
-      }
-      setInterval(cambiarImagen, 5000);
+  // Ajusta el tiempo a la duración de la animación
+</script>
 
-      // Ajusta el tiempo a la duración de la animación
-    </script>
-
-    <!-- para mover los elemento de las marcas -->
-  </head>
-
-  <!-- con tailwind agregar una imagen de fondo class="bg-[url('../public/images/tailwind.png')]" con css: style="background-image: url(https://source.unsplash.com/1800x1600/)" para meter blur en tailwindcss "blur"-->
-  <body class="dark:bg-gray-900">
-    <Layout title="🏍️ Performarce">
-      <div class="w-full">
-        <div class="flex pb-2 bg-white dark:bg-gray-900" style="height:500px;">
-          <div
-            class="flex items-center px-8 text-center md:w-1/2 md:px-12 lg:text-left"
-          >
-            <div>
-              <h2
-                class="text-3xl font-semibold text-gray-600 dark:text-gray-100 md:text-4xl"
+<!-- para mover los elemento de las marcas --><!-- con tailwind agregar una imagen de fondo class="bg-[url('../public/images/tailwind.png')]" con css: style="background-image: url(https://source.unsplash.com/1800x1600/)" para meter blur en tailwindcss "blur"-->
+<main class="dark:bg-gray-900 bg-[#eaeaea]">
+  <Layout title="🏍️ Performarce" current_page="Inicio">
+    <div class="w-full">
+      <div
+        class="flex pb-2 bg-Light_white dark:bg-gray-900"
+        style="height:500px;"
+      >
+        <!-- bloque izquierdo -->
+        <div
+          class="flex items-center px-8 text-center md:w-1/2 md:px-12 lg:text-left"
+        >
+          <!-- boque superior -->
+          <div>
+            <!-- header del texto -->
+            <h2
+              class="text-3xl font-semibold text-gray-700 dark:text-gray-100 md:text-4xl"
+            >
+              <span class="text-Light_Orange">Motos</span>, <span
+                class="text-Light_Orange"
+                >Jardinaría
+              </span> y <span class="text-Light_Orange">Forestal</span>
+            </h2>
+            <!-- infomacion de la empresa -->
+            <p
+              class="mt-2 text-sm text-gray-700 dark:text-gray-300 md:text-base text-justify"
+            >
+              En <strong>Talleres Marcelino</strong> tenemos décadas de experiencia
+              en <span class="font-bold">Reparación</span> y <span
+                class="font-bold">Venta</span
+              > de maquinaria forestal, jardinería y motos, así como
+              <span class="font-bold">Repuestos.</span>
+              <br /><br />
+              No dude en contactarnos.
+            </p>
+            <!-- Botones de contacto y saber mas -->
+            <div class="mt-6 flex justify-center lg:justify-start">
+              <a
+                href="/contact"
+                class="animate-pulse rounded dark:bg-rose-500 bg-Light_Orange px-4 py-3 text-xs font-semibold text-gray-200 hover:bg-rose-600 cursor-pointer shadow-2xl drop-shadow-2xl"
+                >Contáctanos</a
+              ><a
+                href="/info"
+                class="mx-4 rounded bg-Light_white px-4 py-3 text-xs font-semibold text-gray-900 hover:bg-gray-400 cursor-pointer shadow-2xl drop-shadow-2xl"
+                >Saber más</a
               >
-                <span class="text-rose-400">Motocicletas</span> y <span
-                  class="text-rose-400">Forestal</span
-                >
-              </h2>
-              <p
-                class="mt-2 text-sm text-gray-500 dark:text-gray-300 md:text-base text-justify font-mono"
-              >
-                En <strong>Motos Marcelino</strong> tenemos decadas de experiencia
-                en Reparacion y venta de maquinaria forestal y motocicletas. <br
-                /><br />
-                No dude en contactanos.
-              </p>
-              <div class="mt-6 flex justify-center lg:justify-start">
-                <a
-                  class="rounded bg-rose-500 px-4 py-3 text-xs font-semibold text-gray-200 hover:bg-rose-600"
-                  >Contactanos</a
-                ><a
-                  class="mx-4 rounded bg-gray-300 px-4 py-3 text-xs font-semibold text-gray-900 hover:bg-gray-400"
-                  >Saber mas</a
-                >
-              </div>
             </div>
-          </div>
-          <div
-            class="hidden w-1/2 md:block"
-            style="clip-path:polygon(15% 0, 100% 0%, 100% 100%, 0 100%)"
-          >
+            <!-- Marcas principales -->
             <div
-              id=".imagen"
-              class="h-full object-cover bg-no-repeat"
-              style="background-image: url(/assets/H150-0226.jpg)"
+              class="mt-5 *:dark:text-gray-300 *:text-gray-900 *:*:rounded-2xl flex justify-center items-start *:*:object-scale-down *:flex *:flex-col bg-Light_white dark:bg-Custom_Blue gap-5 py-1 px-3 rounded-2xl hover:*:scale-105 hover:*:-translate-y-2 *:transition-all *:ease-in-out *:duration-300 shadow-xl"
             >
-              <div class="h-full bg-black opacity-20"></div>
+              <a
+                href="https://www.macbor.com/"
+                target="_blank"
+                class="group overflow-visible"
+              >
+                <img
+                  class="overflow-visible h-14"
+                  src="https://www.bikesandbikes.es/wp-content/uploads/2019/10/Logo_macbor.png"
+                  alt="Macbor logo"
+                />
+                <!-- <div
+                  class="flex flex-col group-hover:block group-hover:h-16 h-9 bg-black opacity-10 group-hover:opacity-100 transition-all duration-[400ms]"
+                >
+                  <button
+                    onclick="window.location.href='https://youtube.com/'; target='_blank'"
+                  >
+                    clic
+                  </button>
+                </div> -->
+              </a>
+              <a href="https://www.sym.com.es/" target="_blank" class="">
+                <img
+                  class="scale-125 h-14"
+                  src="/assets/marcas/ciclomotor/sym_texto.png"
+                  alt="SYM logo"
+                />
+              </a>
+              <a
+                href="https://www.husqvarna.com/es/robots-cortacesped/"
+                target="_blank"
+              >
+                <img
+                  class="h-14"
+                  src="/assets/marcas/forestal/husqvarna_Logo.png"
+                  alt="Husqvarna Automover logo"
+                />
+              </a>
+              <a href="https://www.husqvarna.com/es/" target="_blank">
+                <img
+                  class="scale-125 h-14"
+                  src="/assets/marcas/forestal/husqvarna_logo_texto.png"
+                  alt="Husqvarna logo"
+                />
+              </a>
+              <a href="https://benza.es/" target="_blank">
+                <img
+                  class="h-14"
+                  src="/assets/marcas/forestal/benza_black.png"
+                  alt="Benza logo"
+                />
+              </a>
+              <a href="https://www.zanon.it/en/" target="_blank">
+                <img
+                  class="h-14"
+                  src="https://www.agrieuro.es/share/media/images/manufacturers/original/29/logo_29_1.png"
+                  alt="Zanon logo"
+                />
+              </a>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- marcas -->
-
-      <div class="flex flex-col items-center">
-        <!-- Texto Marcas -->
-        <h3
-          class="text-4xl font-bold drop-shadow-lg text-Custom_White mt-16 mb-5"
-        >
-          Marcas
-        </h3>
-        <!-- El fondo de forestal -->
+        <!-- bloque derecho -->
         <div
-          class="relative flex w-full justify-center items-center bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Feskipaper.com%2Fimages%2Fgrass-pictures-1.jpg&f=1&nofb=1&ipt=36b716f826ddc78102f8763a19f1c870f2882c35ee7e0478e4523c983b5debb8&ipo=images')] bg-fixed bg-no-repeat"
+          class="hidden w-1/2 md:block"
+          style="clip-path:polygon(15% 0, 100% 0%, 100% 100%, 0 100%)"
         >
-          <!-- oscurecer/gradiante -->
           <div
-            class="absolute w-full h-full bg-gradient-to-b from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
+            id=".imagen"
+            class="h-full object-cover bg-no-repeat"
+            style="background-image: url(/assets/H150-0226.jpg)"
           >
-          </div>
-          <!-- como de grande quiero que sea el gradiante -->
-          <div class="mt-10 mb-10"></div>
-        </div>
-        <!--  -->
-
-        <!-- logos forestal -->
-        <div
-          class="relative self-start w-full bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Feskipaper.com%2Fimages%2Fgrass-pictures-1.jpg&f=1&nofb=1&ipt=36b716f826ddc78102f8763a19f1c870f2882c35ee7e0478e4523c983b5debb8&ipo=images')] bg-fixed bg-no-repeat"
-        >
-          <!-- oscurecer/gradiante -->
-          <div
-            class="absolute w-full h-full bg-gradient-to-t from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
-          >
-          </div>
-
-          <div class="relative flex">
-            <p
-              class="pl-10 pr-10 my-5 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
-              style="clip-path:polygon(0% 0%, 85% 0%, 100% 100%, 0 100%)"
-            >
-              Forestal
-            </p>
-          </div>
-          <!-- carrusel forestal -->
-          <div
-            class="pb-32 w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
-          >
-            <ul
-              class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
-            >
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Benza.jpg"
-                  alt="Benza logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/biss_stratton.png"
-                  alt="biss stratton logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Camon.png"
-                  alt="Camon logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Cubcadet_logo.jpg"
-                  alt="cubcadet_logo logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Echo_logo.jpg"
-                  alt="Echo logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/garland.png"
-                  alt="garland logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Honda_logo.png"
-                  alt="Honda logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/husqvarna_Logo.png"
-                  alt="husqvarna logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
-                  alt="Husqvarna vertical logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/MTD.png"
-                  alt="MTD logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/oleomac-logo.png"
-                  alt="oleomac logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/oregon.png"
-                  alt="oregon logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/forestal/Snapper.jpg"
-                  alt="Snapper logo"
-                />
-              </li>
-            </ul>
-            <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
-            <ul
-              class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
-              aria-hidden:"true"
-            >
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Benza.jpg"
-                  alt="Benza logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/biss_stratton.png"
-                  alt="biss stratton logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Camon.png"
-                  alt="Camon logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Cubcadet_logo.jpg"
-                  alt="cubcadet_logo logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Echo_logo.jpg"
-                  alt="Echo logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/garland.png"
-                  alt="garland logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Honda_logo.png"
-                  alt="Honda logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/husqvarna_Logo.png"
-                  alt="husqvarna logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
-                  alt="Husqvarna vertical logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/MTD.png"
-                  alt="MTD logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/oleomac-logo.png"
-                  alt="oleomac logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/forestal/oregon.png"
-                  alt="oregon logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/forestal/Snapper.jpg"
-                  alt="Snapper logo"
-                />
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Logos ciclomotor -->
-
-        <!-- El fondo de Ciclomotor -->
-        <div
-          class="relative flex w-full justify-center items-center bg-fixed bg-no-repeat"
-          style="background-image: url(/assets/fondos/carretera.jpg)"
-        >
-          <!-- oscurecer/gradiante -->
-          <div
-            class="absolute w-full h-full bg-gradient-to-b from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
-          >
-          </div>
-          <!-- como de grande quiero que sea el gradiante -->
-          <div class="mt-10 mb-10"></div>
-        </div>
-        <div
-          style="background-image: url(/assets/fondos/carretera.jpg)"
-          class="relative self-start w-full bg-fixed bg-no-repeat overflow-hidden"
-        >
-          <!-- oscurecer/gradiante -->
-          <div
-            class="absolute w-full h-full bg-gradient-to-t from-gray-900 from-5% to-gray-900/50 to-15% via-gray-900/70"
-          >
-          </div>
-
-          <div class="relative flex flex-row-reverse">
-            <p
-              class="pl-10 pr-10 my-5 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
-              style="clip-path:polygon(15% 0%, 100% 0%, 100% 100%, 0 100%)"
-            >
-              Ciclomotor
-            </p>
-          </div>
-          <!-- carrusel Ciclomotor -->
-          <div
-            class="pb-32 w-full inline-flex flex-row-reverse flex-nowrap [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
-          >
-            <ul
-              class="flex flex-row-reverse items-center justify-end md:justify-end [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverse *:drop-shadow-lg *:*:shadow-2xl"
-            >
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/Arrow_Logo.jpg"
-                  alt="arrow logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/barikit-logo.png"
-                  alt="barikit logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/beta-racing-logo.jpg"
-                  alt="beta-racing-logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/Dellorto_logo.jpg"
-                  alt="Dellorto logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/Dynavolt.png"
-                  alt="Dynavolt logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/elf-logo.png"
-                  alt="elf logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/endy.png"
-                  alt="endy logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/euromoto.jpg"
-                  alt="euromoto logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/macbor.png"
-                  alt="macbor logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/italkit.png"
-                  alt="italkit logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/logo_ng.png"
-                  alt="logo_ng logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1 px-2"
-                  src="/assets/marcas/ciclomotor/logo_shad.jpg"
-                  alt="shad logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-gro.jpg"
-                  alt="gro logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-jjuan.png"
-                  alt="jjuan logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-polini.jpg"
-                  alt="polini logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-rainers.png"
-                  alt="rainers logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-shiro.jpg"
-                  alt="logo-shiro logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/malossi_logo.png"
-                  alt="malossi logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/MT_Helmets.jpg"
-                  alt="MT_Helmets logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/NGK_logo.png"
-                  alt="NGK logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/nzi.jpg"
-                  alt="nzi logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/rq.png"
-                  alt="rq logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/sym.jpg"
-                  alt="sym logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/TJT_logo.png"
-                  alt="TJT logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/tk.png"
-                  alt="tk logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/vicma.jpg"
-                  alt="vicma logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/Zeus-helmet-Logo.jpg"
-                  alt="Zeus-helmet logo"
-                />
-              </li>
-            </ul>
-            <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
-            <ul
-              class="flex flex-row-reverse items-center justify-end md:justify-end [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverse"
-            >
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/Arrow_Logo.jpg"
-                  alt="arrow logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/barikit-logo.png"
-                  alt="barikit logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/beta-racing-logo.jpg"
-                  alt="beta-racing-logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/Dellorto_logo.jpg"
-                  alt="Dellorto logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/Dynavolt.png"
-                  alt="Dynavolt logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/elf-logo.png"
-                  alt="elf logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/endy.png"
-                  alt="endy logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/euromoto.jpg"
-                  alt="euromoto logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/macbor.png"
-                  alt="macbor logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/italkit.png"
-                  alt="italkit logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/logo_ng.png"
-                  alt="logo_ng logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl m-1"
-                  src="/assets/marcas/ciclomotor/logo_shad.png"
-                  alt="shad logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-gro.jpg"
-                  alt="gro logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-jjuan.png"
-                  alt="jjuan logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-polini.jpg"
-                  alt="polini logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-rainers.png"
-                  alt="rainers logo"
-                />
-              </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/logo-shiro.jpg"
-                  alt="logo-shiro logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/malossi_logo.png"
-                  alt="malossi logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/MT_Helmets.jpg"
-                  alt="MT_Helmets logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/NGK_logo.png"
-                  alt="NGK logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/nzi.jpg"
-                  alt="nzi logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/rq.png"
-                  alt="rq logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/sym.jpg"
-                  alt="sym logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/TJT_logo.png"
-                  alt="TJT logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/tk.png"
-                  alt="tk logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/vicma.jpg"
-                  alt="vicma logo"
-                />
-              </li>
-              <li class="h-20 bg-white rounded-2xl flex flex-shrink">
-                <img
-                  class="rounded-2xl"
-                  src="/assets/marcas/ciclomotor/Zeus-helmet-Logo.jpg"
-                  alt="Zeus-helmet logo"
-                />
-              </li>
-            </ul>
+            <div class="h-full bg-black dark:opacity-20 opacity-0"></div>
           </div>
         </div>
       </div>
-    </Layout>
-  </body>
-</html>
+    </div>
+
+    <!-- marcas -->
+
+    <div class="flex flex-col items-center bg-Light_white dark:bg-gray-900">
+      <!-- Texto Marcas -->
+      <h3
+        class="text-4xl font-bold drop-shadow-lg dark:text-Custom_White text-Custom_Black mt-2 mb-1"
+      >
+        Marcas
+      </h3>
+      <!-- Logos ciclomotor -->
+
+      <!-- El fondo de Ciclomotor -->
+      <div
+        class="relative flex w-full justify-center items-center bg-fixed"
+        style="background-image: url(/assets/fondos/carretera.jpg)"
+      >
+      </div>
+      <div
+        style="background-image: url(/assets/fondos/carretera.jpg)"
+        class="relative self-start w-full bg-fixed overflow-hidden"
+      >
+        <!-- oscurecer/gradiante -->
+        <div
+          class="absolute w-full h-full bg-gradient-to-t dark:from-gray-900 from-Light_Orange from-1% dark:to-gray-900/50 to-[2%] dark:via-gray-900/70"
+        >
+        </div>
+        <div class="relative flex flex-row-reverse">
+          <p
+            class="pl-10 pr-10 my-1 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
+            style="clip-path:polygon(15% 0%, 100% 0%, 100% 100%, 0 100%)"
+          >
+            Motos
+          </p>
+        </div>
+        <!-- carrusel Ciclomotor -->
+        <div
+          class="pb-5 w-full inline-flex flex-row-reverse flex-nowrap [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
+        >
+          <ul
+            class="flex flex-row-reverse items-center justify-end md:justify-end [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverse *:drop-shadow-lg *:*:shadow-2xl"
+          >
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/Arrow_Logo.jpg"
+                alt="arrow logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/barikit-logo.png"
+                alt="barikit logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/Dellorto_logo.jpg"
+                alt="Dellorto logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/elf-logo.png"
+                alt="elf logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/euromoto.jpg"
+                alt="euromoto logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/macbor.png"
+                alt="macbor logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/italkit.png"
+                alt="italkit logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/logo_ng.png"
+                alt="logo_ng logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1 px-2"
+                src="/assets/marcas/ciclomotor/logo_shad.jpg"
+                alt="shad logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-gro.jpg"
+                alt="gro logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-jjuan.png"
+                alt="jjuan logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-polini.png"
+                alt="polini logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-rainers.png"
+                alt="rainers logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-shiro.jpg"
+                alt="logo-shiro logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/malossi_logo.png"
+                alt="malossi logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/MT_Helmets.jpg"
+                alt="MT_Helmets logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/NGK_logo.png"
+                alt="NGK logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/nzi.jpg"
+                alt="nzi logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/rq.png"
+                alt="rq logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/sym.jpg"
+                alt="sym logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/TJT_logo.png"
+                alt="TJT logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/tk.png"
+                alt="tk logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/vicma.jpg"
+                alt="vicma logo"
+              />
+            </li>
+          </ul>
+          <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
+          <ul
+            class="flex flex-row-reverse items-center justify-end md:justify-end [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverse"
+          >
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/Arrow_Logo.jpg"
+                alt="arrow logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/barikit-logo.png"
+                alt="barikit logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/Dellorto_logo.jpg"
+                alt="Dellorto logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/elf-logo.png"
+                alt="elf logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/euromoto.jpg"
+                alt="euromoto logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/macbor.png"
+                alt="macbor logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/italkit.png"
+                alt="italkit logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/logo_ng.png"
+                alt="logo_ng logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/ciclomotor/logo_shad.jpg"
+                alt="shad logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-gro.jpg"
+                alt="gro logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-jjuan.png"
+                alt="jjuan logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-polini.png"
+                alt="polini logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-rainers.png"
+                alt="rainers logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/logo-shiro.jpg"
+                alt="logo-shiro logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/malossi_logo.png"
+                alt="malossi logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/MT_Helmets.jpg"
+                alt="MT_Helmets logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/NGK_logo.png"
+                alt="NGK logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/nzi.jpg"
+                alt="nzi logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/rq.png"
+                alt="rq logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/sym.jpg"
+                alt="sym logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/TJT_logo.png"
+                alt="TJT logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/tk.png"
+                alt="tk logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/ciclomotor/vicma.jpg"
+                alt="vicma logo"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- logos forestal -->
+      <div
+        class="relative self-start w-full bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Feskipaper.com%2Fimages%2Fgrass-pictures-1.jpg&f=1&nofb=1&ipt=36b716f826ddc78102f8763a19f1c870f2882c35ee7e0478e4523c983b5debb8&ipo=images')] bg-fixed"
+      >
+        <!-- oscurecer/gradiante -->
+        <div
+          class="absolute w-full h-full bg-gradient-to-t dark:from-gray-900 from-Light_white from-1% dark:to-gray-900/50 to-[2%] dark:via-gray-900/70"
+        >
+        </div>
+        <!-- texto "Forestal" -->
+        <div class="relative flex">
+          <p
+            class="pl-10 pr-10 my-1 text-white font-bold text-3xl bg-gray-900/80 drop-shadow-2xl"
+            style="clip-path:polygon(0% 0%, 85% 0%, 100% 100%, 0 100%)"
+          >
+            Forestal
+          </p>
+        </div>
+        <!-- carrusel forestal -->
+        <div
+          class="pb-5 w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
+        >
+          <ul
+            class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
+          >
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Benza.jpg"
+                alt="Benza logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/biss_stratton.png"
+                alt="biss stratton logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Echo_logo.jpg"
+                alt="Echo logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Honda_logo.png"
+                alt="Honda logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/husqvarna_Logo.png"
+                alt="husqvarna logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
+                alt="Husqvarna vertical logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/MTD.png"
+                alt="MTD logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/oleomac-logo.png"
+                alt="oleomac logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/oregon.png"
+                alt="oregon logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/forestal/Snapper.jpg"
+                alt="Snapper logo"
+              />
+            </li>
+          </ul>
+          <!-- Para que la animacion se vea fuida debemos duplicar la lista (es redundante pero es lo que hay) info: https://dev.to/cruip_com/create-an-infinite-horizontal-scroll-animation-with-tailwind-css-2ck-->
+          <ul
+            class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll"
+            aria-hidden:"true"
+          >
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Benza.jpg"
+                alt="Benza logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/biss_stratton.png"
+                alt="biss stratton logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Echo_logo.jpg"
+                alt="Echo logo"
+              />
+            </li>
+
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Honda_logo.png"
+                alt="Honda logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/husqvarna_Logo.png"
+                alt="husqvarna logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/Husqvarna-logo-vertical.png"
+                alt="Husqvarna vertical logo"
+              />
+            </li><li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/MTD.png"
+                alt="MTD logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/oleomac-logo.png"
+                alt="oleomac logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl m-1"
+                src="/assets/marcas/forestal/oregon.png"
+                alt="oregon logo"
+              />
+            </li>
+            <li class="h-20 bg-white rounded-2xl flex flex-shrink">
+              <img
+                class="rounded-2xl"
+                src="/assets/marcas/forestal/Snapper.jpg"
+                alt="Snapper logo"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </Layout>
+</main>
