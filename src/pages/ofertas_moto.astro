@@ -63,7 +63,7 @@ import Layout from "../layouts/Layout.astro";
         nombreDocumentos.forEach((elemento) => {
             //ajustamos el enlace
             //TODO: vamos a hacer una prueba con la direccion
-            var enlace = "/ofertasPDF/motos/" + elemento;
+            var enlace = "/ofertasPDF/moto/" + elemento;
             //creamos el elemento
             createComponent(enlace, elemento.replace(/\.pdf$/, ""));
         });
