@@ -1,0 +1,25 @@
+{
+  "name": "performarce_web",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/tailwind": "^5.1.0",
+    "@midudev/tailwind-animations": "^0.0.7",
+    "astro": "^4.5.13",
+    "basic-ftp": "^5.0.5",
+    "performarce_web": "link:",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.3",
+    "daisyui": "^4.9.0"
+  }
+}
