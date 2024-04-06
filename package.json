@@ -14,7 +14,6 @@
     "@midudev/tailwind-animations": "^0.0.7",
     "astro": "^4.5.16",
     "basic-ftp": "^5.0.5",
-    "performarce_web": "link:",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.3"
   },
