@@ -78,7 +78,7 @@ const { title, current_page } = Astro.props;
       });
 
       window.addEventListener("touchmove", function () {
-        alert("Has hecho scroll");
+        // alert("Has hecho scroll");
         if (window.scrollY > header!.getBoundingClientRect().height) {
           // la barra se acopla al top cuando el scrol esta arriba
           header!.classList.add("sticky");
