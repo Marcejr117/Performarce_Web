@@ -242,7 +242,7 @@ const { title, current_page } = Astro.props;
         html?.classList.toggle("dark");
         html?.classList.toggle("light");
       });
-      restaurarTema();
+      // restaurarTema();
       function restaurarTema() {
         const estadoGuardado = localStorage.getItem("theme");
         const checkbox = document.querySelector(
