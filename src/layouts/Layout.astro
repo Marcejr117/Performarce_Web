@@ -155,6 +155,15 @@ const { title, current_page } = Astro.props;
           button!.classList.remove("animate-pop");
         }, 500); // Duración de la animación en milisegundos
       });
+
+      // animacion button menu movil para movil
+
+      button!.addEventListener("tab", () => {
+        button!.classList.add("animate-pop");
+        setTimeout(() => {
+          button!.classList.remove("animate-pop");
+        }, 500); // Duración de la animación en milisegundos
+      });
     </script>
 
     <!-- dark-mode -->
