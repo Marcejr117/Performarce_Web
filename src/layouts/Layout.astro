@@ -7,7 +7,7 @@ const { title, current_page } = Astro.props;
 <html
   lang="es"
   data-theme="dark"
-  class="dark:bg-gray-900 bg-Light_white transition duration-300"
+  class="dark:bg-gray-900 bg-Light_white transition duration-300 dark"
   id="html"
   onload="restaurarTema()"
 >
@@ -242,7 +242,7 @@ const { title, current_page } = Astro.props;
         html?.classList.toggle("dark");
         html?.classList.toggle("light");
       });
-
+      restaurarTema();
       function restaurarTema() {
         const estadoGuardado = localStorage.getItem("theme");
         const checkbox = document.querySelector(
