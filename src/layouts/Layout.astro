@@ -6,7 +6,7 @@ const { title, current_page } = Astro.props;
 <!doctype html>
 <html
   lang="es"
-  data-theme="light"
+  data-theme="dark"
   class="dark:bg-gray-900 bg-Light_white transition duration-300"
   id="html"
   onload="restaurarTema()"
@@ -218,11 +218,6 @@ const { title, current_page } = Astro.props;
     </script> -->
 
     <script>
-      //para arregalar que en el movil no se ve bien el menu, al parecer al hacer esto va
-      restaurarTema();
-      //para arregalar que en el movil no se ve bien el menu, al parecer al hacer esto va
-      restaurarTema();
-      location.reload();
       const checkbox = document.querySelector(
         ".theme-controller",
       ) as HTMLInputElement;
