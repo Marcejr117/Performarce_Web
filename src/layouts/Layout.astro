@@ -78,6 +78,7 @@ const { title, current_page } = Astro.props;
       });
 
       window.addEventListener("touchmove", function () {
+        alert("Has hecho scroll");
         if (window.scrollY > header!.getBoundingClientRect().height) {
           // la barra se acopla al top cuando el scrol esta arriba
           header!.classList.add("sticky");
@@ -129,7 +130,8 @@ const { title, current_page } = Astro.props;
       });
 
       //para que funcione en el movil el boton al hacer touch
-      button!.addEventListener("touchstart", () => {
+      button!.addEventListener("tab", () => {
+        alert("Mobile click / Tap");
         // muestra y quita el menu con las opciones
         menu!.classList.toggle("hidden");
 
