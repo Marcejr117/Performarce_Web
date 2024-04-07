@@ -259,7 +259,7 @@ const { title, current_page } = Astro.props;
         console.log("Restaurando a: ", estadoGuardado);
         html?.classList.toggle(estadoGuardado ? estadoGuardado : "");
       }
-      window.onbeforeunload = function () {
+      window.onload = function () {
         restaurarTema();
       };
     </script>
