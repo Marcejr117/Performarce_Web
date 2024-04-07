@@ -102,6 +102,23 @@ const { title, current_page } = Astro.props;
         }
       });
 
+      //para que funcione en el movil el boton al hacer touch
+      button!.addEventListener("touchstart", () => {
+        // muestra y quita el menu con las opciones
+        menu!.classList.toggle("hidden");
+
+        // cambiar el icono del boton del menu
+        const valorActual = path!.getAttribute("d");
+        if (valorActual === "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5") {
+          path!.setAttribute("d", "M6 18L18 6M6 6l12 12");
+        } else {
+          path!.setAttribute(
+            "d",
+            "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5",
+          );
+        }
+      });
+
       // animacion button menu movil
 
       button!.addEventListener("click", () => {
