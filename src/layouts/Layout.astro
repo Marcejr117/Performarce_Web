@@ -241,6 +241,7 @@ const { title, current_page } = Astro.props;
 
         html?.classList.toggle("dark");
         html?.classList.toggle("light");
+        // restaurarTema();
       });
       // restaurarTema();
       function restaurarTema() {
@@ -259,7 +260,7 @@ const { title, current_page } = Astro.props;
         console.log("Restaurando a: ", estadoGuardado);
         html?.classList.toggle(estadoGuardado ? estadoGuardado : "");
       }
-      // restaurarTema();
+      restaurarTema();
     </script>
 
     <style>
