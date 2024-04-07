@@ -9,7 +9,6 @@ const { title, current_page } = Astro.props;
   data-theme="dark"
   class="dark:bg-gray-900 bg-Light_white transition duration-300 dark"
   id="html"
-  onload="restaurarTema()"
 >
   <head>
     <!-- hace que navegar entre las paginas sea mas fluido -->
@@ -260,7 +259,9 @@ const { title, current_page } = Astro.props;
         console.log("Restaurando a: ", estadoGuardado);
         html?.classList.toggle(estadoGuardado ? estadoGuardado : "");
       }
-      // restaurarTema();
+      window.onload = function () {
+        restaurarTema();
+      };
     </script>
 
     <style>
