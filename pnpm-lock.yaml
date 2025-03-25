@@ -20,6 +20,9 @@ dependencies:
   basic-ftp:
     specifier: ^5.0.5
     version: 5.0.5
+  performarce_web:
+    specifier: 'file:'
+    version: file:(@types/node@20.12.5)
   tailwindcss:
     specifier: ^3.4.3
     version: 3.4.3
@@ -4450,4 +4453,30 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+    dev: false
+
+  file:(@types/node@20.12.5):
+    resolution: {directory: '', type: directory}
+    id: 'file:'
+    name: performarce_web
+    dependencies:
+      '@astrojs/check': 0.5.10(typescript@5.4.4)
+      '@astrojs/tailwind': 5.1.0(astro@4.5.16)(tailwindcss@3.4.3)
+      '@midudev/tailwind-animations': 0.0.7(tailwindcss@3.4.3)
+      astro: 4.5.16(@types/node@20.12.5)(typescript@5.4.4)
+      basic-ftp: 5.0.5
+      tailwindcss: 3.4.3
+      typescript: 5.4.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - prettier
+      - prettier-plugin-astro
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - ts-node
     dev: false
