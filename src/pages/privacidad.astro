@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Pendiente del dueño: razón social y NIF del responsable; añadirlos en la sección "Responsable" cuando los tengamos.
+const h2 = 'mt-10 text-2xl sm:text-3xl';
+const link = 'text-brand-700 underline underline-offset-4 dark:text-brand-400';
+---
+
+<Layout
+  title="Política de privacidad"
+  description="Cómo trata Talleres Marcelino los datos del formulario de contacto y qué ocurre al cargar el mapa de Google."
+>
+  <article class="mx-auto max-w-3xl px-4 py-12 sm:py-16 [&_p]:mt-4 [&_p]:text-neutral-700 dark:[&_p]:text-neutral-300 [&_li]:text-neutral-700 dark:[&_li]:text-neutral-300">
+    <p class="font-semibold uppercase tracking-widest !text-brand-700 dark:!text-brand-400">Legal</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Política de privacidad</h1>
+    <p>
+      Aquí te explicamos qué datos recogemos en esta web, para qué los usamos y qué derechos tienes.
+      Esta web no usa cookies propias de análisis ni de publicidad.
+    </p>
+
+    <h2 class={h2}>Responsable</h2>
+    <ul class="mt-4 list-disc space-y-1 pl-6">
+      <li>Talleres Marcelino</li>
+      <li>Av. los Toreros, 22, 02005 Albacete</li>
+      <li>Email: <a href="mailto:oficina@performarce.com" class={link}>oficina@performarce.com</a></li>
+      <li>Teléfono: <a href="tel:+34967226001" class={link}>967 226 001</a></li>
+    </ul>
+
+    <h2 class={h2} id="formulario">Formulario de contacto</h2>
+    <p>
+      Si nos escribes desde el <a href="/contact" class={link}>formulario de contacto</a>, recogemos tu email, tu nombre si lo pones
+      y el mensaje. Los usamos solo para responderte. La base legal es tu consentimiento, que das al marcar la casilla
+      antes de enviar.
+    </p>
+    <p>
+      El envío pasa por FormSubmit (formsubmit.co), un servicio externo que nos reenvía el mensaje por email.
+      No usamos tus datos para publicidad ni los cedemos a nadie más, salvo obligación legal.
+    </p>
+    <p>
+      Guardamos el mensaje el tiempo necesario para atender tu consulta y, después, mientras puedan derivarse
+      responsabilidades de ella.
+    </p>
+
+    <h2 class={h2} id="mapa">Mapa de Google</h2>
+    <p>
+      La página de <a href="/location" class={link}>Ubicación</a> puede mostrar un mapa de Google Maps. El mapa no se carga hasta
+      que pulsas «Cargar mapa». Al pulsarlo, tu navegador se conecta con Google, que recibe tu dirección IP y puede guardar
+      cookies según su propia política de privacidad
+      (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class={link}>policies.google.com/privacy</a>).
+      Si no lo cargas, Google no recibe nada. También puedes abrir la dirección directamente en Google Maps con el enlace de esa página.
+    </p>
+
+    <h2 class={h2}>Preferencias guardadas en tu navegador</h2>
+    <p>
+      Si cambias entre modo claro y oscuro, guardamos esa preferencia en tu propio navegador (almacenamiento local).
+      No sale de tu equipo y puedes borrarla cuando quieras desde la configuración del navegador.
+    </p>
+
+    <h2 class={h2}>Tus derechos</h2>
+    <p>
+      Puedes pedirnos acceso a tus datos, corregirlos, borrarlos, limitar su uso u oponerte a él, y retirar tu consentimiento
+      en cualquier momento. Escríbenos a <a href="mailto:oficina@performarce.com" class={link}>oficina@performarce.com</a>.
+      Si crees que no hemos atendido bien tu petición, puedes reclamar ante la Agencia Española de Protección de Datos
+      (<a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer" class={link}>aepd.es</a>).
+    </p>
+  </article>
+</Layout>

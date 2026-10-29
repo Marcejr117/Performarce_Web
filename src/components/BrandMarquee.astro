@@ -1,0 +1,87 @@
+---
+// Carrusel infinito de logos: un único bucle CSS sobre una pista con la lista y su copia.
+// La copia lleva aria-hidden. Se pausa con el ratón o el foco y queda quieto con "reducir movimiento".
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Brand { name: string; logo: ImageMetadata }
+interface Props {
+  title: string;
+  brands: Brand[];
+  background: ImageMetadata;
+  /** Sentido contrario (como el carrusel de motos original). */
+  reverse?: boolean;
+  /** Segundos por vuelta. */
+  duration?: number;
+}
+
+const { title, brands, background, reverse = false, duration = 40 } = Astro.props;
+// Fondo reducido a WebP (la carretera original pesa 4,2 MB)
+const bg = await getImage({ src: background, width: 1600, format: 'webp', quality: 60 });
+---
+
+<div class="relative overflow-hidden bg-cover bg-center" style={`background-image:url(${bg.src})`}>
+  <div class="absolute inset-0 bg-ink/70" aria-hidden="true"></div>
+  <div class={`relative flex ${reverse ? 'justify-end' : ''}`}>
+    <h3 class="bg-brand-500 px-6 py-1 text-2xl text-ink">
+      {title}
+    </h3>
+  </div>
+  <div
+    class="marquee relative py-6 focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-brand-500"
+    tabindex="0"
+    role="region"
+    aria-label={`Marcas de ${title.toLowerCase()} (pasa el ratón o enfoca para pausar)`}
+  >
+    <div class:list={['track', { reverse }]} style={`--duration:${duration}s`}>
+      <ul class="list">
+        {brands.map((b) => (
+          <li class="tile">
+            <Image src={b.logo} alt={b.name} height={128} class="h-14 w-auto max-w-[10rem] object-contain" />
+          </li>
+        ))}
+      </ul>
+      <ul class="list copy" aria-hidden="true">
+        {brands.map((b) => (
+          <li class="tile">
+            <Image src={b.logo} alt="" height={128} class="h-14 w-auto max-w-[10rem] object-contain" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    mask-image: linear-gradient(to right, transparent 0, black 6rem, black calc(100% - 6rem), transparent 100%);
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--duration) linear infinite;
+  }
+  .track.reverse { animation-direction: reverse; }
+  .marquee:hover .track,
+  .marquee:focus-within .track { animation-play-state: paused; }
+  .list { display: flex; flex-shrink: 0; align-items: center; }
+  .tile {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    background: #fff; /* los logos están pensados para fondo blanco */
+  }
+  /* La pista contiene la lista dos veces: moverla la mitad da un bucle sin saltos */
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  /* Con "reducir movimiento": sin animación, sin copia y los logos en varias filas */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { mask-image: none; }
+    .track { width: auto; }
+    .list { flex-shrink: 1; width: 100%; flex-wrap: wrap; justify-content: center; row-gap: 1rem; }
+    .copy { display: none; }
+  }
+</style>

@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-paper text-ink antialiased dark:bg-ink dark:text-neutral-200;
+    scroll-padding-top: 5rem; /* que la cabecera fija no tape los anclajes */
+  }
+  h1, h2, h3 {
+    @apply font-display font-bold uppercase tracking-wide;
+  }
+}
+
+@layer utilities {
+  /* Firma visual de la marca: corte diagonal. Usar en uno o dos sitios como mucho. */
+  .clip-diagonal-r { clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%); }
+  .clip-diagonal-l { clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* Respeta "reducir movimiento": sin animaciones ni transiciones (los carruseles quedan quietos). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

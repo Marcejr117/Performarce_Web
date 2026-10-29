@@ -1,0 +1,116 @@
+---
+// Lista de folletos PDF de una categoría. Se lee la carpeta en el build:
+// basta con subir o borrar PDFs en public/ofertasPDF/<categoria>/ (app Java o GitHub).
+import fs from 'node:fs';
+import path from 'node:path';
+import Layout from '../layouts/Layout.astro';
+import { webpSize } from '../../scripts/pdf-covers.mjs';
+
+interface Props {
+  categoria: 'moto' | 'forestal';
+  titulo: string;
+  description: string;
+}
+const { categoria, titulo, description } = Astro.props;
+
+const root = process.cwd();
+const dir = path.join(root, 'public/ofertasPDF', categoria);
+const ofertas = (fs.existsSync(dir) ? fs.readdirSync(dir) : [])
+  .filter((f) => /\.pdf$/i.test(f))
+  .sort((a, b) => a.localeCompare(b, 'es'))
+  .map((f) => {
+    const base = f.replace(/\.pdf$/i, '');
+    const coverPath = path.join(root, 'public/portadas', categoria, `${base}.webp`);
+    const size = fs.existsSync(coverPath) ? webpSize(fs.readFileSync(coverPath)) : null;
+    return {
+      // El fichero actual trae la errata "Husqvarma"; se corrige solo en lo que se muestra
+      titulo: base.replace(/husqvarma/gi, 'Husqvarna'),
+      href: `/ofertasPDF/${categoria}/${encodeURIComponent(f)}`, // espacios, acentos, #, ?
+      portada: size ? { src: `/portadas/${categoria}/${encodeURIComponent(base)}.webp`, ...size } : null,
+      mb: (fs.statSync(path.join(dir, f)).size / 1048576).toLocaleString('es-ES', { maximumFractionDigits: 1 }),
+    };
+  });
+---
+
+<Layout title={titulo} description={description}>
+  <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <nav aria-label="Migas de pan" class="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+      <ol class="flex flex-wrap items-center gap-2">
+        <li><a class="text-brand-700 underline-offset-4 hover:underline dark:text-brand-400" href="/">Inicio</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a class="text-brand-700 underline-offset-4 hover:underline dark:text-brand-400" href="/ofertas">Ofertas</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page">{titulo}</li>
+      </ol>
+    </nav>
+    <h1 class="text-4xl text-ink dark:text-paper sm:text-5xl">{titulo}</h1>
+    <p class="mt-2 text-neutral-600 dark:text-neutral-400">
+      Folletos y ofertas en PDF. Ábrelos en el navegador o descárgalos.
+    </p>
+
+    {
+      ofertas.length === 0 ? (
+        <div class="mt-10 max-w-2xl rounded-lg border border-paper-300 bg-paper-200 p-6 dark:border-ink-700 dark:bg-ink-800">
+          <p class="text-lg font-semibold text-ink dark:text-paper">Ahora mismo no hay folletos publicados.</p>
+          <p class="mt-1 text-neutral-600 dark:text-neutral-400">Pregúntanos y te contamos las ofertas vigentes.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <a class="btn btn-primary" href="tel:+34967226001">Llamar al 967 226 001</a>
+            <a class="btn btn-outline" href="https://wa.me/34608353343" target="_blank" rel="noopener noreferrer">
+              WhatsApp<span class="sr-only"> (se abre en una pestaña nueva)</span>
+            </a>
+          </div>
+        </div>
+      ) : (
+        <ul class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {ofertas.map((o) => (
+            <li class="flex flex-col rounded-lg border border-paper-300 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-ink-700 dark:bg-ink-800">
+              {/* La carátula repite el enlace "Ver": se oculta a lectores y teclado para no duplicarlo */}
+              <a href={o.href} target="_blank" rel="noopener noreferrer" class="group block rounded-t-lg bg-paper-200 p-6 dark:bg-ink-700" tabindex="-1" aria-hidden="true">
+                {o.portada ? (
+                  <img
+                    src={o.portada.src}
+                    width={o.portada.width}
+                    height={o.portada.height}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    class="mx-auto h-auto w-full max-w-xs shadow-lg ring-1 ring-black/5 transition-opacity group-hover:opacity-90"
+                  />
+                ) : (
+                  <div class="mx-auto grid aspect-[1/1.414] w-full max-w-xs place-items-center bg-white text-brand-600 shadow-lg ring-1 ring-black/5 dark:bg-ink-800 dark:text-brand-400">
+                    <svg class="h-20 w-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                      <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z" />
+                      <path d="M9 13h6M9 17h4" />
+                    </svg>
+                  </div>
+                )}
+              </a>
+              <div class="flex flex-1 flex-col gap-4 p-4">
+                <div>
+                  <h2 class="text-xl leading-tight text-ink dark:text-paper">{o.titulo}</h2>
+                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">PDF · {o.mb} MB</p>
+                </div>
+                <div class="mt-auto flex flex-wrap gap-2">
+                  <a href={o.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                    Ver<span class="sr-only"> {o.titulo} (se abre en una pestaña nueva)</span>
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+                    </svg>
+                  </a>
+                  <a href={o.href} download class="btn btn-outline btn-sm">
+                    Descargar<span class="sr-only"> {o.titulo} ({o.mb} MB)</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <p class="mt-10">
+      <a class="font-semibold text-brand-700 underline-offset-4 hover:underline dark:text-brand-400" href="/ofertas">&larr; Volver a Ofertas</a>
+    </p>
+  </section>
+</Layout>

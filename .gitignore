@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# portadas de los PDF (se generan en cada build)
+public/portadas/

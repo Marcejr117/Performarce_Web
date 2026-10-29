@@ -1,93 +1,85 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro';
+
+// Estilo común de los campos: borde visible y foco naranja (contraste AA en claro y oscuro).
+const field =
+  'mt-1 block w-full rounded-md border border-neutral-500 bg-white px-3 py-2 text-ink placeholder:text-neutral-500 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:border-neutral-400 dark:bg-ink-800 dark:text-paper dark:placeholder:text-neutral-400';
+const label = 'block text-sm font-semibold';
 ---
 
-<Layout title="Performarce" current_page="Contacto">
-    <section class="flex flex-col justify-center items-center mb-32">
-        <div
-            class="flex flex-col justify-center items-start gap-4 mt-10 mx-5 dark:bg-gray-950 bg-Light_white p-5 rounded-xl shadow-lg drop-shadow-lg"
-        >
-            <h1 class="dark:text-gray-200 font-bold text-4xl text-Light_Orange">
-                Escríbenos !
-            </h1>
-            <p class="dark:text-gray-300 text-sm font-semibold">
-                Si necesitas contactar con nosotros, puedes mandarnos un email.
-            </p>
-            <form
-                class="flex flex-col justify-center items-start gap-4 w-full *:w-full *:*:w-full mb-5"
-                action="https://formsubmit.co/oficina@performarce.com"
-                method="POST"
-            >
-                <fieldset>
-                    <legend
-                        class="font-bold dark:text-gray-300 text-Light_Orange text-xs mb-1"
-                        >Nombre</legend
-                    >
-                    <input
-                        class="transition-transform duration-300 ease-in-out focus:scale-105 h-10 pb-1 dark:text-gray-50 px-3 focus:outline-none border-black rounded-lg dark:border-gray-200 border-[2px] dark:border-[1px] focus:dark:border-sky-300 focus:border-blue-700 focus:border-[2px] dark:bg-gray-600 bg-white text-black opacity-50"
-                        type="text"
-                        minlength="3"
-                        placeholder="Su nombre (Opcional)"
-                        name="Nombre_Cliente"
-                        id="nombre"
-                    />
-                </fieldset>
+<Layout
+  title="Contacto"
+  description="Escríbenos o llámanos al 967 226 001. Talleres Marcelino, Av. los Toreros, 22, Albacete."
+>
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+    <p class="font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">Contacto</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Escríbenos</h1>
+    <p class="mt-4 max-w-2xl text-neutral-700 dark:text-neutral-300">
+      Cuéntanos qué necesitas y te respondemos por email. Si tienes prisa, llámanos o escríbenos por WhatsApp.
+    </p>
 
-                <fieldset>
-                    <legend
-                        class="font-bold dark:text-gray-300 text-Light_Orange text-xs mb-1"
-                        >E-Mail</legend
-                    >
-                    <input
-                        class="transition-transform duration-300 ease-in-out focus:scale-105 h-10 pb-1 dark:text-gray-50 px-3 focus:outline-none border-black rounded-lg dark:border-gray-200 border-[2px] dark:border-[1px] focus:dark:border-sky-300 focus:border-blue-700 focus:border-[2px] dark:bg-gray-600 bg-white text-black opacity-50"
-                        type="email"
-                        required
-                        placeholder="E-Mail de contacto"
-                        name="Email"
-                        id="Email"
-                    />
-                </fieldset>
-
-                <fieldset>
-                    <legend
-                        class="font-bold dark:text-gray-300 text-Light_Orange text-xs mb-1"
-                        >Mensaje</legend
-                    >
-                    <textarea
-                        class="transition-transform duration-300 ease-in-out focus:scale-105 h-16 pb-1 dark:text-gray-50 px-3 focus:outline-none border-black rounded-lg dark:border-gray-200 border-[2px] dark:border-[1px] focus:dark:border-sky-300 focus:border-blue-700 focus:border-[2px] dark:bg-gray-600 bg-white text-black opacity-50"
-                        placeholder="Contenido de mensaje"
-                        required
-                        name="Mensaje"
-                        minlength="10"
-                        id="Mensaje"></textarea>
-                </fieldset>
-
-                <div id="html_element"></div>
-                <button
-                    class="transition-transform duration-300 ease-in-out hover:scale-105 rounded-lg h-10 bg-Light_Blue hover:bg-Light_Blue_Acent hover:text-Light_white font-semibold text-Custom_Black dark:text-black hover:shadow-2xl"
-                    type="submit">Enviar</button
-                >
-                <input
-                    type="hidden"
-                    name="_next"
-                    value="https://www.performarce.com/"
-                />
-                <!-- <script
-                    src="https://www.google.com/recaptcha/api.js?render=6LddTJEpAAAAAP98rdC8pTTj4rX7Qj4xDersClWl"
-                ></script>
-                <script type="text/javascript">
-                    var onloadCallback = function () {
-                        grecaptcha.render("html_element", {
-                            sitekey: "6LddTJEpAAAAAP98rdC8pTTj4rX7Qj4xDersClWl",
-                        });
-                    };
-                </script> -->
-                <input type="hidden" name="_captcha" value="false" />
-            </form>
-            <!-- <script
-                src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-                async
-                defer></script> -->
+    <div class="mt-10 grid gap-10 lg:grid-cols-[3fr_2fr]">
+      <form
+        action="https://formsubmit.co/oficina@performarce.com"
+        method="POST"
+        class="space-y-5 rounded-lg border border-paper-300 bg-paper-200 p-6 dark:border-ink-700 dark:bg-ink-800 sm:p-8"
+      >
+        <div>
+          <label for="nombre" class={label}>Nombre <span class="font-normal text-neutral-600 dark:text-neutral-400">(opcional)</span></label>
+          <input id="nombre" name="Nombre" type="text" autocomplete="name" class={field} />
         </div>
-    </section>
+        <div>
+          <label for="email" class={label}>Email</label>
+          <input id="email" name="email" type="email" required autocomplete="email" class={field} />
+        </div>
+        <div>
+          <label for="mensaje" class={label}>Mensaje</label>
+          <textarea id="mensaje" name="Mensaje" required minlength="10" rows="6" class={field}></textarea>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <input id="consentimiento" name="Acepta_privacidad" type="checkbox" value="Sí" required class="checkbox checkbox-primary mt-0.5" />
+          <label for="consentimiento" class="text-sm">
+            He leído la <a href="/privacidad" class="text-brand-700 underline underline-offset-4 dark:text-brand-400">política de privacidad</a>
+            y acepto que uséis mis datos para responder a este mensaje.
+          </label>
+        </div>
+
+        <!-- Campo trampa: las personas no lo ven; si llega relleno, FormSubmit descarta el envío. -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
+        <input type="hidden" name="_subject" value="Nuevo mensaje desde performarce.com" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_next" value="https://www.performarce.com/gracias" />
+        <input type="hidden" name="_captcha" value="false" />
+
+        <button type="submit" class="btn btn-primary w-full sm:w-auto">Enviar mensaje</button>
+      </form>
+
+      <aside class="space-y-6">
+        <div class="rounded-lg bg-ink p-6 text-paper dark:bg-ink-800 dark:ring-1 dark:ring-ink-700">
+          <h2 class="text-2xl">Llámanos</h2>
+          <p class="mt-2 text-neutral-300">Te atendemos por teléfono o WhatsApp.</p>
+          <div class="mt-5 flex flex-col gap-3">
+            <a href="tel:+34967226001" class="btn btn-primary">Llamar al 967 226 001</a>
+            <a href="https://wa.me/34608353343" target="_blank" rel="noopener noreferrer" class="btn btn-outline border-paper text-paper hover:border-paper hover:bg-paper hover:text-ink">
+              WhatsApp 608 353 343
+            </a>
+          </div>
+        </div>
+        <dl class="space-y-4">
+          <div>
+            <dt class="font-semibold">Email</dt>
+            <dd><a href="mailto:oficina@performarce.com" class="text-brand-700 underline-offset-4 hover:underline dark:text-brand-400">oficina@performarce.com</a></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Dirección</dt>
+            <dd>
+              <address class="not-italic">Av. los Toreros, 22<br />02005 Albacete</address>
+              <a href="/location" class="text-brand-700 underline-offset-4 hover:underline dark:text-brand-400">Ver cómo llegar</a>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
 </Layout>

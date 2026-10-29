@@ -1,15 +1,25 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Map from "../components/Map.astro";
+import Layout from '../layouts/Layout.astro';
+import Map from '../components/Map.astro';
 ---
 
-<Layout title="Performarce" current_page="Ubicacion">
-  <h1
-    class="text-center text-3xl dark:text-gray-300 pt-10 pb-5 text-Light_Orange font-bold"
-  >
-    Donde estamos
-  </h1>
-  <div class="w-full">
-    <Map />
-  </div>
+<Layout
+  title="Ubicación"
+  description="Encuéntranos en Av. los Toreros, 22, 02005 Albacete. Talleres Marcelino: motos, jardín y forestal."
+>
+  <section class="mx-auto max-w-5xl px-4 py-12 sm:py-16">
+    <p class="font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">Ubicación</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl">Dónde estamos</h1>
+    <p class="mt-4 max-w-2xl text-neutral-700 dark:text-neutral-300">
+      Estamos en Albacete, en la Avenida de los Toreros. Ven a vernos al taller o, si prefieres,
+      <a href="/contact" class="text-brand-700 underline underline-offset-4 dark:text-brand-400">escríbenos</a> o llámanos antes.
+    </p>
+    <div class="mt-8">
+      <Map />
+    </div>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="tel:+34967226001" class="btn btn-primary">Llamar al 967 226 001</a>
+      <a href="https://wa.me/34608353343" target="_blank" rel="noopener noreferrer" class="btn btn-outline">WhatsApp<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+    </div>
+  </section>
 </Layout>
