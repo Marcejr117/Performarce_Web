@@ -1,6 +1,7 @@
 ---
 // Folletos de una categoría: con uno, el diseño destacado; con dos o más, la rejilla de tarjetas
-// (1 columna en móvil con tarjetas horizontales, 2 desde sm, 3 desde lg, 4 desde xl y 5 desde 2xl).
+// (1 columna en móvil con tarjetas horizontales, 2 desde sm, 3 desde lg y 4 desde xl; con 5, en 2xl las tarjetas medían
+// 250 px y «WhatsApp», «Descargar» y «Compartir» quedaban pegados).
 import FolletoCard from './FolletoCard.astro';
 import FolletoDestacado from './FolletoDestacado.astro';
 import type { Folleto } from '../../lib/ofertas';
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const { folletos, nivel = 'h2', eager = 2, destacar = true, class: cls } = Astro.props;
-const COMPLETA = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5';
+const COMPLETA = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
 // Con `destacar`, nunca más columnas que folletos, para no dejar columnas vacías a la derecha (clases literales para
 // que Tailwind las genere; índice = número de folletos; de 5 en adelante, la rejilla completa)
 const COLUMNAS = ['', '', 'sm:grid-cols-2', 'sm:grid-cols-2 lg:grid-cols-3', 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'];
