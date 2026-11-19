@@ -1,26 +1,30 @@
 ---
-// Tarjeta de un folleto PDF (va dentro de un <ul>). Horizontal en móvil, con la carátula de 104 px a la izquierda y
-// WhatsApp, Descargar y Compartir debajo, a todo el ancho; vertical desde sm, con las acciones abajo para que títulos
-// y botones queden alineados en cada fila.
+// Tarjeta de un folleto PDF (va dentro de un <ul>), apaisada en todos los tamaños: carátula a la izquierda; título,
+// datos y «Ver folleto» a la derecha; y WhatsApp, Descargar y Compartir debajo, a todo el ancho. Con la carátula
+// grande encima medía más de 500 px de alto y en un portátil no se veía entera sin bajar; así, unos 260.
+// En rejilla y no en flex: la fila de arriba se queda el alto que sobre, así en dos tarjetas vecinas «Ver folleto» y
+// la fila de botones quedan a la misma altura aunque una carátula sea apaisada.
 // El id permite enlazarla (#ancla): el anillo naranja de `target:` la resalta.
 import Icon from '../Icon.astro';
 import Caratula from './Caratula.astro';
 import BotonCompartir from './BotonCompartir.astro';
 import { BTN_APILADO, meta, waFolleto } from './folleto';
-import type { Folleto } from '../../lib/ofertas';
+import { CATEGORIAS, type Folleto } from '../../lib/ofertas';
 
 interface Props {
   folleto: Folleto;
   /** Las dos primeras tarjetas de la página cargan la carátula sin esperar. */
   eager?: boolean;
+  /** En la página general, la categoría encima del título. */
+  conCategoria?: boolean;
 }
 
-const { folleto: f, eager = false } = Astro.props;
+const { folleto: f, eager = false, conCategoria = false } = Astro.props;
 ---
 
 <li
   id={f.id}
-  class="box flex flex-wrap overflow-hidden target:ring-2 target:ring-brand target:ring-offset-2 target:ring-offset-page sm:flex-col sm:flex-nowrap"
+  class="box grid grid-cols-[6.5rem_minmax(0,1fr)] grid-rows-[1fr_auto] overflow-hidden target:ring-2 target:ring-brand target:ring-offset-2 target:ring-offset-page sm:grid-cols-[10rem_minmax(0,1fr)]"
 >
   {/* La carátula repite «Ver folleto»: fuera del teclado y de los lectores de pantalla */}
   <a
@@ -30,16 +34,12 @@ const { folleto: f, eager = false } = Astro.props;
     type="application/pdf"
     aria-hidden="true"
     tabindex="-1"
-    class="group grid w-[6.5rem] flex-none place-items-center border-r border-line bg-surface p-3 sm:aspect-[3/4] sm:w-auto sm:border-b sm:border-r-0 sm:p-5 lg:aspect-auto lg:h-80"
+    class="group grid place-items-center border-r border-line bg-surface p-3 sm:p-4"
   >
-    {/* Desde lg la caja tiene alto fijo, para que las tarjetas no crezcan con 3 columnas: la hoja va en un marco de 3:4
-        a todo el alto (17,5rem = h-80 menos el relleno p-5). La hoja mide unos 80 px de ancho en móvil y hasta unos
-        260 px desde sm */}
-    <span class="grid w-full place-items-center lg:aspect-[3/4] lg:h-[17.5rem] lg:w-auto">
-      <Caratula folleto={f} eager={eager} sizes="(min-width: 640px) 16rem, 5rem" />
-    </span>
+    <Caratula folleto={f} eager={eager} sizes="(min-width: 640px) 8rem, 5rem" />
   </a>
-  <div class="flex min-w-0 flex-1 flex-col p-5 sm:p-6 sm:pb-2">
+  <div class="flex min-w-0 flex-col p-4 sm:p-5">
+    {conCategoria && <p class="eyebrow mb-1">{CATEGORIAS[f.categoria].nombre}</p>}
     {/* overflow-wrap: un nombre de PDF sin espacios se parte en vez de quedar cortado */}
     <h3 class="line-clamp-2 text-xl leading-[1.15] [overflow-wrap:anywhere]">{f.titulo}</h3>
     <p class="mt-1 text-[0.9375rem] leading-normal text-muted">{meta(f)}</p>
@@ -50,10 +50,9 @@ const { folleto: f, eager = false } = Astro.props;
       </a>
     </div>
   </div>
-  {/* Sin botones rellenos en las tarjetas: no llenar la página de naranja. Icono y rótulo visible en los tres.
-      En el móvil, a todo el ancho de la tarjeta: en la columna del texto, a 360 px los rótulos quedaban a 3 px
-      y a 320 se montaban. Desde sm, debajo de «Ver folleto» (basis-auto: en columna, basis-full sería el alto) */}
-  <div class="grid basis-full grid-cols-3 border-t border-line p-1 sm:basis-auto sm:border-t-0 sm:px-6 sm:pb-6 sm:pt-0">
+  {/* Sin botones rellenos en las tarjetas: no llenar la página de naranja. Icono y rótulo visible en los tres, a todo
+      el ancho de la tarjeta (en la columna del texto, a 360 px los rótulos quedaban a 3 px y a 320 se montaban) */}
+  <div class="col-span-2 grid grid-cols-3 border-t border-line p-1">
     <a
       href={waFolleto(f)}
       target="_blank"

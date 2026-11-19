@@ -59,19 +59,17 @@ const otra: Categoria = categoria === 'moto' ? 'forestal' : 'moto';
   breadcrumbs={[{ name: 'Ofertas', href: '/ofertas' }, { name: titulo }]}
 >
   <PageHeader
-    eyebrow="Ofertas"
     title={titulo}
-    lead={hay
-      ? `Folletos y promociones de ${nombre.toLowerCase()}. Ábrelos en el navegador, descárgalos o pregúntanos por WhatsApp.`
-      : undefined}
+    lead={hay ? `Folletos y promociones vigentes de ${nombre.toLowerCase()}.` : undefined}
     tone={hay ? 'surface' : 'page'}
+    compacta
   >
     <FiltroCategorias actual={categoria} />
   </PageHeader>
 
   {
     hay ? (
-      <div class="section">
+      <div class="py-8 md:py-10">
         <div class="wrap">
           {/* Con un folleto, su título es el h2 del destacado; con varios, h2 oculto para no saltar de h1 a h3 */}
           {folletos.length > 1 && <h2 class="sr-only">Folletos de {nombre.toLowerCase()}</h2>}

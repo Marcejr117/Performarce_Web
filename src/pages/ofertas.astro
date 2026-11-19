@@ -1,5 +1,5 @@
 ---
-// Ofertas: todos los folletos, agrupados por categoría (los PDF se leen de la carpeta en el build).
+// Ofertas: todos los folletos (los PDF se leen de la carpeta en el build).
 // Sin ninguno: invitación a preguntar. Siempre, enlaces a las dos líneas de la tienda (páginas de servicio).
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
@@ -10,27 +10,20 @@ import FiltroCategorias from '../components/ofertas/FiltroCategorias.astro';
 import ListaFolletos from '../components/ofertas/ListaFolletos.astro';
 import OfertasVacio from '../components/ofertas/OfertasVacio.astro';
 import AyudaOfertas from '../components/ofertas/AyudaOfertas.astro';
-import { waLink } from '../data/business';
 import { CATEGORIAS, getFolletos } from '../lib/ofertas';
 
-const moto = getFolletos('moto');
-const forestal = getFolletos('forestal');
-const total = moto.length + forestal.length;
-// Primero las categorías con folletos, para no abrir la página con una vacía (sort es estable: si no, motos y forestal)
-const grupos = [
-  { cat: 'moto' as const, folletos: moto },
-  { cat: 'forestal' as const, folletos: forestal },
-].sort((a, b) => Number(b.folletos.length > 0) - Number(a.folletos.length > 0));
-// Las dos primeras carátulas de la página cargan sin esperar
-const eager = [2, Math.max(0, 2 - grupos[0].folletos.length)];
-// Sin ningún folleto, la cabecera va sin las píldoras de categorías: no hay nada que filtrar
+// Todos los folletos en una sola rejilla (motos primero); cada tarjeta dice su categoría y las píldoras de la
+// cabecera llevan a cada una. Antes iba una sección por categoría, con su título, su «Ver solo…» y un aviso si
+// estaba vacía: ocupaba mucho y repetía lo que ya dicen las píldoras.
+const folletos = getFolletos();
+const total = folletos.length;
 const cabecera = {
-  eyebrow: 'Ofertas',
   title: 'Ofertas y folletos',
   lead: total
-    ? 'Folletos y promociones vigentes de motos, scooters y maquinaria de jardín y forestal. Ábrelos en el navegador, descárgalos o pregúntanos por WhatsApp.'
+    ? 'Folletos y promociones vigentes de motos y de jardín y forestal.'
     : 'Aquí publicamos los folletos de temporada de nuestras marcas de motos y de jardín y forestal.',
   tone: total ? 'surface' : 'page',
+  compacta: true,
 } as const;
 const lineas = [
   {
@@ -67,40 +60,12 @@ const lineas = [
     total === 0 ? (
       <OfertasVacio />
     ) : (
-      <div class="divide-y divide-line">
-        {grupos.map((g, i) => {
-          const { nombre, ruta, whatsapp } = CATEGORIAS[g.cat];
-          const n = g.folletos.length;
-          return (
-            <section class="section" aria-labelledby={`titulo-${g.cat}`}>
-              <div class="wrap">
-                {n > 0 ? (
-                  <SectionHeading title={nombre} id={`titulo-${g.cat}`}>
-                    <span class="ml-2 align-middle font-sans text-base font-normal normal-case tracking-normal text-muted">
-                      ({n} {n === 1 ? 'folleto' : 'folletos'})
-                    </span>
-                    <a slot="aside" href={ruta} class="lnk inline-flex min-h-11 items-center gap-2">
-                      Ver solo {nombre.toLowerCase()}
-                      <Icon name="arrow-right" class="size-5" />
-                    </a>
-                  </SectionHeading>
-                ) : (
-                  <SectionHeading title={nombre} id={`titulo-${g.cat}`} />
-                )}
-                {n > 0 ? (
-                  <ListaFolletos folletos={g.folletos} destacar={false} eager={eager[i]} class="mt-8 md:mt-10" />
-                ) : (
-                  <p class="mt-6 rounded-xl border-2 border-dashed border-line px-5 py-4">
-                    Ahora no hay folletos de {nombre.toLowerCase()}.{' '}
-                    <a class="lnk" href={waLink(whatsapp)} target="_blank" rel="noopener noreferrer">
-                      Pregúntanos por WhatsApp<span class="sr-only"> (se abre en una pestaña nueva)</span>
-                    </a>
-                  </p>
-                )}
-              </div>
-            </section>
-          );
-        })}
+      <div class="py-8 md:py-10">
+        <div class="wrap">
+          {/* Con un folleto, su título es el h2 del destacado; con varios, h2 oculto para no saltar de h1 a h3 */}
+          {total > 1 && <h2 class="sr-only">Folletos</h2>}
+          <ListaFolletos folletos={folletos} conCategoria />
+        </div>
       </div>
     )
   }

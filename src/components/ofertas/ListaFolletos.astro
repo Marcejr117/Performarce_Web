@@ -1,40 +1,29 @@
 ---
-// Folletos de una categoría: con uno, el diseño destacado; con dos o más, la rejilla de tarjetas
-// (1 columna en móvil con tarjetas horizontales, 2 desde sm, 3 desde lg y 4 desde xl; con 5, en 2xl las tarjetas medían
-// 250 px y «WhatsApp», «Descargar» y «Compartir» quedaban pegados).
+// Folletos: con uno, el diseño destacado; con dos o más, tarjetas apaisadas en rejilla (1 columna; 2 desde lg y 3 desde
+// 2xl). Siempre del mismo tamaño aunque haya pocas: estiradas a todo el ancho, la carátula quedaba perdida en una caja
+// enorme.
 import FolletoCard from './FolletoCard.astro';
 import FolletoDestacado from './FolletoDestacado.astro';
 import type { Folleto } from '../../lib/ofertas';
 
 interface Props {
   folletos: Folleto[];
-  /** Nivel del título del destacado: h3 si la sección ya tiene su h2. */
-  nivel?: 'h2' | 'h3';
   /** Cuántas carátulas cargan sin esperar (las primeras de la página). */
   eager?: number;
-  /** false: siempre tarjetas, con las columnas completas aunque haya pocas (en la página general todas las secciones
-      se ven iguales y una categoría con un solo folleto no parece la oferta principal). */
-  destacar?: boolean;
-  class?: string;
+  /** En la página general, cada tarjeta dice su categoría. */
+  conCategoria?: boolean;
 }
 
-const { folletos, nivel = 'h2', eager = 2, destacar = true, class: cls } = Astro.props;
-const COMPLETA = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
-// Con `destacar`, nunca más columnas que folletos, para no dejar columnas vacías a la derecha (clases literales para
-// que Tailwind las genere; índice = número de folletos; de 5 en adelante, la rejilla completa)
-const COLUMNAS = ['', '', 'sm:grid-cols-2', 'sm:grid-cols-2 lg:grid-cols-3', 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'];
-const columnas = destacar ? (COLUMNAS[folletos.length] ?? COMPLETA) : COMPLETA;
+const { folletos, eager = 2, conCategoria = false } = Astro.props;
 ---
 
 {
-  folletos.length === 1 && destacar ? (
-    <div class={cls}>
-      <FolletoDestacado folleto={folletos[0]} nivel={nivel} eager={eager > 0} />
-    </div>
+  folletos.length === 1 ? (
+    <FolletoDestacado folleto={folletos[0]} eager={eager > 0} />
   ) : (
-    <ul role="list" class:list={['grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8', columnas, cls]}>
+    <ul role="list" class="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-8 2xl:grid-cols-3">
       {folletos.map((f, i) => (
-        <FolletoCard folleto={f} eager={i < eager} />
+        <FolletoCard folleto={f} eager={i < eager} conCategoria={conCategoria} />
       ))}
     </ul>
   )

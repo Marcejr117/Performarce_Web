@@ -1,5 +1,7 @@
 ---
 // Cabecera de las páginas interiores: antetítulo, H1, entradilla y, en el slot, botones o chips.
+// `compacta` (ofertas): sin antetítulo, H1 más pequeño, entradilla de una línea y el slot a la derecha desde lg,
+// para que los folletos se vean sin bajar (la normal ocupaba 360 px de alto y la tarjeta quedaba cortada).
 interface Props {
   eyebrow?: string;
   /** H1 de la página (uno por página). */
@@ -7,16 +9,32 @@ interface Props {
   lead?: string;
   /** Fondo: `surface` (por defecto) o `page`. */
   tone?: 'surface' | 'page';
+  compacta?: boolean;
 }
 
-const { eyebrow, title, lead, tone = 'surface' } = Astro.props;
+const { eyebrow, title, lead, tone = 'surface', compacta = false } = Astro.props;
+const fondo = tone === 'surface' ? 'bg-surface' : 'bg-page';
 ---
 
-<header class:list={['border-b border-line py-10 md:py-14', tone === 'surface' ? 'bg-surface' : 'bg-page']}>
-  <div class="wrap">
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1 class:list={['max-w-4xl', eyebrow && 'mt-3']}>{title}</h1>
-    {lead && <p class="lead mt-4">{lead}</p>}
-    {Astro.slots.has('default') && <div class="mt-6"><slot /></div>}
-  </div>
-</header>
+{
+  compacta ? (
+    <header class:list={['border-b border-line py-6 md:py-8', fondo]}>
+      <div class="wrap flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+        <div class="min-w-0">
+          <h1 class="text-[2rem] md:text-[2.5rem]">{title}</h1>
+          {lead && <p class="mt-2 max-w-measure text-muted">{lead}</p>}
+        </div>
+        {Astro.slots.has('default') && <slot />}
+      </div>
+    </header>
+  ) : (
+    <header class:list={['border-b border-line py-10 md:py-14', fondo]}>
+      <div class="wrap">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1 class:list={['max-w-4xl', eyebrow && 'mt-3']}>{title}</h1>
+        {lead && <p class="lead mt-4">{lead}</p>}
+        {Astro.slots.has('default') && <div class="mt-6"><slot /></div>}
+      </div>
+    </header>
+  )
+}
