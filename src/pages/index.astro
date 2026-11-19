@@ -1,242 +1,345 @@
 ---
-// Portada: presentación, líneas de negocio, confianza, marcas y visita.
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+// Portada: héroe con la foto de la tienda, ventajas, servicios, ofertas, visita con mapa y marcas (spec §4.1).
+import { Picture } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ContactActions from '../components/ContactActions.astro';
+import Horario from '../components/Horario.astro';
+import Map from '../components/Map.astro';
+import LogoGrid from '../components/LogoGrid.astro';
 import BrandMarquee from '../components/BrandMarquee.astro';
+import CaratulasMuestra from '../components/CaratulasMuestra.astro';
+import ConFlecha from '../components/ConFlecha.astro';
 
-import hero from '../assets/portada/H150-0226.jpg';
-import ofertaMoto from '../assets/fondos/oferta_moto.jpeg';
-import ofertaForestal from '../assets/fondos/oferta_forestal.jpg';
-import carretera from '../assets/fondos/carretera.jpg';
-import cesped from '../assets/fondos/cesped.png';
-import escudo from '../assets/logo/escudo.png';
+import tienda from '../assets/fotos/tienda-motos-motosierras-husqvarna-albacete.jpg';
+import taller from '../assets/fotos/taller-herramientas.jpg';
+import rider from '../assets/fotos/husqvarna-rider-cortacesped.jpg';
 
-import macborSvg from '../assets/marcas/moto/macbor.svg';
-import symTexto from '../assets/marcas/moto/sym_texto.png';
-import husqvarnaTexto from '../assets/marcas/forestal/husqvarna_logo_texto.png';
-import benzaBlack from '../assets/marcas/forestal/benza_black.png';
-import zanon from '../assets/marcas/forestal/zanon.png';
+import {
+  PHONE, PHONE_LABEL, WHATSAPP_LABEL, EMAIL, STREET, POSTAL_CODE, CITY, MAPS, DIRECTIONS, waLink,
+} from '../data/business';
+import { DESTACADAS_MOTO, DESTACADAS_FORESTAL, MARCAS_MOTO, MARCAS_FORESTAL } from '../data/marcas';
+import { CATEGORIAS, getFolletos, type Folleto } from '../lib/ofertas';
 
-import { PHONE, PHONE_LABEL, WHATSAPP, EMAIL, MAPS } from '../data/business';
+const NUEVA = ' (se abre en una pestaña nueva)';
 
-// Logos de los carruseles: fichero -> nombre de la marca (alt)
-const logos = import.meta.glob<{ default: ImageMetadata }>('../assets/marcas/{moto,forestal}/*.{png,jpg,jpeg}', {
-  eager: true,
-});
-const brands = (cat: 'moto' | 'forestal', list: [string, string][]) =>
-  list.map(([file, name]) => ({ name, logo: logos[`../assets/marcas/${cat}/${file}`].default }));
+const VENTAJAS = [
+  { icon: 'award', titulo: '+40 años', texto: 'Más de cuatro décadas atendiendo a clientes de Albacete y alrededores.' },
+  { icon: 'tool', titulo: 'Taller propio', texto: 'Reparamos y revisamos motos, scooters y maquinaria de jardín y forestal.' },
+  { icon: 'package', titulo: 'Recambios', texto: 'Repuestos y consumibles para que tu máquina vuelva a funcionar cuanto antes.' },
+  { icon: 'shield-check', titulo: 'Primeras marcas', texto: 'Macbor, SYM, Husqvarna, Benza y Zanon, entre otras.' },
+] as const;
 
-const motoBrands = brands('moto', [
-  ['Arrow_Logo.jpg', 'Arrow'],
-  ['barikit-logo.png', 'Barikit'],
-  ['Dellorto_logo.jpg', "Dell'Orto"],
-  ['elf-logo.png', 'Elf'],
-  ['euromoto.jpg', 'Euromoto'],
-  ['macbor.png', 'Macbor'],
-  ['italkit.png', 'Italkit'],
-  ['logo_ng.png', 'NG'],
-  ['logo_shad.jpg', 'Shad'],
-  ['logo-gro.jpg', 'GRO'],
-  ['logo-jjuan.png', 'J.Juan'],
-  ['logo-polini.png', 'Polini'],
-  ['logo-rainers.png', 'Rainers'],
-  ['logo-shiro.jpg', 'Shiro'],
-  ['malossi_logo.png', 'Malossi'],
-  ['MT_Helmets.jpg', 'MT Helmets'],
-  ['NGK_logo.png', 'NGK'],
-  ['nzi.jpg', 'NZI'],
-  ['rq.png', 'RQ'],
-  ['sym.jpg', 'SYM'],
-  ['TJT_logo.png', 'TJT'],
-  ['tk.png', 'TK'],
-  ['vicma.jpg', 'Vicma'],
-]);
-
-const forestalBrands = brands('forestal', [
-  ['Benza.jpg', 'Benza'],
-  ['biss_stratton.png', 'Briggs & Stratton'],
-  ['Echo_logo.jpg', 'Echo'],
-  ['Honda_logo.png', 'Honda'],
-  ['husqvarna_Logo.png', 'Husqvarna'],
-  ['MTD.png', 'MTD'],
-  ['oleomac-logo.png', 'Oleo-Mac'],
-  ['oregon.png', 'Oregon'],
-  ['Snapper.jpg', 'Snapper'],
-]);
-
-const featured = [
-  { name: 'Macbor', href: 'https://www.macbor.com/', logo: macborSvg },
-  { name: 'SYM', href: 'https://www.sym.com.es/', logo: symTexto },
-  { name: 'Husqvarna', href: 'https://www.husqvarna.com/es/', logo: husqvarnaTexto },
-  { name: 'Benza', href: 'https://benza.es/', logo: benzaBlack },
-  { name: 'Zanon', href: 'https://www.zanon.it/en/', logo: zanon },
-];
-
-const lines = [
+const SERVICIOS = [
   {
-    href: '/ofertas_moto',
-    title: 'Motos y complementos',
-    text: 'Motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios. Reparación y mantenimiento en nuestro taller.',
-    image: ofertaMoto,
-    alt: 'Rueda de una moto de cross levantando tierra',
+    palabra: 'Taller', foto: taller, encuadre: 'object-center', href: '/taller-de-motos', enlace: 'Ver el taller',
+    texto: 'Reparación y mantenimiento de motos, scooters y ciclomotores en nuestro taller.',
   },
   {
-    href: '/ofertas_forestal',
-    title: 'Jardinería y forestal',
-    text: 'Cortacéspedes, robots, motosierras, desbrozadoras y maquinaria forestal. Venta, reparación y puesta a punto.',
-    image: ofertaForestal,
-    alt: 'Troncos apilados junto a un camino en el bosque',
+    // Encuadre de los scooters (el de /tienda-de-motos): la foto ampliada al 150 % desde abajo a la derecha
+    palabra: 'Motos', foto: tienda, encuadre: '', zoom: 'scale-150 origin-[65%_100%]', href: '/tienda-de-motos',
+    enlace: 'Ver motos y scooters',
+    texto: 'Motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios.',
+  },
+  {
+    palabra: 'Jardín y forestal', foto: rider, encuadre: 'object-[40%_60%]', href: '/jardin-y-forestal',
+    enlace: 'Ver jardín y forestal',
+    texto: 'Cortacéspedes, robots, motosierras, desbrozadoras y maquinaria forestal. Venta, reparación y puesta a punto.',
   },
 ];
 
-const trust = [
-  { title: '+40 años', text: 'Más de cuatro décadas atendiendo a clientes de Albacete y alrededores.' },
-  { title: 'Taller propio', text: 'Reparamos y revisamos motos, scooters y maquinaria de jardín y forestal.' },
-  { title: 'Recambios', text: 'Repuestos y consumibles para que tu máquina vuelva a funcionar cuanto antes.' },
-  { title: 'Primeras marcas', text: 'Trabajamos con Macbor, SYM, Husqvarna, Benza y Zanon, entre otras.' },
+// Ofertas: hasta 4 folletos alternando categorías (moto, forestal, moto…). Si el mismo PDF está en las dos
+// categorías, en la muestra sale una sola vez; el total cuenta entradas, como «Todas (n)» de /ofertas.
+const moto = getFolletos('moto');
+const forestal = getFolletos('forestal');
+const totalFolletos = moto.length + forestal.length;
+const muestra = Array.from({ length: Math.max(moto.length, forestal.length) }, (_, i) => [moto[i], forestal[i]])
+  .flat()
+  .filter((f): f is Folleto => Boolean(f))
+  .filter((f, i, a) => a.findIndex((g) => g.titulo === f.titulo && g.peso === f.peso) === i)
+  .slice(0, 4);
+// Con 1–2 folletos, dos columnas como el estado vacío (título a la izquierda, miniaturas a la derecha);
+// con 3 o 4, rejilla de 3 o 4 columnas desde lg. Clases literales (índice = nº de folletos) para que Tailwind las genere.
+const pocos = muestra.length <= 2;
+const COLUMNAS = [
+  '',
+  'lg:mx-auto lg:w-full lg:max-w-[18rem]',
+  'md:grid-cols-2',
+  'md:grid-cols-2 lg:grid-cols-3',
+  'md:grid-cols-2 lg:grid-cols-4',
 ];
+
+const CONTACTO = [
+  { icon: 'phone', etiqueta: 'Teléfono', valor: PHONE_LABEL, href: `tel:${PHONE}`, externo: false },
+  { icon: 'brand-whatsapp', etiqueta: 'WhatsApp', valor: WHATSAPP_LABEL, href: waLink(), externo: true },
+  { icon: 'mail', etiqueta: 'Email', valor: EMAIL, href: `mailto:${EMAIL}`, externo: false },
+] as const;
 ---
 
 <Layout
-  title="Taller de motos, jardín y forestal en Albacete"
-  description="Talleres Marcelino: más de 40 años reparando y vendiendo motos, scooters y maquinaria de jardinería y forestal en Albacete. Recambios y taller propio."
+  title="Talleres Marcelino: motos, jardín y forestal en Albacete"
+  description={`Más de 40 años en Albacete: taller y venta de motos y scooters, recambios y maquinaria de jardín y forestal. Llámanos al ${PHONE_LABEL}.`}
 >
-  <!-- Portada: texto + foto con el corte diagonal (firma de la marca) -->
-  <section class="bg-paper-200 dark:bg-ink-800 md:grid md:min-h-[32rem] md:grid-cols-2">
-    <div class="flex flex-col justify-center px-4 py-12 md:px-12 lg:px-16">
-      <p class="text-sm font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">
-        Talleres Marcelino · Albacete
-      </p>
-      <h1 class="mt-2 text-4xl leading-none text-ink dark:text-paper md:text-5xl lg:text-6xl">
-        Taller y tienda de motos, jardín y forestal en Albacete
-      </h1>
-      <p class="mt-4 max-w-prose text-lg text-neutral-700 dark:text-neutral-300">
-        Más de 40 años reparando y vendiendo motos, scooters y maquinaria de jardinería y forestal. Recambios, taller
-        propio y trato cercano.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href={`tel:${PHONE}`} class="btn btn-primary">Llamar al {PHONE_LABEL}</a>
-        <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-          WhatsApp<span class="sr-only"> (abre en una pestaña nueva)</span>
-        </a>
-        <a href={MAPS} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
-          Cómo llegar<span class="sr-only"> (abre Google Maps en una pestaña nueva)</span>
-        </a>
+  <!-- 1. Héroe, siempre oscuro. Móvil y tablet: foto 16:10 arriba y texto debajo.
+       Desde lg: texto en la mitad izquierda (alineado con el logo) y foto a sangre a la derecha con el corte diagonal. -->
+  <section data-theme="dark" class="relative flex flex-col bg-page lg:min-h-[38rem] lg:justify-center">
+    <div class="wrap pb-12 pt-8 sm:pt-10 lg:py-20">
+      <div class="lg:w-1/2 lg:pr-12">
+        <p class="eyebrow">Albacete · más de 40 años</p>
+        <h1 class="mt-3">Taller y tienda de <span class="text-brand">motos, jardín y forestal</span> en Albacete</h1>
+        <p class="lead mt-5">
+          Reparamos y vendemos motos, scooters y maquinaria de jardinería y forestal. Recambios, taller propio y trato
+          cercano.
+        </p>
+        {/* `full`: botones a todo el ancho en móvil (uno por fila si no caben); desde sm, a su medida */}
+        <ContactActions full class="mt-8 sm:[&>a]:grow-0" />
+        {/* Si no cabe en una línea, «Cómo llegar» baja alineado con la dirección */}
+        <p class="mt-4 flex items-start gap-2 text-muted">
+          <Icon name="map-pin" class="mt-3 size-5 text-link" />
+          <span class="flex flex-wrap items-center gap-x-4">
+            <span class="inline-flex min-h-11 items-center">{STREET} · {CITY}</span>
+            <a href={DIRECTIONS.google} target="_blank" rel="noopener noreferrer" class="lnk inline-flex min-h-11 items-center">
+              Cómo llegar<span class="sr-only">{NUEVA}</span>
+            </a>
+          </span>
+        </p>
       </div>
     </div>
-    <div class="relative aspect-[16/9] md:clip-diagonal-l md:aspect-auto">
-      <Image
-        src={hero}
-        alt="Operario con equipo de protección talando un árbol con motosierra"
-        widths={[640, 960, 1470]}
-        sizes="(min-width: 768px) 50vw, 100vw"
+    {/* Foto ampliada hacia abajo a la izquierda: deja fuera los trazos pintados de la esquina superior derecha del
+        original (mancha naranja y parabrisas blanco, x > 67 % e y < 37 %; x > 75 % e y < 62 %). Se ve, de la foto,
+        x 0–71 % e y 36–95 % en móvil y x 7–66 % en 1366. Desde 1440 la caja es casi tan ancha como la foto y hace falta 1,5.
+        ponytail: en móvil, `sizes` 100vw y no 140vw porque es la imagen LCP (2,5 s justos); en pantallas 3x se ve algo
+        blanda. Se arregla del todo con una foto propia sin retoques (§8.3). */}
+    <div
+      class="relative order-first aspect-[16/10] overflow-hidden lg:absolute lg:inset-y-0 lg:right-0 lg:order-none lg:aspect-auto lg:w-1/2 lg:clip-diagonal-l"
+    >
+      <Picture
+        src={tienda}
+        formats={['avif', 'webp']}
+        widths={[640, 800, 960, 1280, 1600, 2048]}
+        sizes="(min-width: 1024px) 75vw, 100vw"
         loading="eager"
         fetchpriority="high"
-        class="absolute inset-0 h-full w-full object-cover object-[30%_50%]"
+        alt="Interior de la tienda de Talleres Marcelino: motosierras Husqvarna en la pared y scooters nuevos en exposición"
+        class="absolute inset-0 h-full w-full origin-[0%_80%] scale-[1.4] object-cover object-[40%_100%] min-[1440px]:scale-150"
       />
     </div>
   </section>
 
-  <!-- Líneas de negocio -->
-  <section class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="lineas">
-    <h2 id="lineas" class="text-3xl text-ink dark:text-paper md:text-4xl">Qué hacemos</h2>
-    <div class="mt-8 grid gap-6 md:grid-cols-2">
+  <!-- 2. Ventajas -->
+  <section class="border-b border-line bg-raised py-8" aria-labelledby="ventajas">
+    <div class="wrap">
+      <h2 id="ventajas" class="sr-only">Por qué venir a vernos</h2>
+      <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line">
+        {
+          VENTAJAS.map((v) => (
+            <li class="flex gap-4 lg:px-6 lg:first:pl-0 lg:last:pr-0">
+              <Icon name={v.icon} class="size-7 text-link" />
+              <div>
+                <h3>{v.titulo}</h3>
+                <p class="mt-1 text-[0.9375rem] leading-normal text-muted">{v.texto}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Qué hacemos: la tarjeta entera es el enlace.
+       Fondos alternos en los dos temas: ventajas (raised) → qué hacemos (surface) → ofertas (page) → banda oscura → marcas -->
+  <section class="section bg-surface" aria-labelledby="que-hacemos">
+    <div class="wrap">
+      <SectionHeading eyebrow="Qué hacemos" title="Todo para tu moto y tu jardín" id="que-hacemos" />
+      <ul class="mt-8 grid gap-4 sm:gap-6 md:mt-10 md:grid-cols-3 lg:gap-8">
+        {
+          SERVICIOS.map((s) => (
+            <li>
+              <a href={s.href} class="group box box-hover flex h-full flex-col overflow-hidden">
+                <div class="relative aspect-[16/9] overflow-hidden md:aspect-[4/3]">
+                  {/* En móvil se cargan a la vez que la foto del héroe (están cerca): AVIF y ancho real (100vw menos el margen).
+                      El zoom va en un envoltorio para no pisar el del hover del <img>; con zoom, anchos ×1,5 para que no se vea blanda */}
+                  <div class:list={['h-full w-full', s.zoom]}>
+                    <Picture
+                      src={s.foto}
+                      formats={['avif', 'webp']}
+                      alt=""
+                      widths={s.zoom ? [600, 1080, 1440] : [400, 720, 960]}
+                      sizes={s.zoom
+                        ? '(min-width: 1536px) 660px, (min-width: 768px) 50vw, calc(150vw - 3rem)'
+                        : '(min-width: 1536px) 440px, (min-width: 768px) 33vw, calc(100vw - 2rem)'}
+                      class={`h-full w-full object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03] ${s.encuadre}`}
+                    />
+                  </div>
+                  {/* Palabra sobre la foto: zona oscura con degradado de page (90 % detrás del texto, 0 % arriba).
+                      40 px (§4.1) en móvil y desde xl; entre md y xl las tarjetas miden 224–383 px y la palabra baja
+                      a 26/32 px para que «JARDÍN Y FORESTAL» quepa en una línea y el velo no tape la foto */}
+                  <div data-theme="dark" class="absolute inset-x-0 bottom-0 bg-transparent">
+                    <div class="h-10 bg-gradient-to-t from-page/85 to-page/0" />
+                    <h3 class="bg-gradient-to-t from-page/90 to-page/85 px-5 pb-4 text-[2.5rem] font-bold uppercase leading-none sm:px-6 md:px-4 md:text-[1.625rem] lg:px-6 lg:text-[2rem] xl:text-[2.5rem]">
+                      {s.palabra}
+                    </h3>
+                  </div>
+                </div>
+                <div class="flex flex-1 flex-col p-5 sm:p-6">
+                  <p class="text-muted">{s.texto}</p>
+                  {/* La flecha sigue a la última palabra (con inline-flex, al partirse el texto quedaba en el borde derecho) */}
+                  <span class="mt-auto pt-4 font-semibold text-link">
+                    <ConFlecha texto={s.enlace} class="transition-transform duration-150 motion-safe:group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Ofertas: miniaturas de los folletos o, si no hay, invitación a preguntar -->
+  <section class="section bg-page" aria-labelledby="ofertas">
+    <div class="wrap">
       {
-        lines.map((l) => (
-          <a
-            href={l.href}
-            class="group flex flex-col overflow-hidden rounded-xl bg-paper-200 ring-1 ring-paper-300 transition hover:ring-brand-500 focus-visible:outline focus-visible:outline-4 focus-visible:outline-brand-500 dark:bg-ink-800 dark:ring-ink-700"
-          >
-            <Image
-              src={l.image}
-              alt={l.alt}
-              widths={[480, 800]}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              class="aspect-[16/10] w-full object-cover"
-            />
-            <div class="flex flex-1 flex-col p-6">
-              <h3 class="text-2xl text-ink dark:text-paper">{l.title}</h3>
-              <p class="mt-2 flex-1 text-neutral-700 dark:text-neutral-300">{l.text}</p>
-              <span class="mt-4 font-semibold text-brand-700 group-hover:underline dark:text-brand-400">
-                Ver ofertas <span aria-hidden="true">→</span>
-              </span>
+        muestra.length > 0 ? (
+          <div class:list={['grid gap-y-8 md:gap-y-10', pocos && 'lg:grid-cols-2 lg:items-center lg:gap-x-16 lg:gap-y-8']}>
+            {/* Por debajo de lg: título, miniaturas y botón, uno debajo de otro. Desde lg con 1–2 folletos: título
+                (fila 1) y botón (fila 2) a la izquierda y miniaturas a la derecha, en las dos filas; con 3–4, a lo ancho */}
+            <div class:list={[pocos && 'lg:self-end']}>
+              <SectionHeading
+                eyebrow="Ofertas"
+                title="Folletos y promociones"
+                id="ofertas"
+                lead="Consulta los folletos vigentes de nuestras marcas: ábrelos en el navegador o pregúntanos por WhatsApp."
+              />
             </div>
-          </a>
-        ))
+            {/* Por debajo de lg, tarjetas horizontales (carátula pequeña y texto al lado), 2 por fila desde md;
+                desde lg, en columna */}
+            <ul
+              class:list={[
+                'grid gap-4 sm:gap-6 lg:gap-8',
+                COLUMNAS[muestra.length],
+                pocos && 'lg:col-start-2 lg:row-span-2 lg:row-start-1',
+              ]}
+            >
+              {muestra.map((f) => (
+                <li>
+                  <a
+                    href={`${CATEGORIAS[f.categoria].ruta}#${f.id}`}
+                    class="box box-hover flex h-full items-center gap-4 p-3 sm:p-4 lg:flex-col lg:items-stretch lg:gap-0"
+                  >
+                    {/* Caja fija de 3:4: carátulas verticales y apaisadas quedan alineadas */}
+                    <div class="relative aspect-[3/4] w-24 flex-none rounded-lg bg-surface lg:w-auto">
+                      {f.portada ? (
+                        <img
+                          src={f.portada.src}
+                          srcset={f.portada.srcset}
+                          sizes={f.portada.srcset ? '(min-width: 1024px) 16rem, 5rem' : undefined}
+                          width={f.portada.width}
+                          height={f.portada.height}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          class="absolute inset-0 m-auto h-auto max-h-[86%] w-auto max-w-[86%] rounded-sm shadow-cover ring-1 ring-line"
+                        />
+                      ) : (
+                        <Icon name="file-type-pdf" class="absolute inset-0 m-auto size-16 text-muted" />
+                      )}
+                    </div>
+                    <div class="min-w-0 lg:mt-4">
+                      <p class="eyebrow">{CATEGORIAS[f.categoria].nombre}</p>
+                      <h3 class="mt-1 line-clamp-2 text-xl leading-[1.15]">{f.titulo}</h3>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="/ofertas" class:list={['btn btn-outline justify-self-start', pocos && 'lg:self-start']}>
+              Ver todas las ofertas ({totalFolletos})
+            </a>
+          </div>
+        ) : (
+          <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <SectionHeading
+                eyebrow="Ofertas"
+                title="Folletos y promociones"
+                id="ofertas"
+                lead="Aquí publicamos los folletos de temporada de nuestras marcas. Ahora mismo no hay ninguno publicado: pregúntanos por precios y disponibilidad y te contestamos por WhatsApp o por teléfono."
+              />
+              <ContactActions
+                actions={['whatsapp', 'call']}
+                whatsappText="Hola, ¿qué ofertas tenéis ahora?"
+                full
+                class="mt-8 sm:[&>a]:grow-0"
+              />
+              <a href="/ofertas" class="lnk mt-4 inline-flex min-h-11 items-center">Ir a la página de ofertas</a>
+            </div>
+            {/* Decorativa: solo desde lg, a la derecha del texto. Por debajo quedaría al final, después de los botones */}
+            <CaratulasMuestra class="max-lg:hidden lg:max-w-md" />
+          </div>
+        )
       }
     </div>
   </section>
 
-  <!-- Confianza -->
-  <section class="bg-ink text-paper dark:border-y dark:border-ink-700 dark:bg-ink-800" aria-labelledby="confianza">
-    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-[auto_1fr]">
-      <Image src={escudo} alt="" width={160} class="mx-auto h-auto w-32 md:w-40" />
+  <!-- 5. Ven a vernos: banda oscura en los dos temas, con el mapa interactivo de Google -->
+  <section data-theme="dark" class="section border-y border-line bg-surface" aria-labelledby="visitanos">
+    <div class="wrap grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
-        <h2 id="confianza" class="text-3xl md:text-4xl">Por qué venir a vernos</h2>
-        <ul class="mt-8 grid gap-6 sm:grid-cols-2">
+        <SectionHeading eyebrow="Visítanos" title="Ven a vernos" id="visitanos" />
+        <p class="lead mt-4">
+          Estamos en <a href="/location" class="lnk">{STREET} ({POSTAL_CODE} {CITY})</a>. Ven a ver la tienda y el
+          taller, o llámanos antes si tienes cualquier duda.
+        </p>
+        <ul class="mt-6 space-y-3">
           {
-            trust.map((t) => (
-              <li class="border-l-4 border-brand-500 pl-4">
-                <h3 class="text-2xl text-brand-400">{t.title}</h3>
-                <p class="mt-1 text-neutral-300">{t.text}</p>
+            CONTACTO.map((c) => (
+              <li>
+                <a
+                  href={c.href}
+                  class="group inline-flex max-w-full items-center gap-4"
+                  {...(c.externo ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <span class="ico-chip">
+                    <Icon name={c.icon} class="size-5" />
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-muted">{c.etiqueta}</span>
+                    <span class="block font-display text-[1.75rem] font-semibold leading-[1.1] tabular-nums text-fg [overflow-wrap:anywhere] group-hover:text-link group-hover:underline">
+                      {c.valor}
+                    </span>
+                  </span>
+                  {c.externo && <span class="sr-only">{NUEVA}</span>}
+                </a>
               </li>
             ))
           }
         </ul>
+        <Horario class="mt-6" />
+        <ContactActions actions={['directions', 'call']} full class="mt-8 sm:[&>a]:grow-0" />
+        <a href={MAPS} target="_blank" rel="noopener noreferrer" class="lnk mt-4 inline-flex min-h-11 items-center">
+          Opiniones y fotos en Google Maps<span class="sr-only">{NUEVA}</span>
+        </a>
       </div>
+      <Map ratio="aspect-[4/3]" />
     </div>
   </section>
 
-  <!-- Marcas destacadas -->
-  <section class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="destacadas">
-    <h2 id="destacadas" class="text-3xl text-ink dark:text-paper md:text-4xl">Marcas destacadas</h2>
-    <ul class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 [&>li:last-child]:col-span-2 sm:[&>li:last-child]:col-span-1">
-      {
-        featured.map((f) => (
-          <li>
-            <a
-              href={f.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex h-24 items-center justify-center rounded-xl bg-white p-4 ring-1 ring-paper-300 transition hover:ring-brand-500 focus-visible:outline focus-visible:outline-4 focus-visible:outline-brand-500 dark:ring-ink-700"
-            >
-              <Image src={f.logo} alt={`${f.name} (web oficial, abre en una pestaña nueva)`} height={112} class="h-14 w-auto max-w-full object-contain" />
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <!-- Carruseles de marcas -->
-  <section aria-labelledby="marcas">
-    <h2 id="marcas" class="sr-only">Marcas con las que trabajamos</h2>
-    <BrandMarquee title="Motos" brands={motoBrands} background={carretera} reverse duration={70} />
-    <BrandMarquee title="Forestal" brands={forestalBrands} background={cesped} duration={35} />
-  </section>
-
-  <!-- Visita y contacto (sin horario hasta que lo facilite el dueño) -->
-  <section class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="visita">
-    <div class="grid gap-8 rounded-xl bg-paper-200 p-8 dark:bg-ink-800 md:grid-cols-2 md:items-center">
-      <div>
-        <h2 id="visita" class="text-3xl text-ink dark:text-paper md:text-4xl">Ven a vernos</h2>
-        <address class="mt-4 space-y-1 not-italic text-neutral-700 dark:text-neutral-300">
-          <p class="font-semibold text-ink dark:text-paper">Talleres Marcelino</p>
-          <p>Av. los Toreros, 22, 02005 Albacete</p>
-          <p>Teléfono: <a href={`tel:${PHONE}`} class="font-semibold text-brand-700 hover:underline dark:text-brand-400">{PHONE_LABEL}</a></p>
-          <p>Correo: <a href={`mailto:${EMAIL}`} class="font-semibold text-brand-700 hover:underline dark:text-brand-400">{EMAIL}</a></p>
-        </address>
-      </div>
-      <div class="flex flex-wrap gap-3 md:justify-end">
-        <a href={MAPS} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-          Cómo llegar<span class="sr-only"> (abre Google Maps en una pestaña nueva)</span>
-        </a>
-        <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-          Escríbenos por WhatsApp<span class="sr-only"> (abre en una pestaña nueva)</span>
-        </a>
-        <a href="/contact" class="btn btn-ghost">Formulario de contacto</a>
-      </div>
+  <!-- 6. Marcas: las 5 destacadas (enlazan a su web) y dos carruseles con el resto -->
+  <section class="section bg-page" aria-labelledby="marcas">
+    <div class="wrap">
+      <SectionHeading eyebrow="Marcas" title="Marcas con las que trabajamos" id="marcas" />
+      {/* 2 columnas en móvil (la quinta, a lo ancho); desde sm, 3 + 2 centradas; desde lg, las 5 en fila */}
+      <LogoGrid
+        links
+        brands={[...DESTACADAS_MOTO, ...DESTACADAS_FORESTAL]}
+        class="mt-8 grid-cols-2 md:mt-10 [&>li:last-child]:col-span-2 sm:grid-cols-6 sm:[&>li]:col-span-2 sm:[&>li:nth-child(4)]:col-start-2 lg:grid-cols-5 lg:[&>li:last-child]:col-span-1 lg:[&>li:nth-child(4)]:col-start-auto lg:[&>li]:col-span-1"
+      />
     </div>
+    <h3 class="wrap eyebrow mb-3 mt-12 font-sans md:mt-14">Motos y recambios</h3>
+    <BrandMarquee label="Marcas de motos y recambios" brands={MARCAS_MOTO} />
+    <h3 class="wrap eyebrow mb-3 mt-8 font-sans">Jardín y forestal</h3>
+    <BrandMarquee label="Marcas de jardín y forestal" brands={MARCAS_FORESTAL} reverse />
   </section>
 </Layout>

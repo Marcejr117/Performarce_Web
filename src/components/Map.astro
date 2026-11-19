@@ -1,47 +1,37 @@
 ---
-// Mapa de Google bajo demanda: el iframe no se crea hasta que el visitante pulsa
-// "Cargar mapa", así Google no pone cookies sin su permiso.
-import { ADDRESS as address, MAPS as mapsUrl } from '../data/business';
+// Mapa interactivo de Google Maps (el mismo de la web original), visible al cargar la página.
+// Es la única carga de terceros de la web (se explica en /privacidad#mapa). Igual en los dos temas.
+import { ADDRESS, MAPS } from '../data/business';
+
+interface Props {
+  /** Proporción del mapa (clases aspect-*). */
+  ratio?: string;
+  /** Dirección en el pie del mapa; false si la página ya la muestra al lado (/location). */
+  address?: boolean;
+  class?: string;
+}
+
+const { ratio = 'aspect-[4/3] sm:aspect-[16/10]', address = true, class: cls } = Astro.props;
 const embedUrl =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3100.7480919952473!2d-1.871054325239329!3d38.99824524074934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd665fb487f1ea51%3A0x578c1f902ab4afec!2sTalleres%20Marcelino!5e0!3m2!1ses!2ses!4v1709739348889!5m2!1ses!2ses';
 ---
 
-<div class="overflow-hidden rounded-lg border border-paper-300 bg-paper-200 dark:border-ink-700 dark:bg-ink-800">
-  <div data-map class="relative flex aspect-[4/3] w-full items-center justify-center sm:aspect-[16/9]">
-    <div data-map-placeholder class="max-w-md px-6 text-center">
-      <p class="font-display text-2xl font-bold uppercase tracking-wide">{address}</p>
-      <p class="mt-3 text-sm text-neutral-700 dark:text-neutral-300">
-        El mapa lo sirve Google, que puede guardar cookies en tu navegador. Solo se carga si tú lo pides.
-        <a href="/privacidad#mapa" class="text-brand-700 underline underline-offset-4 dark:text-brand-400">Más información</a>.
-      </p>
-      <button type="button" data-map-load class="btn btn-primary mt-5">Cargar mapa</button>
-    </div>
-    <template data-map-template>
-      <iframe
-        title={`Mapa de Google: Talleres Marcelino, ${address}`}
-        src={embedUrl}
-        class="absolute inset-0 h-full w-full border-0"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </template>
+<figure class:list={['overflow-hidden rounded-xl border border-line bg-surface', cls]}>
+  <div class:list={['relative w-full', ratio]}>
+    <iframe
+      src={embedUrl}
+      title={`Mapa de Google Maps: Talleres Marcelino, ${ADDRESS}`}
+      class="absolute inset-0 h-full w-full border-0"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
-  <div class="flex flex-wrap items-center justify-between gap-3 border-t border-paper-300 px-4 py-3 dark:border-ink-700">
-    <address class="not-italic">Talleres Marcelino · {address}</address>
-    <a href={mapsUrl} target="_blank" rel="noopener noreferrer" class="font-semibold text-brand-700 underline-offset-4 hover:underline dark:text-brand-400">
-      Abrir en Google Maps
+  <figcaption
+    class="flex flex-wrap items-center justify-between gap-x-4 border-t border-line bg-raised px-4 py-1 text-[0.9375rem] lg:py-3"
+  >
+    {address && <address class="py-2 not-italic lg:py-0">{ADDRESS}</address>}
+    <a href={MAPS} target="_blank" rel="noopener noreferrer" class="lnk inline-flex min-h-11 items-center lg:min-h-0">
+      Abrir en Google Maps<span class="sr-only"> (se abre en una pestaña nueva)</span>
     </a>
-  </div>
-</div>
-
-<script>
-  // Sustituye el aviso por el iframe al pulsar el botón (sirve para varios mapas por página).
-  document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
-    map.querySelector('[data-map-load]')?.addEventListener('click', () => {
-      const tpl = map.querySelector<HTMLTemplateElement>('[data-map-template]');
-      if (!tpl) return;
-      map.querySelector('[data-map-placeholder]')?.remove();
-      map.append(tpl.content.cloneNode(true));
-      map.querySelector('iframe')?.focus();
-    });
-  });
-</script>
+  </figcaption>
+</figure>

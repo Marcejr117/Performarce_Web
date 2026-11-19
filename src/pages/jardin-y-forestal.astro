@@ -1,0 +1,156 @@
+---
+// Jardín y forestal (§4.8): venta, reparación y puesta a punto de maquinaria de jardín y forestal.
+// Los robots cortacésped son una sección de esta página (#robots-cortacesped) hasta que el dueño confirme el servicio.
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ContactActions from '../components/ContactActions.astro';
+import LogoGrid from '../components/LogoGrid.astro';
+import CtaBand from '../components/CtaBand.astro';
+import CabeceraServicio from '../components/servicios/CabeceraServicio.astro';
+import Enlaces from '../components/servicios/Enlaces.astro';
+import tienda from '../assets/fotos/tienda-motos-motosierras-husqvarna-albacete.jpg';
+import herramientas from '../assets/fotos/taller-herramientas.jpg';
+import rider from '../assets/fotos/husqvarna-rider-cortacesped.jpg';
+import robot from '../assets/fotos/husqvarna-automower-robot-cortacesped.jpg';
+import forestal from '../assets/fotos/husqvarna-motosierra-forestal.jpg';
+import { DESTACADAS_FORESTAL, MARCAS_FORESTAL } from '../data/marcas';
+import { SITE, CITY } from '../data/business';
+
+const WA = 'Hola, quería consultar por maquinaria de jardín y forestal.';
+const URL_PAGINA = `${SITE}/jardin-y-forestal`;
+// Qué encontrarás: imágenes oficiales de Husqvarna. La foto de la tienda (la pared de motosierras) ya está en la
+// cabecera, así que motosierras, desbrozadoras y forestal van juntas en una tarjeta con la foto del leñador.
+// En el móvil, las dos primeras lado a lado y la tercera a lo ancho (2:1).
+const MAQUINAS = [
+  {
+    id: 'cortacespedes',
+    title: 'Cortacéspedes',
+    image: rider,
+    alt: 'Cortacésped Husqvarna con asiento cortando el césped de un jardín',
+    framing: 'object-[40%_60%]',
+  },
+  {
+    id: 'robots-cortacesped',
+    title: 'Robots cortacésped',
+    image: robot,
+    alt: 'Robot cortacésped Husqvarna Automower sobre el césped',
+    framing: 'object-[75%_70%]',
+  },
+  {
+    id: 'motosierras',
+    title: 'Motosierras, desbrozadoras y maquinaria forestal',
+    image: forestal,
+    alt: 'Leñador con equipo de protección talando un árbol con una motosierra Husqvarna',
+    framing: 'object-[30%_50%]',
+    ancha: true,
+  },
+];
+---
+
+<Layout
+  title="Maquinaria de jardín y forestal en Albacete"
+  description="Venta, reparación y puesta a punto de cortacéspedes, robots, motosierras, desbrozadoras y maquinaria forestal en Albacete. Husqvarna, Benza, Zanon y más."
+  breadcrumbs={[{ name: 'Jardín y forestal' }]}
+  schema={[
+    {
+      '@type': 'Service',
+      '@id': `${URL_PAGINA}#servicio`,
+      name: 'Venta y reparación de maquinaria de jardín y forestal',
+      serviceType: 'Maquinaria de jardín y forestal',
+      provider: { '@id': `${SITE}/#negocio` },
+      areaServed: { '@type': 'City', name: CITY },
+      url: URL_PAGINA,
+    },
+  ]}
+>
+  {/* Foto: solo la pared de motosierras (x 0–56 % e y 0–56 % de la foto), sin scooters ni los trazos pintados del original.
+      ponytail: en móvil, 125vw (como antes) y no 180vw: es la imagen principal; en pantallas 3x se ve algo blanda */}
+  <CabeceraServicio
+    eyebrow="Jardín y forestal"
+    title="Maquinaria de jardín y forestal en Albacete: venta y taller"
+    lead="Cortacéspedes, robots cortacésped, motosierras, desbrozadoras y maquinaria forestal. Te aconsejamos en la compra, y reparamos y ponemos a punto tu máquina en nuestro taller de Albacete."
+    image={tienda}
+    alt="Motosierras Husqvarna expuestas en la pared de la tienda de Talleres Marcelino"
+    framing="scale-[1.8] origin-top-left"
+    sizes="(min-width: 1024px) 80vw, 125vw"
+  >
+    <ContactActions whatsappText={WA} class="mt-8" />
+  </CabeceraServicio>
+
+  <section class="section" aria-labelledby="que-encontraras">
+    <div class="wrap">
+      <SectionHeading eyebrow="Maquinaria" title="Qué encontrarás" id="que-encontraras" />
+      <ul class="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:mt-10 md:grid-cols-3 lg:gap-8">
+        {
+          MAQUINAS.map((m) => (
+            <li id={m.id} class:list={['box overflow-hidden', m.ancha && 'max-md:col-span-2']}>
+              <div class:list={['aspect-[4/3] overflow-hidden bg-surface', m.ancha && 'max-md:aspect-[2/1]']}>
+                <Image
+                  src={m.image}
+                  alt={m.alt}
+                  widths={[320, 480, 640, 960]}
+                  sizes={m.ancha ? '(min-width: 768px) 33vw, 100vw' : '(min-width: 768px) 33vw, 50vw'}
+                  class:list={['h-full w-full object-cover', m.framing]}
+                />
+              </div>
+              <h3 class="p-4 text-lg sm:p-5 sm:text-xl">{m.title}</h3>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-surface" aria-labelledby="taller">
+    <div class="wrap grid items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+      <div>
+        <SectionHeading
+          eyebrow="Taller"
+          title="Reparación y puesta a punto"
+          id="taller"
+          lead="Reparamos y ponemos a punto cortacéspedes, motosierras, desbrozadoras y el resto de tu maquinaria de jardín y forestal."
+        />
+        <ContactActions
+          actions={['whatsapp', 'call']}
+          whatsappText="Hola, quería consultar una reparación de mi máquina de jardín o forestal."
+          class="mt-8"
+        />
+      </div>
+      {/* Desde lg, la foto a la izquierda (alterna con la cabecera, que la lleva a la derecha) */}
+      <Image
+        src={herramientas}
+        alt="Llaves fijas y de tubo ordenadas en el panel de herramientas del taller"
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        class="aspect-[16/10] w-full rounded-2xl object-cover lg:order-first"
+      />
+    </div>
+  </section>
+
+  <div class="section">
+    <div class="wrap">
+      <section aria-labelledby="marcas">
+        <SectionHeading eyebrow="Marcas" title="Marcas con las que trabajamos" id="marcas" />
+        <h3 class="mt-8 md:mt-10">Marcas destacadas</h3>
+        <LogoGrid links brands={DESTACADAS_FORESTAL} class="mt-4 sm:grid-cols-3 lg:max-w-4xl" />
+        <h3 class="mt-10">Más marcas</h3>
+        <LogoGrid compacta brands={MARCAS_FORESTAL} class="mt-4 grid-cols-3 sm:grid-cols-4 lg:grid-cols-7" />
+      </section>
+
+      <section class="mt-14 md:mt-20" aria-labelledby="relacionados">
+        <h2 id="relacionados" class="eyebrow font-sans">También te puede interesar</h2>
+        <Enlaces
+          class="mt-4 lg:grid-cols-3"
+          links={[
+            { href: '/ofertas_forestal', icon: 'file-type-pdf', title: 'Ofertas de jardín y forestal' },
+            { href: '/contact', icon: 'mail', title: 'Contacto' },
+            { href: '/location', icon: 'map-pin', title: 'Cómo llegar' },
+          ]}
+        />
+      </section>
+    </div>
+  </div>
+
+  <CtaBand whatsappText={WA} />
+</Layout>

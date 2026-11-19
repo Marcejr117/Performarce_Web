@@ -1,71 +1,139 @@
 ---
-// Portada de ofertas: elige entre las dos líneas de negocio.
-import { Image } from "astro:assets";
-import Layout from "../layouts/Layout.astro";
-import fotoMoto from "../assets/fondos/oferta_moto.jpeg";
-import fotoForestal from "../assets/fondos/oferta_forestal.jpg";
+// Ofertas: todos los folletos, agrupados por categoría (los PDF se leen de la carpeta en el build).
+// Sin ninguno: invitación a preguntar. Siempre, enlaces a las dos líneas de la tienda (páginas de servicio).
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import ConFlecha from '../components/ConFlecha.astro';
+import FiltroCategorias from '../components/ofertas/FiltroCategorias.astro';
+import ListaFolletos from '../components/ofertas/ListaFolletos.astro';
+import OfertasVacio from '../components/ofertas/OfertasVacio.astro';
+import AyudaOfertas from '../components/ofertas/AyudaOfertas.astro';
+import { waLink } from '../data/business';
+import { CATEGORIAS, getFolletos } from '../lib/ofertas';
 
+const moto = getFolletos('moto');
+const forestal = getFolletos('forestal');
+const total = moto.length + forestal.length;
+// Primero las categorías con folletos, para no abrir la página con una vacía (sort es estable: si no, motos y forestal)
+const grupos = [
+  { cat: 'moto' as const, folletos: moto },
+  { cat: 'forestal' as const, folletos: forestal },
+].sort((a, b) => Number(b.folletos.length > 0) - Number(a.folletos.length > 0));
+// Las dos primeras carátulas de la página cargan sin esperar
+const eager = [2, Math.max(0, 2 - grupos[0].folletos.length)];
+// Sin ningún folleto, la cabecera va sin las píldoras de categorías: no hay nada que filtrar
+const cabecera = {
+  eyebrow: 'Ofertas',
+  title: 'Ofertas y folletos',
+  lead: total
+    ? 'Folletos y promociones vigentes de motos, scooters y maquinaria de jardín y forestal. Ábrelos en el navegador, descárgalos o pregúntanos por WhatsApp.'
+    : 'Aquí publicamos los folletos de temporada de nuestras marcas de motos y de jardín y forestal.',
+  tone: total ? 'surface' : 'page',
+} as const;
 const lineas = [
-    {
-        href: "/ofertas_moto",
-        titulo: "Motos y Complementos",
-        texto: "Motos, scooters, recambios y equipamiento",
-        foto: fotoMoto,
-        // Corte diagonal (firma de la marca) solo en escritorio, donde las mitades van en paralelo
-        clip: "md:clip-diagonal-r",
-    },
-    {
-        href: "/ofertas_forestal",
-        titulo: "Jardinería y Forestal",
-        texto: "Maquinaria de jardín y forestal",
-        foto: fotoForestal,
-        clip: "md:clip-diagonal-l",
-    },
-];
+  {
+    href: CATEGORIAS.moto.servicio,
+    titulo: 'Motos, scooters y recambios',
+    texto: 'Motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios.',
+    icono: 'motorbike',
+  },
+  {
+    href: CATEGORIAS.forestal.servicio,
+    titulo: 'Maquinaria de jardín y forestal',
+    texto: 'Cortacéspedes, robots, motosierras, desbrozadoras y maquinaria forestal. Venta, reparación y puesta a punto.',
+    icono: 'plant-2',
+  },
+] as const;
 ---
 
 <Layout
-    title="Ofertas"
-    description="Ofertas y folletos de motos y complementos, y de maquinaria de jardinería y forestal en Talleres Marcelino, Albacete."
+  title="Ofertas y folletos en Albacete"
+  description="Folletos y promociones vigentes de motos, scooters y maquinaria de jardín y forestal en Talleres Marcelino (Albacete). Consúltalos o descárgalos."
+  breadcrumbs={[{ name: 'Ofertas' }]}
 >
-    <section class="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
-        <h1 class="text-4xl text-ink dark:text-paper sm:text-5xl">Ofertas</h1>
-        <p class="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-400">
-            Elige la sección y consulta los folletos vigentes. Puedes verlos en
-            el navegador o descargarlos.
-        </p>
-    </section>
+  {
+    total > 0 ? (
+      <PageHeader {...cabecera}>
+        <FiltroCategorias actual="todas" />
+      </PageHeader>
+    ) : (
+      <PageHeader {...cabecera} />
+    )
+  }
 
-    <!-- El fondo oscuro asoma entre los dos cortes y forma una franja diagonal -->
-    <div class="mt-8 flex flex-col gap-1 bg-ink md:h-[60vh] md:min-h-[24rem] md:flex-row md:gap-0">
+  {
+    total === 0 ? (
+      <OfertasVacio />
+    ) : (
+      <div class="divide-y divide-line">
+        {grupos.map((g, i) => {
+          const { nombre, ruta, whatsapp } = CATEGORIAS[g.cat];
+          const n = g.folletos.length;
+          return (
+            <section class="section" aria-labelledby={`titulo-${g.cat}`}>
+              <div class="wrap">
+                {n > 0 ? (
+                  <SectionHeading title={nombre} id={`titulo-${g.cat}`}>
+                    <span class="ml-2 align-middle font-sans text-base font-normal normal-case tracking-normal text-muted">
+                      ({n} {n === 1 ? 'folleto' : 'folletos'})
+                    </span>
+                    <a slot="aside" href={ruta} class="lnk inline-flex min-h-11 items-center gap-2">
+                      Ver solo {nombre.toLowerCase()}
+                      <Icon name="arrow-right" class="size-5" />
+                    </a>
+                  </SectionHeading>
+                ) : (
+                  <SectionHeading title={nombre} id={`titulo-${g.cat}`} />
+                )}
+                {n > 0 ? (
+                  <ListaFolletos folletos={g.folletos} destacar={false} eager={eager[i]} class="mt-8 md:mt-10" />
+                ) : (
+                  <p class="mt-6 rounded-xl border-2 border-dashed border-line px-5 py-4">
+                    Ahora no hay folletos de {nombre.toLowerCase()}.{' '}
+                    <a class="lnk" href={waLink(whatsapp)} target="_blank" rel="noopener noreferrer">
+                      Pregúntanos por WhatsApp<span class="sr-only"> (se abre en una pestaña nueva)</span>
+                    </a>
+                  </p>
+                )}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    )
+  }
+
+  {/* Las dos líneas de la tienda (§5.4: la página general enlaza los servicios), con folletos o sin ellos */}
+  <section class:list={['section', total > 0 && 'border-t border-line']} aria-labelledby="tienda">
+    <div class="wrap">
+      <SectionHeading id="tienda" title="Qué encontrarás en la tienda" />
+      <ul role="list" class="mt-8 grid gap-4 sm:gap-6 md:mt-10 md:grid-cols-2 lg:gap-8">
         {
-            lineas.map((l) => (
-                <a
-                    href={l.href}
-                    class={`group relative isolate flex h-64 items-end overflow-hidden focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-brand-500 sm:h-80 md:h-full md:flex-1 ${l.clip}`}
-                >
-                    <Image
-                        src={l.foto}
-                        alt=""
-                        widths={[640, 960, 1400]}
-                        sizes="(min-width:768px) 50vw, 100vw"
-                        loading="eager"
-                        class="absolute inset-0 -z-10 h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
-                    />
-                    {/* Velo uniforme para calmar la foto; el contraste AA lo garantiza la caja sólida (bg-ink) del texto */}
-                    <span class="absolute inset-0 -z-10 bg-ink/30 transition-colors group-hover:bg-ink/10" aria-hidden="true" />
-                    <div class="m-6 bg-ink px-5 py-4 text-paper md:mb-12 md:ml-12">
-                        <h2 class="text-3xl sm:text-4xl">{l.titulo}</h2>
-                        <span class="mt-1 block text-sm text-neutral-200">{l.texto}</span>
-                        <span class="mt-3 inline-flex items-center gap-2 font-semibold text-brand-400 underline-offset-4 group-hover:underline">
-                            Ver ofertas
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M5 12h14M13 6l6 6-6 6" />
-                            </svg>
-                        </span>
-                    </div>
-                </a>
-            ))
+          lineas.map((l) => (
+            <li>
+              {/* En el móvil, el icono encima y la flecha tras el título: el texto usa todo el ancho (en tres columnas
+                  se quedaba en unos 200 px y 5–6 líneas) */}
+              <a href={l.href} class="box box-hover flex h-full items-start gap-4 p-5 max-sm:flex-col sm:p-6">
+                <span class="ico-chip">
+                  <Icon name={l.icono} />
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="block font-display text-2xl font-semibold leading-tight text-fg">
+                    <ConFlecha texto={l.titulo} class="text-link sm:hidden" />
+                  </span>
+                  <span class="mt-1 block text-muted">{l.texto}</span>
+                </span>
+                <Icon name="arrow-right" class="mt-1 size-6 text-link max-sm:hidden" />
+              </a>
+            </li>
+          ))
         }
+      </ul>
     </div>
+  </section>
+
+  {/* Sin folletos no va (desviación de §4.2.4): OfertasVacio ya lleva WhatsApp y Llamar, y saldrían repetidos */}
+  {total > 0 && <AyudaOfertas whatsappText="Hola, ¿qué ofertas tenéis ahora?" />}
 </Layout>

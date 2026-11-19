@@ -1,0 +1,33 @@
+---
+// Ilustración decorativa para los estados vacíos: tres «folletos» en CSS, abiertos en abanico, con los colores de las
+// portadas reales (naranja y negro). Las hojas van en `logo-tile` (blanco en claro, gris muy claro en oscuro) y los
+// bloques en `on-brand`, oscuro en los dos temas, así que se leen igual sobre el papel en claro y en oscuro.
+// El bloque naranja de la hoja central es parte del dibujo (no es un botón ni el fondo de una tarjeta, §1.4.1).
+import Icon from './Icon.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: cls } = Astro.props;
+const giros = ['-rotate-[7deg] translate-y-3', 'z-10 -mx-[7%] -translate-y-1', 'rotate-[7deg] translate-y-3'];
+---
+
+<div aria-hidden="true" class:list={['mx-auto flex w-full max-w-sm items-center justify-center py-6', cls]}>
+  {
+    giros.map((g, i) => (
+      <div class:list={['aspect-[3/4] w-[36%] flex-none rounded-sm border border-line bg-logo-tile p-[5%] shadow-cover', g]}>
+        {i === 1 ? (
+          <div class="grid h-[46%] place-items-center rounded-sm bg-brand text-on-brand">
+            <Icon name="file-type-pdf" class="size-12" />
+          </div>
+        ) : (
+          <div class="h-[46%] rounded-sm bg-on-brand" />
+        )}
+        <div class="mt-[12%] h-2 w-4/5 rounded-full bg-on-brand/20" />
+        <div class="mt-[7%] h-2 w-3/5 rounded-full bg-on-brand/20" />
+        <div class="mt-[7%] h-2 w-2/3 rounded-full bg-on-brand/20" />
+      </div>
+    ))
+  }
+</div>

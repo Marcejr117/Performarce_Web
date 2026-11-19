@@ -1,0 +1,30 @@
+---
+// Tarjetas-enlace sin foto (icono, título y flecha) a otras páginas de la web. La tarjeta entera es el enlace.
+import Icon from '../Icon.astro';
+import type { ComponentProps } from 'astro/types';
+
+interface Props {
+  links: { href: string; icon: ComponentProps<typeof Icon>['name']; title: string }[];
+  /** Columnas y margen de la rejilla (sustituye a las de por defecto). */
+  class?: string;
+}
+
+// Por debajo de lg, una por fila: en tres columnas el título se partía en 3–4 líneas a 768 px
+const { links, class: cls = 'lg:grid-cols-3' } = Astro.props;
+---
+
+<ul class:list={['grid gap-4 sm:gap-6', cls]}>
+  {
+    links.map((l) => (
+      <li>
+        <a href={l.href} class="box box-hover group flex h-full items-center gap-4 p-5 sm:p-6">
+          <span class="ico-chip">
+            <Icon name={l.icon} class="size-6" />
+          </span>
+          <h3 class="flex-1 text-xl leading-[1.15]">{l.title}</h3>
+          <Icon name="arrow-right" class="size-6 text-link transition-transform duration-150 motion-safe:group-hover:translate-x-1" />
+        </a>
+      </li>
+    ))
+  }
+</ul>

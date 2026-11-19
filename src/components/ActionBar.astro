@@ -1,0 +1,37 @@
+---
+// Barra fija de acciones en móvil (por debajo de md): Llamar, WhatsApp y Cómo llegar.
+// El padding-bottom del <body> (Layout) evita que tape el final del pie.
+import Icon from './Icon.astro';
+import { PHONE, DIRECTIONS, waLink } from '../data/business';
+
+// Cada celda: icono + un solo <span> de texto (con el aviso sr-only dentro), para que las tres alineen igual
+const celda =
+  'flex h-16 flex-col items-center justify-center gap-1 text-[0.8125rem] font-semibold focus-visible:-outline-offset-4';
+---
+
+<nav
+  aria-label="Acciones rápidas"
+  data-theme="dark"
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-page/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+>
+  <ul class="grid grid-cols-3">
+    <li>
+      <a href={`tel:${PHONE}`} class:list={[celda, 'bg-brand text-on-brand focus-visible:outline-on-brand']}>
+        <Icon name="phone" class="size-[22px]" />
+        <span>Llamar</span>
+      </a>
+    </li>
+    <li>
+      <a href={waLink()} target="_blank" rel="noopener noreferrer" class:list={[celda, 'text-fg']}>
+        <Icon name="brand-whatsapp" class="size-[22px]" />
+        <span>WhatsApp<span class="sr-only"> (se abre en una pestaña nueva)</span></span>
+      </a>
+    </li>
+    <li>
+      <a href={DIRECTIONS.google} target="_blank" rel="noopener noreferrer" class:list={[celda, 'text-fg']}>
+        <Icon name="route" class="size-[22px]" />
+        <span>Cómo llegar<span class="sr-only"> (se abre en una pestaña nueva)</span></span>
+      </a>
+    </li>
+  </ul>
+</nav>

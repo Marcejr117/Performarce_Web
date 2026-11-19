@@ -1,0 +1,140 @@
+---
+// Taller de motos (§4.6): reparación y mantenimiento de motos, scooters y ciclomotores.
+// «Dónde estamos» va sin mapa (spec-mapa §3): dirección, «Cómo llegar» y enlace a /location.
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ContactActions from '../components/ContactActions.astro';
+import LogoGrid from '../components/LogoGrid.astro';
+import Horario from '../components/Horario.astro';
+import CtaBand from '../components/CtaBand.astro';
+import CabeceraServicio from '../components/servicios/CabeceraServicio.astro';
+import Puntos from '../components/servicios/Puntos.astro';
+import Enlaces from '../components/servicios/Enlaces.astro';
+import herramientas from '../assets/fotos/taller-herramientas.jpg';
+import { MARCAS_MOTO } from '../data/marcas';
+import { SITE, CITY, STREET, POSTAL_CODE, PHONE, PHONE_LABEL, WHATSAPP_LABEL, waLink } from '../data/business';
+
+const WA = 'Hola, quería consultar una reparación de mi moto.';
+const URL_PAGINA = `${SITE}/taller-de-motos`;
+// Selección de marcas de recambios, en este orden (§4.6)
+const RECAMBIOS = ['Malossi', 'Polini', 'Arrow', "Dell'Orto", 'NGK', 'Barikit'].flatMap((n) =>
+  MARCAS_MOTO.filter((b) => b.name === n),
+);
+---
+
+<Layout
+  title="Taller de motos y scooters en Albacete"
+  description={`Reparación y mantenimiento de motos, scooters y ciclomotores en Albacete, en nuestro taller de ${STREET}. Llámanos al ${PHONE_LABEL}.`}
+  breadcrumbs={[{ name: 'Taller de motos' }]}
+  schema={[
+    {
+      '@type': 'Service',
+      '@id': `${URL_PAGINA}#servicio`,
+      name: 'Taller de motos, scooters y ciclomotores',
+      serviceType: 'Reparación y mantenimiento de motos',
+      provider: { '@id': `${SITE}/#negocio` },
+      areaServed: { '@type': 'City', name: CITY },
+      url: URL_PAGINA,
+    },
+  ]}
+>
+  <CabeceraServicio
+    eyebrow="Taller propio"
+    title="Taller de motos, scooters y ciclomotores en Albacete"
+    lead={`En Talleres Marcelino reparamos y mantenemos motos, scooters y ciclomotores desde hace más de 40 años. Tenemos taller propio en ${STREET} (${CITY}) y recambios de primeras marcas para que tu moto vuelva a funcionar cuanto antes.`}
+    image={herramientas}
+    alt="Llaves fijas y de tubo ordenadas en el panel de herramientas del taller"
+  >
+    <ContactActions whatsappText={WA} class="mt-8" />
+  </CabeceraServicio>
+
+  <section class="section" aria-labelledby="que-hacemos">
+    <div class="wrap">
+      <SectionHeading eyebrow="El taller" title="Qué hacemos en el taller" id="que-hacemos" />
+      <Puntos
+        class="mt-8 md:mt-10"
+        items={[
+          {
+            icon: 'tool',
+            title: 'Reparación y mantenimiento',
+            text: 'Reparamos y mantenemos motos, scooters y ciclomotores en nuestro taller.',
+          },
+          {
+            icon: 'package',
+            title: 'Recambios y consumibles',
+            text: 'Repuestos y consumibles de primeras marcas para que tu moto vuelva a funcionar cuanto antes.',
+          },
+          {
+            icon: 'motorbike',
+            title: 'Especialistas',
+            text: 'En el taller tenemos especialistas en cada campo: si tienes cualquier duda sobre tu moto o tu scooter, te la resolvemos.',
+          },
+          {
+            icon: 'award',
+            title: 'Más de 40 años',
+            text: 'Más de cuatro décadas atendiendo a clientes de Albacete y alrededores.',
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section bg-surface" aria-labelledby="recambios">
+    <div class="wrap">
+      <SectionHeading
+        eyebrow="Recambios"
+        title="Recambios y marcas"
+        id="recambios"
+        lead="Trabajamos con recambios y consumibles de marcas como Malossi, Polini, Arrow, Dell'Orto, NGK o Barikit."
+      >
+        <a slot="aside" href="/tienda-de-motos" class="lnk inline-flex min-h-11 items-center">
+          Ver la tienda de motos y recambios
+        </a>
+      </SectionHeading>
+      <LogoGrid brands={RECAMBIOS} class="mt-8 grid-cols-2 sm:grid-cols-3 md:mt-10 lg:grid-cols-6" />
+    </div>
+  </section>
+
+  <div class="section">
+    <div class="wrap">
+      <div class="grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-8">
+        <section class="box p-6 sm:p-8" aria-labelledby="reparacion">
+          <SectionHeading eyebrow="Reparaciones" title="Cómo pedirnos una reparación" id="reparacion" />
+          <p class="mt-4 max-w-measure">
+            Llámanos al <a href={`tel:${PHONE}`} class="lnk whitespace-nowrap">{PHONE_LABEL}</a> o escríbenos por
+            WhatsApp al <a href={waLink(WA)} target="_blank" rel="noopener noreferrer" class="lnk whitespace-nowrap"
+              >{WHATSAPP_LABEL}<span class="sr-only"> (se abre en una pestaña nueva)</span></a
+            > con la marca y el modelo de tu moto y qué le pasa. También puedes pasarte por el taller en {STREET}.
+          </p>
+          {/* La conversión de la página: aquí va el único botón relleno de la pareja de tarjetas */}
+          <ContactActions whatsappText={WA} class="mt-6" />
+          <Horario class="mt-6" />
+        </section>
+
+        <section class="box p-6 sm:p-8" aria-labelledby="donde">
+          <SectionHeading eyebrow="Visítanos" title="Dónde estamos" id="donde" />
+          <address class="mt-4 font-display text-[1.75rem] font-semibold not-italic leading-[1.1] text-fg sm:text-[2rem]">
+            {STREET}<br />{POSTAL_CODE} {CITY}
+          </address>
+          <ContactActions actions={['directions']} primary={null} class="mt-6" />
+          {/* Otro texto que el del botón: el botón abre la ruta en Google y este enlace va a /location */}
+          <a href="/location" class="lnk mt-3 inline-flex min-h-11 items-center">Más formas de llegar (Apple Maps, Waze)</a>
+        </section>
+      </div>
+
+      <section class="mt-14 md:mt-20" aria-labelledby="relacionados">
+        <h2 id="relacionados" class="eyebrow font-sans">También te puede interesar</h2>
+        <Enlaces
+          class="mt-4 lg:grid-cols-3"
+          links={[
+            { href: '/jardin-y-forestal', icon: 'plant-2', title: '¿Tienes maquinaria de jardín? También la reparamos' },
+            { href: '/ofertas_moto', icon: 'file-type-pdf', title: 'Ofertas de motos y scooters' },
+            { href: '/contact', icon: 'mail', title: 'Contacto' },
+          ]}
+        />
+      </section>
+    </div>
+  </div>
+
+  <CtaBand whatsappText={WA} />
+</Layout>

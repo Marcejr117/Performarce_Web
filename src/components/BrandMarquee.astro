@@ -1,60 +1,76 @@
 ---
-// Carrusel infinito de logos: un único bucle CSS sobre una pista con la lista y su copia.
-// La copia lleva aria-hidden. Se pausa con el ratón o el foco y queda quieto con "reducir movimiento".
-import { Image, getImage } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+// Carrusel infinito de logos: un único bucle CSS sobre una pista con la lista y su copia (aria-hidden).
+// Se pausa con el ratón o el foco y, con «reducir movimiento», queda quieto como rejilla.
+import { Image } from 'astro:assets';
+import type { Brand } from '../data/marcas';
 
-interface Brand { name: string; logo: ImageMetadata }
 interface Props {
-  title: string;
   brands: Brand[];
-  background: ImageMetadata;
-  /** Sentido contrario (como el carrusel de motos original). */
+  /** Nombre accesible de la banda (aria-label). */
+  label: string;
+  /** Sentido contrario. */
   reverse?: boolean;
   /** Segundos por vuelta. */
   duration?: number;
 }
 
-const { title, brands, background, reverse = false, duration = 40 } = Astro.props;
-// Fondo reducido a WebP (la carretera original pesa 4,2 MB)
-const bg = await getImage({ src: background, width: 1600, format: 'webp', quality: 60 });
+const { brands, label, reverse = false, duration = 70 } = Astro.props;
+// Con pocas marcas, la lista se repite para que una vuelta sea más ancha que la pantalla (si no, quedaría un hueco)
+const reps = Math.max(1, Math.ceil(20 / brands.length));
+const items = Array.from({ length: reps }, (_, r) => brands.map((b) => ({ ...b, dup: r > 0 }))).flat();
 ---
 
-<div class="relative overflow-hidden bg-cover bg-center" style={`background-image:url(${bg.src})`}>
-  <div class="absolute inset-0 bg-ink/70" aria-hidden="true"></div>
-  <div class={`relative flex ${reverse ? 'justify-end' : ''}`}>
-    <h3 class="bg-brand-500 px-6 py-1 text-2xl text-ink">
-      {title}
-    </h3>
-  </div>
-  <div
-    class="marquee relative py-6 focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-brand-500"
-    tabindex="0"
-    role="region"
-    aria-label={`Marcas de ${title.toLowerCase()} (pasa el ratón o enfoca para pausar)`}
-  >
-    <div class:list={['track', { reverse }]} style={`--duration:${duration}s`}>
-      <ul class="list">
-        {brands.map((b) => (
-          <li class="tile">
-            <Image src={b.logo} alt={b.name} height={128} class="h-14 w-auto max-w-[10rem] object-contain" />
-          </li>
-        ))}
-      </ul>
-      <ul class="list copy" aria-hidden="true">
-        {brands.map((b) => (
-          <li class="tile">
-            <Image src={b.logo} alt="" height={128} class="h-14 w-auto max-w-[10rem] object-contain" />
-          </li>
-        ))}
-      </ul>
-    </div>
+<div
+  data-marquee
+  class="marquee bg-surface py-6 focus-visible:-outline-offset-[3px]"
+  tabindex="0"
+  role="region"
+  aria-label={label}
+>
+  <div class:list={['track', { reverse }]} style={`--duration:${duration}s`}>
+    {
+      [false, true].map((copy) => (
+        <ul class:list={['list', { copy }]} aria-hidden={copy ? 'true' : undefined}>
+          {items.map((b) => (
+            <li
+              class="mx-2 flex h-24 flex-none items-center rounded-xl border border-line bg-logo-tile px-5"
+              data-dup={b.dup ? '' : undefined}
+              aria-hidden={!copy && b.dup ? 'true' : undefined}
+            >
+              <Image
+                src={b.logo}
+                alt={copy || b.dup ? '' : b.name}
+                height={112}
+                class="h-14 w-auto max-w-[10rem] object-contain mix-blend-multiply"
+              />
+            </li>
+          ))}
+        </ul>
+      ))
+    }
   </div>
 </div>
 
+<script>
+  // Los logos son diferidos, pero Chrome no vuelve a mirarlos mientras la animación CSS los mueve dentro de la banda
+  // (overflow: hidden) y alguna ficha cruzaba vacía varios segundos. Al acercarse la banda a la pantalla se cargan
+  // todos; al abrir la página quedan lejos y no compiten con la foto principal.
+  const io = new IntersectionObserver(
+    (entradas) =>
+      entradas.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((img) => (img.loading = 'eager'));
+        io.unobserve(e.target);
+      }),
+    { rootMargin: '600px 0px' },
+  );
+  document.querySelectorAll('[data-marquee]').forEach((m) => io.observe(m));
+</script>
+
 <style>
   .marquee {
-    mask-image: linear-gradient(to right, transparent 0, black 6rem, black calc(100% - 6rem), transparent 100%);
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, black 4rem, black calc(100% - 4rem), transparent 100%);
   }
   .track {
     display: flex;
@@ -65,23 +81,15 @@ const bg = await getImage({ src: background, width: 1600, format: 'webp', qualit
   .marquee:hover .track,
   .marquee:focus-within .track { animation-play-state: paused; }
   .list { display: flex; flex-shrink: 0; align-items: center; }
-  .tile {
-    display: flex;
-    align-items: center;
-    margin: 0 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
-    background: #fff; /* los logos están pensados para fondo blanco */
-  }
-  /* La pista contiene la lista dos veces: moverla la mitad da un bucle sin saltos */
+  /* La pista lleva la lista dos veces: moverla la mitad da un bucle sin saltos */
   @keyframes marquee {
     to { transform: translateX(-50%); }
   }
-  /* Con "reducir movimiento": sin animación, sin copia y los logos en varias filas */
+  /* Con «reducir movimiento»: sin animación ni copias, y los logos en varias filas */
   @media (prefers-reduced-motion: reduce) {
     .marquee { mask-image: none; }
     .track { width: auto; }
     .list { flex-shrink: 1; width: 100%; flex-wrap: wrap; justify-content: center; row-gap: 1rem; }
-    .copy { display: none; }
+    .copy, [data-dup] { display: none; }
   }
 </style>

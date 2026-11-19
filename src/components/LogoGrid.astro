@@ -1,0 +1,38 @@
+---
+// Rejilla de logos en fichas de 96 px. El fondo blanco de los JPG se funde con la ficha (mix-blend-multiply).
+import { Image } from 'astro:assets';
+import type { Brand } from '../data/marcas';
+
+interface Props {
+  brands: Brand[];
+  /** Enlazar a la web oficial las marcas que tengan `href` (pestaña nueva). */
+  links?: boolean;
+  /** Fichas de 64 px por debajo de sm (96 desde sm): para las rejillas largas, que en el móvil eran un muro. */
+  compacta?: boolean;
+  /** Columnas de la rejilla (sustituye a las de por defecto). */
+  class?: string;
+}
+
+const { brands, links = false, compacta = false, class: cls = 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5' } = Astro.props;
+const ficha = `flex items-center justify-center rounded-xl border border-line bg-logo-tile ${compacta ? 'h-16 p-2 sm:h-24 sm:p-4' : 'h-24 p-4'}`;
+const logo = `w-auto max-w-full object-contain mix-blend-multiply ${compacta ? 'h-9 sm:h-14' : 'h-14'}`;
+---
+
+<ul class:list={['grid', compacta ? 'gap-2 sm:gap-6' : 'gap-4 sm:gap-6', cls]}>
+  {
+    brands.map((b) => (
+      <li>
+        {links && b.href ? (
+          <a href={b.href} target="_blank" rel="noopener noreferrer" class:list={[ficha, 'box-hover']}>
+            <Image src={b.logo} alt={`${b.name}, web oficial`} height={112} class={logo} />
+            <span class="sr-only"> (se abre en una pestaña nueva)</span>
+          </a>
+        ) : (
+          <div class={ficha}>
+            <Image src={b.logo} alt={b.name} height={112} class={logo} />
+          </div>
+        )}
+      </li>
+    ))
+  }
+</ul>

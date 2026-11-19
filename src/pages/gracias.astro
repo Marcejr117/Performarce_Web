@@ -1,15 +1,23 @@
 ---
+// Tras enviar el formulario (FormSubmit redirige aquí con _next). noindex, sin canonical y fuera del sitemap.
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactActions from '../components/ContactActions.astro';
 ---
 
-<Layout noindex title="Mensaje enviado" description="Hemos recibido tu mensaje. Te responderemos lo antes posible.">
-  <section class="mx-auto max-w-2xl px-4 py-20 text-center sm:py-28">
-    <p class="font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">Contacto</p>
-    <h1 class="mt-2 text-4xl sm:text-5xl">¡Gracias por escribirnos!</h1>
-    <p class="mt-4 text-lg text-neutral-700 dark:text-neutral-300">
-      Hemos recibido tu mensaje y te responderemos por email lo antes posible.
-      Si es urgente, llámanos al <a href="tel:+34967226001" class="whitespace-nowrap text-brand-700 underline underline-offset-4 dark:text-brand-400">967 226 001</a>.
-    </p>
-    <a href="/" class="btn btn-primary mt-8">Volver al inicio</a>
-  </section>
+<Layout
+  noindex
+  title="Mensaje enviado"
+  description="Hemos recibido tu mensaje. Te responderemos lo antes posible."
+  breadcrumbs={[{ name: 'Contacto', href: '/contact' }, { name: 'Mensaje enviado' }]}
+>
+  <PageHeader
+    eyebrow="Contacto"
+    title="¡Gracias por escribirnos!"
+    lead="Hemos recibido tu mensaje y te responderemos lo antes posible por teléfono o por email. Si es urgente, llámanos o escríbenos por WhatsApp."
+  >
+    <!-- En móvil, un botón por fila a todo el ancho; en escritorio, juntos -->
+    <ContactActions full class="max-w-md" />
+    <a href="/" class="lnk mt-6 inline-flex min-h-11 items-center">Volver al inicio</a>
+  </PageHeader>
 </Layout>

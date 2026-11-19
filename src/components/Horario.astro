@@ -1,0 +1,53 @@
+---
+// Horario semanal (HOURS de business.ts). No pinta nada mientras HOURS sea null (sin confirmar).
+// Sin indicador de abierto o cerrado en tiempo real (no conocemos los festivos). Un script marca la fila de hoy con la hora de Madrid.
+import { HOURS } from '../data/business';
+
+interface Props {
+  /** Versión reducida (pie). */
+  compact?: boolean;
+  class?: string;
+}
+
+const { compact = false, class: cls } = Astro.props;
+const DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+const filas = DIAS.map((nombre, i) => ({
+  dia: i + 1,
+  nombre,
+  tramos: (HOURS ?? []).filter((h) => h.days.includes(i + 1)).map((h) => `${h.opens}–${h.closes}`),
+}));
+const celda = compact ? 'py-1 align-top' : 'py-2 align-top';
+---
+
+{
+  HOURS && (
+    <div data-horario class:list={[compact ? 'text-[0.9375rem]' : '', cls]}>
+      <table class="w-full max-w-sm border-collapse">
+        <caption class="mb-1 text-left font-semibold text-fg">Horario</caption>
+        <tbody>
+          {filas.map((f) => (
+            <tr data-dia={f.dia} class="group border-b border-line last:border-0 data-[hoy]:font-semibold data-[hoy]:text-fg">
+              <th scope="row" class:list={[celda, 'pr-4 text-left font-normal group-data-[hoy]:font-semibold']}>
+                {f.nombre}
+                <span class="hidden group-data-[hoy]:inline"> (hoy)</span>
+              </th>
+              <td class:list={[celda, 'text-right tabular-nums']}>
+                {f.tramos.length === 0 ? 'Cerrado' : compact ? f.tramos.map((t) => <span class="block">{t}</span>) : f.tramos.join(' y ')}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="mt-2 text-[0.9375rem] text-muted">Festivos y puentes: consúltanos antes por teléfono o WhatsApp.</p>
+      <script is:inline>
+        // Marca la fila de hoy (día de la semana en Europe/Madrid)
+        (() => {
+          const dia = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(
+            new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'Europe/Madrid' }).format(new Date()),
+          ) + 1;
+          document.querySelectorAll(`[data-horario] tr[data-dia="${dia}"]`).forEach((tr) => tr.setAttribute('data-hoy', ''));
+        })();
+      </script>
+    </div>
+  )
+}

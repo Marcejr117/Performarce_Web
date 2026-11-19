@@ -1,0 +1,45 @@
+---
+// Cabecera de las páginas de servicio: antetítulo, H1, entradilla y botones (slot) a la izquierda;
+// foto real a la derecha desde lg (debajo del texto en móvil). Es la imagen principal (LCP): carga inmediata.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  eyebrow: string;
+  /** H1 de la página. */
+  title: string;
+  lead: string;
+  image: ImageMetadata;
+  alt: string;
+  /** Encuadre de la foto en su caja 4:3 (clases object-*, scale-* y origin-*). */
+  framing?: string;
+  /** `sizes` del <img>. Si `framing` amplía la foto (scale-150), multiplica los anchos por la ampliación o se verá blanda. */
+  sizes?: string;
+}
+
+const { eyebrow, title, lead, image, alt, framing = 'object-center', sizes = '(min-width: 1024px) 50vw, 100vw' } =
+  Astro.props;
+---
+
+<header class="border-b border-line bg-surface">
+  <div class="wrap grid items-center gap-8 py-10 md:py-14 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="mt-3 lg:text-[clamp(2.25rem,1rem_+_2.5vw,3.5rem)]">{title}</h1>
+      <p class="lead mt-4">{lead}</p>
+      <slot />
+    </div>
+    {/* 16:9 en tableta, donde la foto ocupa todo el ancho; 4:3 en móvil y junto al texto desde lg */}
+    <div class="aspect-[4/3] overflow-hidden rounded-2xl bg-raised md:aspect-[16/9] lg:aspect-[4/3]">
+      <Image
+        src={image}
+        alt={alt}
+        widths={[480, 800, 1200, 1600]}
+        sizes={sizes}
+        loading="eager"
+        fetchpriority="high"
+        class:list={['h-full w-full object-cover', framing]}
+      />
+    </div>
+  </div>
+</header>

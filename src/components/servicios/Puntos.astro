@@ -1,0 +1,30 @@
+---
+// Cuatro puntos con icono (qué hacemos, qué encontrarás): tarjetas en 1, 2 o 4 columnas.
+// En móvil, el icono a la izquierda del título (tarjetas más bajas); desde sm, encima.
+import Icon from '../Icon.astro';
+import type { ComponentProps } from 'astro/types';
+
+interface Props {
+  items: { icon: ComponentProps<typeof Icon>['name']; title: string; text: string }[];
+  class?: string;
+}
+
+const { items, class: cls } = Astro.props;
+---
+
+<ul class:list={['grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8', cls]}>
+  {
+    items.map((p) => (
+      <li class="box flex gap-4 p-5 sm:block sm:p-6">
+        <span class="ico-chip">
+          <Icon name={p.icon} class="size-6" />
+        </span>
+        <div>
+          {/* En móvil, la primera línea del título queda centrada con el círculo del icono (44 px) */}
+          <h3 class="mt-2.5 text-xl leading-[1.15] sm:mt-4">{p.title}</h3>
+          <p class="mt-2 text-muted">{p.text}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>

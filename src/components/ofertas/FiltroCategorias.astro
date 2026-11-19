@@ -1,0 +1,46 @@
+---
+// Píldoras para cambiar de categoría de ofertas, con el número de folletos de cada una (sin «(0)»: no se remarca que
+// una categoría está vacía antes de que la página invite a preguntar).
+// La activa va invertida (no en naranja: el naranja relleno es solo para el botón principal).
+import Icon from '../Icon.astro';
+import { CATEGORIAS, getFolletos, type Categoria } from '../../lib/ofertas';
+
+interface Props {
+  actual: Categoria | 'todas';
+}
+
+const { actual } = Astro.props;
+const moto = getFolletos('moto').length;
+const forestal = getFolletos('forestal').length;
+const items = [
+  { id: 'todas', href: '/ofertas', texto: 'Todas', n: moto + forestal, icono: null },
+  { id: 'moto', href: CATEGORIAS.moto.ruta, texto: CATEGORIAS.moto.nombre, n: moto, icono: 'motorbike' },
+  { id: 'forestal', href: CATEGORIAS.forestal.ruta, texto: CATEGORIAS.forestal.nombre, n: forestal, icono: 'plant-2' },
+] as const;
+---
+
+<nav aria-label="Categorías de ofertas">
+  <ul role="list" class="flex flex-wrap gap-2">
+    {
+      items.map((i) => {
+        const activa = i.id === actual;
+        return (
+          <li>
+            <a
+              href={i.href}
+              aria-current={activa ? 'page' : undefined}
+              class:list={[
+                'inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-[0.9375rem] font-semibold transition-colors duration-150',
+                activa ? 'border-fg bg-fg text-page' : 'border-line bg-raised text-fg hover:border-link/50',
+              ]}
+            >
+              {i.icono && <Icon name={i.icono} class={activa ? 'size-5' : 'size-5 text-link'} />}
+              {i.texto}
+              {i.n > 0 && <span class:list={['tabular-nums', !activa && 'text-muted']}>({i.n})</span>}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

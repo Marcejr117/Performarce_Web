@@ -1,0 +1,72 @@
+---
+// Tarjeta de un folleto PDF (va dentro de un <ul>). Horizontal en móvil, con la carátula de 104 px a la izquierda;
+// vertical desde sm, con las acciones abajo para que títulos y botones queden alineados en cada fila.
+// El id permite enlazarla (#ancla): el anillo naranja de `target:` la resalta.
+import Icon from '../Icon.astro';
+import Caratula from './Caratula.astro';
+import BotonCompartir from './BotonCompartir.astro';
+import { BTN_APILADO, meta, waFolleto } from './folleto';
+import type { Folleto } from '../../lib/ofertas';
+
+interface Props {
+  folleto: Folleto;
+  /** Las dos primeras tarjetas de la página cargan la carátula sin esperar. */
+  eager?: boolean;
+}
+
+const { folleto: f, eager = false } = Astro.props;
+---
+
+<li
+  id={f.id}
+  class="box flex overflow-hidden target:ring-2 target:ring-brand target:ring-offset-2 target:ring-offset-page sm:flex-col"
+>
+  {/* La carátula repite «Ver folleto»: fuera del teclado y de los lectores de pantalla */}
+  <a
+    href={f.href}
+    target="_blank"
+    rel="noopener noreferrer"
+    type="application/pdf"
+    aria-hidden="true"
+    tabindex="-1"
+    class="group grid w-[6.5rem] flex-none place-items-center border-r border-line bg-surface p-3 sm:aspect-[3/4] sm:w-auto sm:border-b sm:border-r-0 sm:p-5 lg:aspect-auto lg:h-80"
+  >
+    {/* Desde lg la caja tiene alto fijo, para que las tarjetas no crezcan con 3 columnas: la hoja va en un marco de 3:4
+        a todo el alto (17,5rem = h-80 menos el relleno p-5). La hoja mide unos 80 px de ancho en móvil y hasta unos
+        260 px desde sm */}
+    <span class="grid w-full place-items-center lg:aspect-[3/4] lg:h-[17.5rem] lg:w-auto">
+      <Caratula folleto={f} eager={eager} sizes="(min-width: 640px) 16rem, 5rem" />
+    </span>
+  </a>
+  <div class="flex min-w-0 flex-1 flex-col p-5 sm:p-6">
+    {/* overflow-wrap: un nombre de PDF sin espacios se parte en vez de quedar cortado */}
+    <h3 class="line-clamp-2 text-xl leading-[1.15] [overflow-wrap:anywhere]">{f.titulo}</h3>
+    <p class="mt-1 text-[0.9375rem] leading-normal text-muted">{meta(f)}</p>
+    <div class="mt-auto pt-4">
+      <a href={f.href} target="_blank" rel="noopener noreferrer" type="application/pdf" class="btn btn-outline w-full">
+        Ver folleto<span class="sr-only"> «{f.titulo}» (se abre en una pestaña nueva)</span>
+        <Icon name="external-link" class="size-5" />
+      </a>
+      {/* Sin botones rellenos en las tarjetas: no llenar la página de naranja. Icono y rótulo visible en los tres.
+          En la tarjeta horizontal del móvil la fila invade 12 px del relleno a cada lado: a 360 px, «WhatsApp» y
+          «Descargar» (unos 66 px a 13 px) no cabrían en columnas de 60 */}
+      <div class="mt-2 grid grid-cols-3 max-sm:-mx-3">
+        <a
+          href={waFolleto(f)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={BTN_APILADO}
+          aria-label={`Preguntar por WhatsApp por el folleto «${f.titulo}» (se abre en una pestaña nueva)`}
+        >
+          <Icon name="brand-whatsapp" class="size-5" />
+          WhatsApp
+        </a>
+        <a href={f.href} download class={BTN_APILADO} aria-label={`Descargar «${f.titulo}» (${f.peso})`}>
+          <Icon name="download" class="size-5" />
+          Descargar
+        </a>
+        <BotonCompartir url={f.url} titulo={f.titulo} />
+      </div>
+    </div>
+  </div>
+</li>

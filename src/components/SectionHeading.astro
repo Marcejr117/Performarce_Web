@@ -1,0 +1,26 @@
+---
+// Título de sección: antetítulo, H2 (o H3) y entradilla. Slot `aside`: enlace a la derecha (abajo en móvil).
+// El slot por defecto se añade DENTRO del título, detrás del texto (p. ej. «(3 folletos)»).
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  /** id del título, para aria-labelledby de la sección. */
+  id?: string;
+  as?: 'h2' | 'h3';
+  align?: 'start' | 'center';
+}
+
+const { eyebrow, title, lead, id, as: Tag = 'h2', align = 'start' } = Astro.props;
+const center = align === 'center';
+const aside = Astro.slots.has('aside');
+---
+
+<div class:list={[aside && 'flex flex-wrap items-end justify-between gap-x-8 gap-y-4', center && 'text-center']}>
+  <div class:list={['max-w-3xl', center && 'mx-auto']}>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <Tag id={id} class:list={[eyebrow && 'mt-2']}>{title}<slot /></Tag>
+    {lead && <p class:list={['lead mt-4', center && 'mx-auto']}>{lead}</p>}
+  </div>
+  {aside && <div class="flex-none"><slot name="aside" /></div>}
+</div>

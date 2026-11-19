@@ -1,0 +1,105 @@
+---
+// Tienda de motos (§4.7): motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios.
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ContactActions from '../components/ContactActions.astro';
+import LogoGrid from '../components/LogoGrid.astro';
+import CtaBand from '../components/CtaBand.astro';
+import CabeceraServicio from '../components/servicios/CabeceraServicio.astro';
+import Puntos from '../components/servicios/Puntos.astro';
+import Enlaces from '../components/servicios/Enlaces.astro';
+import tienda from '../assets/fotos/tienda-motos-motosierras-husqvarna-albacete.jpg';
+import { DESTACADAS_MOTO, MARCAS_MOTO } from '../data/marcas';
+import { SITE, CITY, STREET } from '../data/business';
+
+const WA = 'Hola, quería información sobre motos y scooters.';
+const URL_PAGINA = `${SITE}/tienda-de-motos`;
+---
+
+<Layout
+  title="Tienda de motos y recambios en Albacete"
+  description={`Motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios de primeras marcas en Albacete. Ven a vernos a ${STREET}.`}
+  breadcrumbs={[{ name: 'Tienda de motos' }]}
+  schema={[
+    {
+      '@type': 'Service',
+      '@id': `${URL_PAGINA}#servicio`,
+      name: 'Venta de motos, scooters y recambios',
+      serviceType: 'Venta de motos y recambios',
+      provider: { '@id': `${SITE}/#negocio` },
+      areaServed: { '@type': 'City', name: CITY },
+      url: URL_PAGINA,
+    },
+  ]}
+>
+  <CabeceraServicio
+    eyebrow="Tienda"
+    title="Motos, scooters y recambios en Albacete"
+    lead="Motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios. Trabajamos con Macbor y SYM, y los vehículos de ocasión pasan siempre una revisión antes de salir de la tienda."
+    image={tienda}
+    alt="Scooters nuevos en exposición en la tienda de Talleres Marcelino, con motosierras Husqvarna en la pared"
+    framing="scale-150 origin-[65%_100%]"
+    sizes="(min-width: 1024px) 75vw, 150vw"
+  >
+    <ContactActions actions={['whatsapp', 'call']} whatsappText={WA} class="mt-8" />
+  </CabeceraServicio>
+
+  <section class="section" aria-labelledby="que-encontraras">
+    <div class="wrap">
+      <SectionHeading eyebrow="La tienda" title="Qué encontrarás" id="que-encontraras" />
+      <Puntos
+        class="mt-8 md:mt-10"
+        items={[
+          { icon: 'motorbike', title: 'Motos y scooters nuevos', text: 'Macbor y SYM, entre otras marcas.' },
+          {
+            icon: 'check',
+            title: 'De ocasión, revisadas',
+            text: 'Los usados pasan siempre una revisión antes de salir de la tienda.',
+          },
+          {
+            icon: 'shield-check',
+            title: 'Cascos y equipamiento',
+            text: 'Cascos, maletas y accesorios de marcas como MT Helmets o Shad.',
+          },
+          { icon: 'package', title: 'Recambios', text: "Malossi, Polini, Arrow, Dell'Orto, NGK y más." },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section bg-surface" aria-labelledby="marcas">
+    <div class="wrap">
+      <SectionHeading eyebrow="Marcas" title="Marcas con las que trabajamos" id="marcas" />
+      <h3 class="mt-8 md:mt-10">Motos y scooters</h3>
+      <LogoGrid links brands={DESTACADAS_MOTO} class="mt-4 grid-cols-2 sm:max-w-xl" />
+      <h3 class="mt-10">Recambios y equipamiento</h3>
+      <LogoGrid compacta brands={MARCAS_MOTO} class="mt-4 grid-cols-4 lg:grid-cols-7" />
+    </div>
+  </section>
+
+  <div class="section">
+    <div class="wrap">
+      <section aria-labelledby="relacionados">
+        <h2 id="relacionados" class="eyebrow font-sans">También te puede interesar</h2>
+        <Enlaces
+          class="mt-4 sm:grid-cols-2 lg:grid-cols-4"
+          links={[
+            { href: '/taller-de-motos', icon: 'tool', title: 'Taller de motos' },
+            { href: '/ofertas_moto', icon: 'file-type-pdf', title: 'Ofertas de motos y scooters' },
+            { href: '/location', icon: 'map-pin', title: 'Cómo llegar' },
+            { href: '/contact', icon: 'mail', title: 'Contacto' },
+          ]}
+        />
+      </section>
+    </div>
+  </div>
+
+  {/* «¿Buscas un modelo concreto?» (§4.7.4) va en la banda de cierre: dos llamadas casi iguales seguidas sobraban.
+      WhatsApp es el botón relleno, como en la cabecera: el mensaje ya va escrito para preguntar por un modelo */}
+  <CtaBand
+    title="¿Buscas un modelo concreto?"
+    text="Pregúntanos por disponibilidad y precio."
+    actions={['whatsapp', 'call']}
+    whatsappText="Hola, quería consultar la disponibilidad y el precio de este modelo:"
+  />
+</Layout>

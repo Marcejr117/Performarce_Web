@@ -1,0 +1,38 @@
+---
+// Banda «¿Buscas algo concreto?» al final de las páginas con folletos. Con `otra`, añade debajo el enlace
+// a la otra categoría de ofertas, para que la página no sea un callejón sin salida.
+import ContactActions from '../ContactActions.astro';
+import { CATEGORIAS, getFolletos, type Categoria } from '../../lib/ofertas';
+
+interface Props {
+  /** Mensaje ya escrito para WhatsApp. */
+  whatsappText: string;
+  otra?: Categoria;
+}
+
+const { whatsappText, otra } = Astro.props;
+const o = otra && { ...CATEGORIAS[otra], n: getFolletos(otra).length };
+---
+
+<section class="section bg-surface" aria-labelledby="ayuda">
+  <div class="wrap">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+      <div>
+        <h2 id="ayuda">¿Buscas algo concreto?</h2>
+        <p class="lead mt-3">Pregúntanos por modelos, precios y disponibilidad y te contamos las ofertas vigentes.</p>
+      </div>
+      <ContactActions actions={['whatsapp', 'call']} whatsappText={whatsappText} full class="flex-none" />
+    </div>
+    {
+      o && (
+        <p class="mt-10 border-t border-line pt-6">
+          ¿Buscas ofertas de {o.nombre.toLowerCase()}?{' '}
+          <a class="lnk" href={o.ruta}>
+            Ver ofertas de {o.nombre.toLowerCase()}
+            {o.n > 0 && ` (${o.n})`}
+          </a>
+        </p>
+      )
+    }
+  </div>
+</section>

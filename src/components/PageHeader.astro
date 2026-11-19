@@ -1,0 +1,22 @@
+---
+// Cabecera de las páginas interiores: antetítulo, H1, entradilla y, en el slot, botones o chips.
+interface Props {
+  eyebrow?: string;
+  /** H1 de la página (uno por página). */
+  title: string;
+  lead?: string;
+  /** Fondo: `surface` (por defecto) o `page`. */
+  tone?: 'surface' | 'page';
+}
+
+const { eyebrow, title, lead, tone = 'surface' } = Astro.props;
+---
+
+<header class:list={['border-b border-line py-10 md:py-14', tone === 'surface' ? 'bg-surface' : 'bg-page']}>
+  <div class="wrap">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1 class:list={['max-w-4xl', eyebrow && 'mt-3']}>{title}</h1>
+    {lead && <p class="lead mt-4">{lead}</p>}
+    {Astro.slots.has('default') && <div class="mt-6"><slot /></div>}
+  </div>
+</header>

@@ -1,18 +1,65 @@
 ---
+// Página 404 (noindex, sin canonical): vuelta al inicio, a las ofertas, al contacto y a las tres páginas de servicio.
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import ConFlecha from '../components/ConFlecha.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+// Textos de las tarjetas de la portada (§4.1)
+const SERVICIOS = [
+  {
+    href: '/taller-de-motos', icon: 'tool', titulo: 'Taller de motos', enlace: 'Ver el taller',
+    texto: 'Reparación y mantenimiento de motos, scooters y ciclomotores en nuestro taller.',
+  },
+  {
+    href: '/tienda-de-motos', icon: 'motorbike', titulo: 'Motos y scooters', enlace: 'Ver motos y scooters',
+    texto: 'Motos, scooters y ciclomotores nuevos y de ocasión, cascos, accesorios y recambios.',
+  },
+  {
+    href: '/jardin-y-forestal', icon: 'plant-2', titulo: 'Jardín y forestal', enlace: 'Ver jardín y forestal',
+    texto: 'Cortacéspedes, robots, motosierras, desbrozadoras y maquinaria forestal. Venta, reparación y puesta a punto.',
+  },
+] as const;
 ---
 
 <Layout noindex title="Página no encontrada" description="La página que buscas no existe o ha cambiado de dirección.">
-  <section class="mx-auto max-w-2xl px-4 py-20 text-center sm:py-28">
-    <p class="font-display text-8xl font-bold text-brand-700 dark:text-brand-400" aria-hidden="true">404</p>
-    <h1 class="mt-2 text-4xl sm:text-5xl">Aquí no hay nada</h1>
-    <p class="mt-4 text-lg text-neutral-700 dark:text-neutral-300">
-      La página que buscas no existe o ha cambiado de dirección. Prueba desde el inicio o pregúntanos directamente.
-    </p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/" class="btn btn-primary">Ir al inicio</a>
-      <a href="/ofertas" class="btn btn-outline">Ver ofertas</a>
-      <a href="/contact" class="btn btn-outline">Contacto</a>
+  <section class="section">
+    <div class="wrap text-center">
+      <p aria-hidden="true" class="font-display text-[clamp(6rem,4rem_+_8vw,10rem)] font-bold leading-none text-link">404</p>
+      <h1 class="mt-4">Esta página no existe</h1>
+      <p class="lead mx-auto mt-4 text-balance">
+        La página que buscas no existe o ha cambiado de dirección. Prueba desde el inicio o pregúntanos directamente.
+      </p>
+      <!-- En móvil, un botón por fila a todo el ancho; desde sm, en línea -->
+      <div class="mx-auto mt-8 flex max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+        <a href="/" class="btn btn-primary">Ir al inicio</a>
+        <a href="/ofertas" class="btn btn-outline">Ver ofertas</a>
+        <a href="/contact" class="btn btn-outline">Contacto</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-t border-line bg-surface" aria-labelledby="servicios">
+    <div class="wrap">
+      <SectionHeading eyebrow="Qué hacemos" title="Todo para tu moto y tu jardín" id="servicios" align="center" />
+      <ul class="mt-8 grid gap-4 sm:gap-6 md:mt-10 md:grid-cols-3 lg:gap-8">
+        {
+          SERVICIOS.map((s) => (
+            <li>
+              <a href={s.href} class="box box-hover flex h-full flex-col p-5 sm:p-6">
+                <span class="ico-chip">
+                  <Icon name={s.icon} />
+                </span>
+                <h3 class="mt-4 text-xl leading-[1.15]">{s.titulo}</h3>
+                <p class="mt-2 text-muted">{s.texto}</p>
+                <span class="mt-auto pt-4 font-semibold text-link">
+                  <ConFlecha texto={s.enlace} />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 </Layout>

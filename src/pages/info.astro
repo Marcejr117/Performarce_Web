@@ -1,88 +1,149 @@
 ---
-import { Image } from 'astro:assets';
+// Quiénes somos (§4.9): compra y venta, servicio e historia (zigzag) y enlaces a las tres páginas de servicio.
+import { Image, Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { ComponentProps } from 'astro/types';
 import Layout from '../layouts/Layout.astro';
-import tienda from '../assets/info/com_ven.jpg';
-import herramientas from '../assets/info/servicio.jpg';
-import fachada from '../assets/info/taller.png';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Enlaces from '../components/servicios/Enlaces.astro';
+import tienda from '../assets/fotos/tienda-motos-motosierras-husqvarna-albacete.jpg';
+import herramientas from '../assets/fotos/taller-herramientas.jpg';
+import escudo from '../assets/logo/escudo.png';
 
-// Iconos de trazo (estilo Tabler) en línea; cada bloque alterna el lado de la foto.
-const blocks = [
+// Cada bloque alterna el lado de la foto. «Historia» lleva el panel oscuro del escudo en lugar de foto.
+const BLOQUES: {
+  id: string;
+  icon: ComponentProps<typeof Icon>['name'];
+  title: string;
+  text: string[];
+  /** framing: encuadre (scale-*, origin-*); sizes: anchos ya multiplicados por esa ampliación. */
+  image?: { src: ImageMetadata; alt: string; framing?: string; sizes?: string };
+}[] = [
   {
     id: 'compra-venta',
+    icon: 'building-store',
     title: 'Compra y venta',
     text: [
       'Vendemos productos nuevos y de segunda mano. Los usados pasan siempre una revisión antes de salir de la tienda.',
       'Trabajamos con marcas de calidad, tanto en motos como en jardín y forestal, y siempre al mejor precio.',
     ],
-    image: tienda,
-    alt: 'Interior de la tienda: motosierras Husqvarna colgadas en la pared y scooters nuevos en exposición',
-    icon: 'M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25M12.5 15.5l2 2M15 13l2 2',
+    image: {
+      src: tienda,
+      alt: 'Interior de la tienda: motosierras Husqvarna colgadas en la pared y scooters nuevos en exposición',
+      // Ampliada hacia abajo a la izquierda (como el héroe de la portada) para dejar fuera los trazos pintados de la
+      // esquina superior derecha del original: se ve x 0–67 % e y 27–93 % de la foto.
+      // ponytail: en móvil, 100vw y no 150vw porque es la imagen LCP; en pantallas de 3x se ve algo blanda.
+      // Si molesta, 150vw (unos 85 KB más en móvil).
+      framing: 'scale-150 origin-[0%_80%]',
+      sizes: '(min-width: 768px) 75vw, 100vw',
+    },
   },
   {
     id: 'servicio',
+    icon: 'tool',
     title: 'Servicio',
     text: [
       'En el taller tenemos especialistas en cada campo. Si tienes cualquier duda sobre motos, scooters, jardinería o forestal, te la resolvemos.',
       'Para nosotros el cliente es lo primero, y por eso cuidamos el trato tanto como la reparación.',
     ],
-    image: herramientas,
-    alt: 'Juego de llaves fijas y de tubo ordenadas en el panel de herramientas del taller',
-    icon: 'M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2M16 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0 -3 -3.85',
+    image: { src: herramientas, alt: 'Juego de llaves fijas y de tubo ordenadas en el panel de herramientas del taller' },
   },
   {
     id: 'historia',
+    icon: 'award',
     title: 'Historia',
     text: [
       'Talleres Marcelino lleva más de 40 años contigo en Albacete, reparando y vendiendo motos y maquinaria de jardín y forestal.',
       'En todo este tiempo nuestro objetivo ha sido el mismo: un servicio de calidad, a buen precio, con el que salgas satisfecho.',
     ],
-    image: fachada,
-    alt: 'Fachada de Talleres Marcelino en la Avenida de los Toreros, con toldos rojos y motos aparcadas en la acera',
-    icon: 'M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2zM5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10M10 12l4 0',
   },
 ];
 ---
 
 <Layout
-  title="Quiénes somos"
-  description="Compra y venta de motos y maquinaria de jardín y forestal, servicio técnico y más de 40 años de experiencia en Albacete."
+  title="Quiénes somos: +40 años en Albacete"
+  description="Taller y tienda de Albacete con más de 40 años de experiencia en motos y maquinaria de jardín y forestal: compra y venta, servicio técnico e historia."
+  breadcrumbs={[{ name: 'Quiénes somos' }]}
 >
-  <section class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-    <p class="font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">Información</p>
-    <h1 class="mt-2 text-4xl sm:text-5xl">Quiénes somos</h1>
-    <p class="mt-4 max-w-2xl text-lg text-neutral-700 dark:text-neutral-300">
-      Somos un taller de Albacete dedicado a dos mundos: las motos y la maquinaria de jardín y forestal.
-      Vendemos, reparamos y te aconsejamos.
-    </p>
+  <PageHeader
+    eyebrow="Taller y tienda en Albacete"
+    title="Quiénes somos"
+    lead="Somos un taller de Albacete dedicado a dos mundos: las motos y la maquinaria de jardín y forestal. Vendemos, reparamos y te aconsejamos."
+  />
 
-    <div class="mt-12 space-y-16 sm:space-y-24">
-      {blocks.map((b, i) => (
-        <article id={b.id} class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-          <Image
-            src={b.image}
-            alt={b.alt}
-            widths={[400, 800, 1200]}
-            sizes="(min-width: 768px) 50vw, 100vw"
-            loading={i === 0 ? 'eager' : 'lazy'}
-            class={`aspect-[4/3] w-full rounded-lg object-cover shadow-lg ${i % 2 ? 'md:order-2' : ''}`}
-          />
-          <div>
-            <svg aria-hidden="true" class="h-12 w-12 text-brand-700 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d={b.icon} />
-            </svg>
-            <h2 class="mt-3 text-3xl sm:text-4xl">{b.title}</h2>
-            {b.text.map((p) => <p class="mt-4 text-neutral-700 dark:text-neutral-300">{p}</p>)}
-          </div>
-        </article>
-      ))}
+  <div class="section">
+    <div class="wrap space-y-16 md:space-y-24">
+      {
+        BLOQUES.map((b, i) => (
+          <section id={b.id} aria-labelledby={`${b.id}-titulo`} class="grid items-center gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
+            {b.image ? (
+              <div class:list={['aspect-[4/3] overflow-hidden rounded-2xl', i % 2 === 1 && 'md:order-2']}>
+                {/* AVIF: la primera es la imagen principal (LCP) */}
+                <Picture
+                  src={b.image.src}
+                  formats={['avif', 'webp']}
+                  alt={b.image.alt}
+                  widths={[480, 800, 1200, 1600]}
+                  sizes={b.image.sizes ?? '(min-width: 768px) 50vw, 100vw'}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : undefined}
+                  class:list={['h-full w-full object-cover', b.image.framing]}
+                />
+              </div>
+            ) : (
+              <div
+                data-theme="dark"
+                class:list={[
+                  'flex aspect-[4/3] w-full flex-col items-center justify-center gap-4 rounded-2xl border border-line bg-surface p-6',
+                  i % 2 === 1 && 'md:order-2',
+                ]}
+              >
+                {/* Anchos según el alto mostrado (112/160/192 px): en móvil no hace falta el de 384 px */}
+                <Image
+                  src={escudo}
+                  alt="Escudo de Talleres Marcelino"
+                  height={384}
+                  widths={[200, 366]}
+                  sizes="(min-width: 1024px) 183px, (min-width: 640px) 153px, 107px"
+                  class="h-28 w-auto sm:h-40 lg:h-48"
+                />
+                <p class="font-display text-[4rem] font-bold uppercase leading-none text-fg">
+                  <span class="text-brand">+40</span> años
+                </p>
+              </div>
+            )}
+            <div>
+              <span class="ico-chip">
+                <Icon name={b.icon} class="size-6" />
+              </span>
+              <h2 id={`${b.id}-titulo`} class="mt-4">{b.title}</h2>
+              <div class="mt-4 max-w-measure space-y-4">
+                {b.text.map((p) => <p>{p}</p>)}
+              </div>
+            </div>
+          </section>
+        ))
+      }
     </div>
+  </div>
 
-    <div class="mt-16 flex flex-col items-start gap-4 rounded-lg bg-ink p-8 text-paper dark:bg-ink-800 dark:ring-1 dark:ring-ink-700 sm:flex-row sm:items-center sm:justify-between">
-      <p class="font-display text-2xl font-bold uppercase tracking-wide">¿Hablamos?</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact" class="btn btn-primary">Escríbenos</a>
-        <a href="tel:+34967226001" class="btn btn-outline border-paper text-paper hover:border-paper hover:bg-paper hover:text-ink">Llamar</a>
-      </div>
+  {/* Sin bg-surface: en oscuro se fundía con CtaBand (también surface). La línea la separa del zigzag. */}
+  <section class="section border-t border-line" aria-labelledby="lo-que-hacemos">
+    <div class="wrap">
+      <SectionHeading eyebrow="Servicios" title="Lo que hacemos" id="lo-que-hacemos" />
+      <Enlaces
+        class="mt-8 md:mt-10 lg:grid-cols-3"
+        links={[
+          { href: '/taller-de-motos', icon: 'tool', title: 'Taller de motos' },
+          { href: '/tienda-de-motos', icon: 'motorbike', title: 'Motos, scooters y recambios' },
+          { href: '/jardin-y-forestal', icon: 'plant-2', title: 'Maquinaria de jardín y forestal' },
+        ]}
+      />
     </div>
   </section>
+
+  <CtaBand />
 </Layout>

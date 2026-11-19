@@ -7,6 +7,8 @@ import { generateCovers } from './scripts/pdf-covers.mjs';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.performarce.com',
+  // Una sola forma de URL: sin barra final (canonical, sitemap y enlaces). Vercel redirige /contact/ → /contact.
+  trailingSlash: 'never',
   integrations: [
     // Los estilos base se cargan desde src/styles/global.css (Layout)
     tailwind({ applyBaseStyles: false }),

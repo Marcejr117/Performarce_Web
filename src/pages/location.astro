@@ -1,25 +1,80 @@
 ---
+// Cómo llegar: mapa interactivo de Google y, siempre visibles aunque el mapa no cargue, la dirección y los botones de ruta.
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
 import Map from '../components/Map.astro';
+import Horario from '../components/Horario.astro';
+import ContactActions from '../components/ContactActions.astro';
+import { BUSINESS, ADDRESS, STREET, POSTAL_CODE, CITY, PHONE_LABEL, MAPS, DIRECTIONS } from '../data/business';
+
+const NUEVA = ' (se abre en una pestaña nueva)';
+const RUTAS = [
+  { href: DIRECTIONS.google, icono: 'route', texto: 'Cómo llegar con Google Maps', estilo: 'btn-primary' },
+  { href: DIRECTIONS.apple, icono: 'map-2', texto: 'Apple Maps', estilo: 'btn-outline' },
+  { href: DIRECTIONS.waze, icono: 'navigation', texto: 'Waze', estilo: 'btn-outline' },
+] as const;
 ---
 
 <Layout
-  title="Ubicación"
-  description="Encuéntranos en Av. los Toreros, 22, 02005 Albacete. Talleres Marcelino: motos, jardín y forestal."
+  title={`Ubicación: ${STREET}, ${CITY}`}
+  description={`${BUSINESS} está en ${ADDRESS}. Abre la ruta en Google Maps, llámanos al ${PHONE_LABEL} o escríbenos por WhatsApp.`}
+  breadcrumbs={[{ name: 'Cómo llegar' }]}
 >
-  <section class="mx-auto max-w-5xl px-4 py-12 sm:py-16">
-    <p class="font-semibold uppercase tracking-widest text-brand-700 dark:text-brand-400">Ubicación</p>
-    <h1 class="mt-2 text-4xl sm:text-5xl">Dónde estamos</h1>
-    <p class="mt-4 max-w-2xl text-neutral-700 dark:text-neutral-300">
-      Estamos en Albacete, en la Avenida de los Toreros. Ven a vernos al taller o, si prefieres,
-      <a href="/contact" class="text-brand-700 underline underline-offset-4 dark:text-brand-400">escríbenos</a> o llámanos antes.
-    </p>
-    <div class="mt-8">
-      <Map />
-    </div>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <a href="tel:+34967226001" class="btn btn-primary">Llamar al 967 226 001</a>
-      <a href="https://wa.me/34608353343" target="_blank" rel="noopener noreferrer" class="btn btn-outline">WhatsApp<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+  <PageHeader
+    eyebrow="Ubicación"
+    title={`Cómo llegar a ${BUSINESS}`}
+    lead={`Estamos en ${ADDRESS}. Mueve el mapa para ver la zona o elige tu aplicación para que te lleve hasta la puerta.`}
+  />
+
+  <section aria-labelledby="direccion" class="section">
+    <div class="wrap grid items-start gap-8 lg:grid-cols-[2fr_1fr] lg:gap-10">
+      {/* Sin la dirección en el pie: ya está al lado, en grande */}
+      <Map address={false} />
+
+      <!-- Datos y rutas: HTML propio, se ven aunque el iframe de Google no cargue.
+           Por debajo de lg, antes que el mapa: en esta página lo que se busca son los botones de ruta -->
+      <div class="grid gap-8 max-lg:order-first md:grid-cols-2 lg:grid-cols-1">
+        <div>
+          <h2 id="direccion" class="eyebrow font-sans">Dirección</h2>
+          <address class="mt-2 font-display text-[1.75rem] font-semibold not-italic leading-[1.1] text-fg">
+            <span class="block">{STREET}</span>
+            <span class="block">{POSTAL_CODE} {CITY}</span>
+          </address>
+          {/* La ruta de Google, a todo el ancho; Apple Maps y Waze, lado a lado */}
+          <div class="mt-6 grid grid-cols-2 gap-3">
+            {
+              RUTAS.map((r) => (
+                <a
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class:list={['btn w-full', r.estilo, r.estilo === 'btn-primary' && 'col-span-2']}
+                >
+                  <Icon name={r.icono} class="size-5" />
+                  {r.texto}
+                  <span class="sr-only">{NUEVA}</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div>
+          {/* Uno por fila y a todo el ancho, como «Cómo llegar con Google Maps» (en media columna no cabe «Llamar al…») */}
+          <ContactActions primary={null} full class="flex-col" />
+          <Horario class="mt-6" />
+          <a href={MAPS} target="_blank" rel="noopener noreferrer" class="lnk mt-4 inline-flex min-h-11 items-center gap-2">
+            <Icon name="external-link" class="size-5" />Opiniones y fotos en Google Maps<span class="sr-only">{NUEVA}</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
+
+  <div class="border-t border-line bg-surface">
+    <p class="wrap py-8">
+      ¿Prefieres escribirnos? <a href="/contact#formulario" class="lnk">Ve al formulario de contacto</a>
+    </p>
+  </div>
 </Layout>

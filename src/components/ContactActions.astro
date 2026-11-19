@@ -1,0 +1,49 @@
+---
+// Grupo de botones de contacto con icono. Solo `primary` va relleno (naranja); el resto, con contorno.
+// En móvil (por debajo de sm), siempre uno por fila y a todo el ancho, como la barra fija y las bandas de contacto.
+import Icon from './Icon.astro';
+import { PHONE, PHONE_LABEL, EMAIL, DIRECTIONS, waLink } from '../data/business';
+
+type Accion = 'call' | 'whatsapp' | 'directions' | 'email';
+interface Props {
+  /** Botones y su orden. Por defecto Llamar y WhatsApp. */
+  actions?: Accion[];
+  /** Botón relleno; por defecto el primero. `null` = todos con contorno. */
+  primary?: Accion | null;
+  /** Mensaje ya escrito para WhatsApp (por defecto el saludo general de waLink). */
+  whatsappText?: string;
+  /** Botones que crecen hasta ocupar el ancho (pasan a una fila cada uno si no caben juntos). */
+  full?: boolean;
+  /** Clases del contenedor (flex flex-wrap gap-3). */
+  class?: string;
+}
+
+const { actions = ['call', 'whatsapp'], whatsappText, full = false, class: cls } = Astro.props;
+const primary = Astro.props.primary === undefined ? actions[0] : Astro.props.primary;
+
+const BOTONES = {
+  call: { href: `tel:${PHONE}`, icon: 'phone', text: `Llamar al ${PHONE_LABEL}`, external: false },
+  whatsapp: { href: waLink(whatsappText), icon: 'brand-whatsapp', text: 'WhatsApp', external: true },
+  directions: { href: DIRECTIONS.google, icon: 'route', text: 'Cómo llegar', external: true },
+  email: { href: `mailto:${EMAIL}`, icon: 'mail', text: 'Enviar un email', external: false },
+} as const;
+---
+
+<div class:list={['flex flex-wrap gap-3', cls]}>
+  {
+    actions.map((a) => {
+      const b = BOTONES[a];
+      return (
+        <a
+          href={b.href}
+          class:list={['btn max-sm:w-full', a === primary ? 'btn-primary' : 'btn-outline', full && 'grow']}
+          {...(b.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          <Icon name={b.icon} class="size-5" />
+          {b.text}
+          {b.external && <span class="sr-only"> (se abre en una pestaña nueva)</span>}
+        </a>
+      );
+    })
+  }
+</div>

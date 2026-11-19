@@ -1,0 +1,41 @@
+---
+// Carátula de un folleto como una hoja de papel centrada en una caja de proporción fija (la pone quien la usa).
+// Se calcula el ancho de la hoja para que quepa entera sin deformarse (como object-contain), pero con la
+// sombra y el borde pegados al papel y no a la caja. Sin portada: una hoja con el icono de PDF.
+import Icon from '../Icon.astro';
+import type { Folleto } from '../../lib/ofertas';
+
+interface Props {
+  folleto: Folleto;
+  /** Proporción ancho/alto de la caja que la contiene (3/4 en las tarjetas). */
+  ratio?: number;
+  eager?: boolean;
+  /** `sizes` para elegir entre la copia de 320 px y la de 640 (sin él, siempre la de 640). */
+  sizes?: string;
+}
+
+const { folleto, ratio = 3 / 4, eager = false, sizes } = Astro.props;
+const p = folleto.portada;
+const ancho = (r: number) => `width:${Math.min(100, (r / ratio) * 100).toFixed(2)}%`;
+---
+
+{
+  p ? (
+    <img
+      src={p.src}
+      srcset={sizes ? p.srcset : undefined}
+      sizes={sizes && p.srcset ? sizes : undefined}
+      width={p.width}
+      height={p.height}
+      alt=""
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      style={ancho(p.width / p.height)}
+      class="rounded-sm bg-raised shadow-cover ring-1 ring-line transition-transform duration-150 motion-safe:group-hover:-translate-y-1"
+    />
+  ) : (
+    <span style={ancho(3 / 4)} class="grid aspect-[3/4] place-items-center rounded-sm bg-raised shadow-cover ring-1 ring-line">
+      <Icon name="file-type-pdf" class="size-16 text-muted" />
+    </span>
+  )
+}

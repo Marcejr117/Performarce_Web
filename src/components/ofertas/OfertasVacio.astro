@@ -1,0 +1,70 @@
+---
+// Sin folletos publicados (de una categoría o, sin `categoria`, de ninguna): banda a todo el ancho con
+// la invitación a preguntar y, a la derecha (solo desde lg), la ilustración de folletos en abanico.
+import ContactActions from '../ContactActions.astro';
+import CaratulasMuestra from '../CaratulasMuestra.astro';
+import { CATEGORIAS, getFolletos, type Categoria } from '../../lib/ofertas';
+
+interface Props {
+  categoria?: Categoria;
+}
+
+const { categoria } = Astro.props;
+// El título invita a preguntar; que ahora no haya folletos va en el texto (lo primero que se lee no es un «no»).
+// Desviación de los textos de §4.3, pedida en la revisión visual.
+const TEXTOS = {
+  moto: {
+    titulo: 'Pregúntanos por las ofertas de motos y scooters',
+    texto:
+      'Ahora no hay folletos publicados. Cuando los haya, aquí verás los de temporada de nuestras marcas. Mientras tanto, escríbenos o llámanos y te contamos precios y disponibilidad de cualquier moto, scooter o recambio.',
+    otra: 'forestal',
+    pregunta: '¿Buscas maquinaria de jardín?',
+  },
+  forestal: {
+    titulo: 'Pregúntanos por las ofertas de jardín y forestal',
+    texto:
+      'Ahora no hay folletos publicados. Cuando los haya, aquí verás los de temporada de nuestras marcas. Mientras tanto, escríbenos o llámanos y te contamos precios y disponibilidad de cualquier máquina de jardín o forestal.',
+    otra: 'moto',
+    pregunta: '¿Buscas motos o scooters?',
+  },
+} as const;
+// Versión general (/ofertas): la cabecera ya dice que aquí se publican los folletos, así que no se repite
+const t = categoria
+  ? TEXTOS[categoria]
+  : {
+      titulo: 'Pregúntanos por las ofertas de temporada',
+      texto:
+        'Ahora no hay folletos publicados. Escríbenos o llámanos y te contamos precios y disponibilidad de cualquier moto, scooter, recambio o máquina de jardín o forestal.',
+      otra: null,
+      pregunta: '',
+    };
+const otra = t.otra && { ...CATEGORIAS[t.otra], n: getFolletos(t.otra).length };
+---
+
+<section class="section bg-surface" aria-labelledby="sin-folletos">
+  <div class="wrap grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+    <div>
+      <h2 id="sin-folletos">{t.titulo}</h2>
+      <p class="lead mt-4">{t.texto}</p>
+      <ContactActions
+        actions={['whatsapp', 'call']}
+        whatsappText={categoria ? CATEGORIAS[categoria].whatsapp : 'Hola, ¿qué ofertas tenéis ahora?'}
+        full
+        class="mt-8 max-w-md"
+      />
+      {
+        otra && (
+          <p class="mt-8 border-t border-line pt-6">
+            {t.pregunta}{' '}
+            <a class="lnk" href={otra.ruta}>
+              Ver ofertas de {otra.nombre.toLowerCase()}
+              {otra.n > 0 && ` (${otra.n})`}
+            </a>
+          </p>
+        )
+      }
+    </div>
+    {/* Decorativa: por debajo de lg quedaría al final, después de los botones */}
+    <CaratulasMuestra class="max-lg:hidden lg:max-w-md" />
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+// Texto con una flecha al final que nunca baja sola a otra línea: la última palabra y la flecha van juntas.
+// (Delante de un SVG en línea siempre puede haber salto de línea, aunque no haya espacio.) `class`: clases de la flecha.
+import Icon from './Icon.astro';
+
+interface Props {
+  texto: string;
+  class?: string;
+}
+
+const { texto, class: cls } = Astro.props;
+const corte = texto.lastIndexOf(' ') + 1;
+---
+
+{texto.slice(0, corte)}<span class="whitespace-nowrap"
+  >{texto.slice(corte)}<Icon name="arrow-right" class:list={['ml-1.5 inline size-5 align-[-0.2em]', cls]} /></span
+>

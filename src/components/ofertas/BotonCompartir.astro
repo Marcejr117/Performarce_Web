@@ -1,0 +1,66 @@
+---
+// Botón «Compartir» de un folleto. Comparte la página de su categoría con #ancla (el anillo de `target:` lo resalta).
+// Con `texto`, la palabra «Compartir» al lado del icono, que pasa a «Enlace copiado» (destacado). Sin él, icono y
+// rótulo en columna, como sus vecinos de la tarjeta, y el aviso «Enlace copiado» flotante.
+import Icon from '../Icon.astro';
+import { BTN_APILADO } from './folleto';
+
+interface Props {
+  url: string;
+  titulo: string;
+  texto?: boolean;
+}
+
+const { url, titulo, texto = false } = Astro.props;
+---
+
+<span class:list={['relative', texto ? 'inline-flex' : 'flex']}>
+  <button
+    type="button"
+    class={texto ? 'btn btn-ghost' : BTN_APILADO}
+    data-share={url}
+    data-title={titulo}
+    aria-label={texto ? undefined : `Compartir el folleto «${titulo}»`}
+  >
+    <Icon name="share" class="size-5" />
+    {texto ? <span data-label>Compartir</span> : 'Compartir'}
+  </button>
+  {/* Anuncia «Enlace copiado». Vacío no ocupa nada, pero sigue en el árbol de accesibilidad (por eso no va con display:none) */}
+  <span
+    role="status"
+    class={texto
+      ? 'sr-only'
+      : 'pointer-events-none absolute bottom-full right-0 z-10 mb-2 whitespace-nowrap rounded-md bg-fg px-2.5 py-1 text-[0.9375rem] font-semibold leading-normal text-page shadow-card empty:p-0 empty:shadow-none'}
+  ></span>
+</span>
+
+<script>
+  // Un solo listener para todos los botones (Astro incluye este script una vez por página).
+  // Pantalla táctil con menú de compartir del sistema → ese menú. Si no (escritorio), copia el enlace y avisa
+  // 2 s; si tampoco se puede copiar (p. ej. sin HTTPS), abre WhatsApp con el título y el enlace.
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>('[data-share]');
+    if (!btn) return;
+    const url = btn.dataset.share ?? location.href;
+    const title = btn.dataset.title ?? document.title;
+    if ('share' in navigator && matchMedia('(pointer: coarse)').matches) {
+      navigator.share({ title, url }).catch(() => {}); // cancelado por el usuario: nada que hacer
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      window.open(`https://wa.me/?text=${encodeURIComponent(`${title}: ${url}`)}`, '_blank', 'noopener');
+      return;
+    }
+    const aviso = btn.parentElement?.querySelector('[role="status"]');
+    const etiqueta = btn.querySelector('[data-label]');
+    const poner = (t: string) => {
+      if (aviso) aviso.textContent = t;
+      if (etiqueta) etiqueta.textContent = t || 'Compartir';
+    };
+    poner('Enlace copiado');
+    clearTimeout(Number(btn.dataset.timer));
+    btn.dataset.timer = String(setTimeout(() => poner(''), 2000));
+  });
+</script>
