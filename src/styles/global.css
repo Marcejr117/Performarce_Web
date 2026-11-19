@@ -50,8 +50,6 @@
   .only-dark { display: var(--show-dark); }
   /* Según el tema de la PÁGINA (<html>), p. ej. el icono sol/luna dentro de la cabecera, que siempre es oscura */
   :root[data-theme='dark'] .if-root-light, :root:not([data-theme='dark']) .if-root-dark { display: none; }
-  /* Firma de la marca (web antigua): corte diagonal, solo en el héroe */
-  .clip-diagonal-l { clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%); }
 }
 
 /* Ajustes de los botones de daisyUI. FUERA de @layer, para que vayan detrás de los estilos de daisyUI y les ganen.

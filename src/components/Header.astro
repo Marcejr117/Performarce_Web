@@ -23,15 +23,16 @@ const MENU = [...NAV, OFERTAS];
 ---
 
 <header data-theme="dark" class="sticky top-0 z-50 border-b border-line bg-page/95 backdrop-blur">
-  <div class="wrap flex h-16 items-center gap-2">
-    <a href="/" class="flex flex-none items-center gap-2.5 self-stretch" aria-label={`${BUSINESS}, inicio`}>
+  {/* Desde lg, tres columnas: escudo a la izquierda, pestañas en el centro y Ofertas y tema a la derecha */}
+  <div class="wrap flex h-16 items-center gap-2 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+    <a href="/" class="flex flex-none items-center gap-2.5 self-stretch lg:justify-self-start" aria-label={`${BUSINESS}, inicio`}>
       <Image src={escudo} alt="" height={80} loading="eager" class="h-10 w-auto" />
       <span class="font-display text-[1.125rem] font-bold uppercase leading-none tracking-[0.01em] text-fg min-[380px]:text-[1.25rem]">
         Talleres <span class="text-brand">Marcelino</span>
       </span>
     </a>
 
-    <nav aria-label="Principal" class="ml-auto hidden lg:block">
+    <nav aria-label="Principal" class="hidden lg:block">
       <ul class="flex items-center">
         {
           NAV.map((l) => (
@@ -53,7 +54,7 @@ const MENU = [...NAV, OFERTAS];
       </ul>
     </nav>
 
-    <div class="ml-auto flex items-center gap-1 lg:ml-3">
+    <div class="ml-auto flex items-center gap-1 lg:col-start-3 lg:ml-0 lg:justify-self-end">
       {/* Como en la web original, Ofertas destaca en naranja. En móvil no cabe junto al nombre: va en el menú */}
       <a href={OFERTAS.href} aria-current={OFERTAS.current} class="btn btn-primary mr-1 hidden sm:inline-flex">
         {OFERTAS.label}
