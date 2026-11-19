@@ -1,6 +1,7 @@
 ---
 // Cabecera fija, siempre oscura, con las pestañas de la web original: Inicio, Información, Ubicación, Contacto y
-// Ofertas (botón naranja). Desde lg, en la barra; por debajo, en el menú. Llamar va en la portada y, en móvil, en la barra fija.
+// Ofertas, la última y en naranja, como en la original. Desde lg, en la barra; por debajo, en el menú. Llamar va en
+// la portada y, en móvil, en la barra fija.
 import { Image } from 'astro:assets';
 import escudo from '../assets/logo/escudo.png';
 import Icon from './Icon.astro';
@@ -51,14 +52,17 @@ const MENU = [...NAV, OFERTAS];
             </li>
           ))
         }
+        {/* Como en la web original, Ofertas cierra las pestañas en naranja */}
+        <li class="relative flex h-16 items-center pl-2">
+          <a href={OFERTAS.href} aria-current={OFERTAS.current} class="btn btn-primary">
+            {OFERTAS.label}
+          </a>
+          {OFERTAS.current && <span class="absolute bottom-0 left-2 right-0 h-0.5 bg-brand" aria-hidden="true" />}
+        </li>
       </ul>
     </nav>
 
     <div class="ml-auto flex items-center gap-1 lg:col-start-3 lg:ml-0 lg:justify-self-end">
-      {/* Como en la web original, Ofertas destaca en naranja. En móvil no cabe junto al nombre: va en el menú */}
-      <a href={OFERTAS.href} aria-current={OFERTAS.current} class="btn btn-primary mr-1 hidden sm:inline-flex">
-        {OFERTAS.label}
-      </a>
       <button type="button" data-theme-toggle class="btn btn-square btn-ghost" aria-label="Cambiar a modo oscuro">
         <Icon name="moon" class="if-root-light size-6" />
         <Icon name="sun" class="if-root-dark size-6" />
@@ -93,7 +97,7 @@ const MENU = [...NAV, OFERTAS];
                 aria-current={l.current}
                 class:list={[
                   'flex min-h-12 items-center gap-3 text-lg',
-                  l.current ? 'font-semibold text-fg' : 'text-muted hover:text-fg',
+                  l === OFERTAS ? 'font-semibold text-brand' : l.current ? 'font-semibold text-fg' : 'text-muted hover:text-fg',
                 ]}
               >
                 <span class:list={['h-5 w-1 rounded-full', l.current ? 'bg-brand' : 'bg-transparent']} aria-hidden="true" />
