@@ -103,7 +103,7 @@ Desde la raíz del repo, `node scripts/iconos.mjs` vuelve a generar con sharp:
   deba leerse (precios, matrículas…); con la actual está vacía (`[]`), porque la foto ya viene retocada (siguiente punto).
 - En la propia foto de `src/assets/fotos/` las cajas naranjas de las etiquetas de precio de las motosierras están
   repintadas con su mismo naranja, sin las cifras, porque la web no publica precios sin confirmar. La web la usa en
-  Tienda, en Jardín y forestal y en Quiénes somos; la portada usa dos recortes suyos (`tienda-scooters.jpg` y
+  Tienda, en Jardín y forestal y en Información; la portada usa dos recortes suyos (`tienda-scooters.jpg` y
   `tienda-motosierras-husqvarna.jpg`). Si la cambias por otra, tapa también lo que no deba
   leerse.
 - No forma parte de la compilación: ejecútalo cuando cambien el escudo o la foto y sube los ficheros generados.

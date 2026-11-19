@@ -1,6 +1,6 @@
 ---
 // Portada: héroe con las fotos de la web original (cambian solas), qué hacemos, ofertas, marcas y el mapa a todo el ancho.
-// Sin bloques de contacto repetidos: Llamar está en la cabecera y, en móvil, Llamar/WhatsApp/Cómo llegar en la barra fija.
+// Sin bloques de contacto repetidos: Llamar y WhatsApp solo en el héroe y, en móvil, en la barra fija de abajo.
 import { Picture } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
@@ -72,8 +72,8 @@ const OFERTAS = [
           Más de 40 años reparando y vendiendo motos, scooters y maquinaria de jardín y forestal, con taller propio y
           recambios.
         </p>
-        {/* En móvil no: la barra fija de abajo ya tiene Llamar, WhatsApp y Cómo llegar. Llamar ya está en la cabecera */}
-        <ContactActions actions={['whatsapp', 'directions']} class="mt-8 max-md:hidden" />
+        {/* En móvil no: la barra fija de abajo ya tiene Llamar, WhatsApp y Cómo llegar */}
+        <ContactActions class="mt-8 max-md:hidden" />
       </div>
     </div>
     <div

@@ -1,36 +1,25 @@
 ---
-// Cabecera fija, siempre oscura: escudo y nombre, navegación (desde xl), Llamar, tema y menú móvil.
+// Cabecera fija, siempre oscura, con las pestañas de la web original: Inicio, Información, Ubicación, Contacto y
+// Ofertas (botón naranja). Desde lg, en la barra; por debajo, en el menú. Llamar va en la portada y, en móvil, en la barra fija.
 import { Image } from 'astro:assets';
 import escudo from '../assets/logo/escudo.png';
 import Icon from './Icon.astro';
 import ContactActions from './ContactActions.astro';
-import { BUSINESS, PHONE, PHONE_LABEL, ADDRESS } from '../data/business';
+import { BUSINESS } from '../data/business';
 
-// Enlace activo: 'page' si coincide exacta; 'true' si coincide por prefijo
+// Enlace activo: 'page' si coincide exacta; 'true' si coincide por prefijo (Ofertas también en /ofertas_moto…)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const current = (href: string) =>
   path === href ? ('page' as const) : href !== '/' && path.startsWith(href) ? ('true' as const) : undefined;
 
 const NAV = [
-  { href: '/taller-de-motos', label: 'Taller' },
-  { href: '/tienda-de-motos', label: 'Motos' },
-  { href: '/jardin-y-forestal', label: 'Jardín y forestal' },
-  { href: '/ofertas', label: 'Ofertas' }, // por prefijo también /ofertas_moto y /ofertas_forestal
-  { href: '/info', label: 'Quiénes somos' },
-  { href: '/location', label: 'Ubicación' },
-  { href: '/contact', label: 'Contacto' },
-].map((l) => ({ ...l, current: current(l.href) }));
-
-const MENU = [
   { href: '/', label: 'Inicio' },
-  { href: '/taller-de-motos', label: 'Taller de motos' },
-  { href: '/tienda-de-motos', label: 'Motos y scooters' },
-  { href: '/jardin-y-forestal', label: 'Jardín y forestal' },
-  { href: '/ofertas', label: 'Ofertas' },
-  { href: '/info', label: 'Quiénes somos' },
+  { href: '/info', label: 'Información' },
   { href: '/location', label: 'Ubicación' },
   { href: '/contact', label: 'Contacto' },
 ].map((l) => ({ ...l, current: current(l.href) }));
+const OFERTAS = { href: '/ofertas', label: 'Ofertas', current: current('/ofertas') };
+const MENU = [...NAV, OFERTAS];
 ---
 
 <header data-theme="dark" class="sticky top-0 z-50 border-b border-line bg-page/95 backdrop-blur">
@@ -42,7 +31,7 @@ const MENU = [
       </span>
     </a>
 
-    <nav aria-label="Principal" class="ml-auto hidden xl:block">
+    <nav aria-label="Principal" class="ml-auto hidden lg:block">
       <ul class="flex items-center">
         {
           NAV.map((l) => (
@@ -51,12 +40,12 @@ const MENU = [
                 href={l.href}
                 aria-current={l.current}
                 class:list={[
-                  'relative flex h-16 items-center px-3 text-[0.9375rem] font-medium transition-colors',
+                  'relative flex h-16 items-center px-4 text-[0.9375rem] font-medium transition-colors',
                   l.current ? 'text-fg' : 'text-muted hover:text-fg',
                 ]}
               >
                 {l.label}
-                {l.current && <span class="absolute inset-x-3 bottom-0 h-0.5 bg-brand" aria-hidden="true" />}
+                {l.current && <span class="absolute inset-x-4 bottom-0 h-0.5 bg-brand" aria-hidden="true" />}
               </a>
             </li>
           ))
@@ -64,10 +53,10 @@ const MENU = [
       </ul>
     </nav>
 
-    <div class="ml-auto flex items-center gap-1 xl:ml-4">
-      <a href={`tel:${PHONE}`} class="btn btn-primary mr-1 hidden md:inline-flex">
-        <Icon name="phone" class="size-5" />
-        <span>Llamar<span class="hidden xl:inline"> {PHONE_LABEL}</span><span class="sr-only xl:hidden"> al {PHONE_LABEL}</span></span>
+    <div class="ml-auto flex items-center gap-1 lg:ml-3">
+      {/* Como en la web original, Ofertas destaca en naranja. En móvil no cabe junto al nombre: va en el menú */}
+      <a href={OFERTAS.href} aria-current={OFERTAS.current} class="btn btn-primary mr-1 hidden sm:inline-flex">
+        {OFERTAS.label}
       </a>
       <button type="button" data-theme-toggle class="btn btn-square btn-ghost" aria-label="Cambiar a modo oscuro">
         <Icon name="moon" class="if-root-light size-6" />
@@ -76,7 +65,7 @@ const MENU = [
       <button
         type="button"
         id="menu-toggle"
-        class="group btn btn-square btn-ghost xl:hidden"
+        class="group btn btn-square btn-ghost lg:hidden"
         aria-controls="menu-movil"
         aria-expanded="false"
         aria-label="Abrir menú"
@@ -87,11 +76,11 @@ const MENU = [
     </div>
   </div>
 
-  <!-- Menú móvil (por debajo de xl): se superpone al contenido, no lo empuja -->
+  <!-- Menú móvil (por debajo de lg): se superpone al contenido, no lo empuja -->
   <div
     id="menu-movil"
     hidden
-    class="absolute inset-x-0 top-full max-h-[calc(100dvh_-_4rem)] overflow-y-auto border-b border-line bg-page shadow-card-hover xl:hidden"
+    class="absolute inset-x-0 top-full max-h-[calc(100dvh_-_4rem)] overflow-y-auto border-b border-line bg-page shadow-card-hover lg:hidden"
   >
     <nav aria-label="Menú móvil" class="wrap pb-6 pt-2">
       <ul class="divide-y divide-line">
@@ -113,11 +102,8 @@ const MENU = [
           ))
         }
       </ul>
-      <ContactActions full class="mt-5" />
-      <p class="mt-4 flex items-center gap-2 text-[0.9375rem] text-muted">
-        <Icon name="map-pin" class="size-5" />
-        {ADDRESS}
-      </p>
+      {/* Por debajo de md ya están en la barra fija de abajo */}
+      <ContactActions full class="mt-5 max-md:hidden" />
     </nav>
   </div>
 </header>
@@ -159,8 +145,8 @@ const MENU = [
     document.addEventListener('click', (e) => {
       if (isOpen() && !(e.target instanceof Element && e.target.closest('header'))) setOpen(false);
     });
-    // Desde xl la navegación ya está en la cabecera
-    matchMedia('(min-width: 1280px)').addEventListener('change', (e) => {
+    // Desde lg la navegación ya está en la cabecera
+    matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
       if (e.matches && isOpen()) setOpen(false);
     });
   }
