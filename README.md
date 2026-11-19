@@ -39,8 +39,8 @@ Qué hace la web con ellos:
 
 - El programa los deja en `public/ofertasPDF/moto/` y `public/ofertasPDF/forestal/`. En cada compilación la web lee esas
   dos carpetas: no hay ninguna lista que mantener a mano.
-- Salen en `/ofertas`, en la página de su categoría (`/ofertas_moto` u `/ofertas_forestal`) y en la portada. Si no hay
-  ninguno, esas páginas lo dicen e invitan a preguntar por WhatsApp.
+- Salen en `/ofertas` y en la página de su categoría (`/ofertas_moto` u `/ofertas_forestal`); los dos accesos a ofertas
+  de la portada dicen cuántos folletos hay. Si no hay ninguno, esas páginas lo dicen e invitan a preguntar por WhatsApp.
 - **El nombre del fichero es el título que ve el cliente**: «Husqvarna otoño 2026.pdf» sale como «Husqvarna otoño 2026».
   Los «_» se cambian por espacios. Usa nombres claros y sin erratas.
 - La portada de cada folleto es su primera página. `scripts/pdf-covers.mjs` la genera en cada compilación en
@@ -77,7 +77,7 @@ export const HOURS: { days: number[]; opens: string; closes: string }[] | null =
 
 Los días sin tramos salen como «Cerrado». Con eso, el horario aparece solo:
 
-- en el pie de todas las páginas y en los bloques de contacto que lo usan (portada, Contacto, Cómo llegar y Taller de
+- en el pie de todas las páginas y en los bloques de contacto que lo usan (portada, Contacto, Ubicación y Taller de
   motos), con el día de hoy resaltado y una nota para festivos y puentes;
 - en los datos estructurados para Google (`openingHoursSpecification`).
 
@@ -102,8 +102,9 @@ Desde la raíz del repo, `node scripts/iconos.mjs` vuelve a generar con sharp:
 - `ETIQUETAS` es la lista de zonas que se difuminan, en píxeles de la foto original. Con otra foto, pon ahí lo que no
   deba leerse (precios, matrículas…); con la actual está vacía (`[]`), porque la foto ya viene retocada (siguiente punto).
 - En la propia foto de `src/assets/fotos/` las cajas naranjas de las etiquetas de precio de las motosierras están
-  repintadas con su mismo naranja, sin las cifras, porque la web no publica precios sin confirmar. La web la usa en la
-  portada, en Tienda, en Jardín y forestal y en Quiénes somos. Si la cambias por otra, tapa también lo que no deba
+  repintadas con su mismo naranja, sin las cifras, porque la web no publica precios sin confirmar. La web la usa en
+  Tienda, en Jardín y forestal y en Quiénes somos; la portada usa dos recortes suyos (`tienda-scooters.jpg` y
+  `tienda-motosierras-husqvarna.jpg`). Si la cambias por otra, tapa también lo que no deba
   leerse.
 - No forma parte de la compilación: ejecútalo cuando cambien el escudo o la foto y sube los ficheros generados.
 - WhatsApp y Facebook guardan la imagen anterior durante un tiempo. Para que Facebook la vuelva a leer, pega la dirección
@@ -112,5 +113,5 @@ Desde la raíz del repo, `node scripts/iconos.mjs` vuelve a generar con sharp:
 ## Mapa
 
 El mapa es el de Google Maps incrustado, como en la web original (`src/components/Map.astro`), y sale en la portada, en
-Contacto y en Cómo llegar. No hay que regenerar nada. Si cambiara la dirección, actualiza `src/data/business.ts` y el
+Contacto y en Ubicación (`/location`, a todo el ancho). No hay que regenerar nada. Si cambiara la dirección, actualiza `src/data/business.ts` y el
 `embedUrl` de `Map.astro` (en Google Maps: Compartir → Insertar un mapa → copia la dirección del `src` del iframe).

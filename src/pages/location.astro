@@ -1,14 +1,12 @@
 ---
-// Cómo llegar: mapa interactivo de Google y, siempre visibles aunque el mapa no cargue, la dirección y los botones de ruta.
+// Ubicación: «Dónde estamos» con el mapa de Google a todo el ancho, como en la web original. Debajo, la dirección y
+// los botones de ruta (HTML propio: se ven aunque el mapa no cargue).
 import Layout from '../layouts/Layout.astro';
-import PageHeader from '../components/PageHeader.astro';
 import Icon from '../components/Icon.astro';
 import Map from '../components/Map.astro';
 import Horario from '../components/Horario.astro';
-import ContactActions from '../components/ContactActions.astro';
-import { BUSINESS, ADDRESS, STREET, POSTAL_CODE, CITY, PHONE_LABEL, MAPS, DIRECTIONS } from '../data/business';
+import { BUSINESS, ADDRESS, STREET, POSTAL_CODE, CITY, PHONE_LABEL, DIRECTIONS } from '../data/business';
 
-const NUEVA = ' (se abre en una pestaña nueva)';
 const RUTAS = [
   { href: DIRECTIONS.google, icono: 'route', texto: 'Cómo llegar con Google Maps', estilo: 'btn-primary' },
   { href: DIRECTIONS.apple, icono: 'map-2', texto: 'Apple Maps', estilo: 'btn-outline' },
@@ -19,56 +17,35 @@ const RUTAS = [
 <Layout
   title={`Ubicación: ${STREET}, ${CITY}`}
   description={`${BUSINESS} está en ${ADDRESS}. Abre la ruta en Google Maps, llámanos al ${PHONE_LABEL} o escríbenos por WhatsApp.`}
-  breadcrumbs={[{ name: 'Cómo llegar' }]}
+  breadcrumbs={[{ name: 'Ubicación' }]}
 >
-  <PageHeader
-    eyebrow="Ubicación"
-    title={`Cómo llegar a ${BUSINESS}`}
-    lead={`Estamos en ${ADDRESS}. Mueve el mapa para ver la zona o elige tu aplicación para que te lleve hasta la puerta.`}
-  />
+  <section class="section pt-8 md:pt-12">
+    <div class="wrap">
+      <p class="eyebrow">Ubicación</p>
+      <h1 class="mt-3">Dónde estamos</h1>
+      {/* Sin la dirección en el pie del mapa: va debajo, en grande */}
+      <Map ratio="h-[24rem] sm:h-[26rem] lg:h-[29rem]" address={false} class="mt-6 md:mt-8" />
 
-  <section aria-labelledby="direccion" class="section">
-    <div class="wrap grid items-start gap-8 lg:grid-cols-[2fr_1fr] lg:gap-10">
-      {/* Sin la dirección en el pie: ya está al lado, en grande */}
-      <Map address={false} />
-
-      <!-- Datos y rutas: HTML propio, se ven aunque el iframe de Google no cargue.
-           Por debajo de lg, antes que el mapa: en esta página lo que se busca son los botones de ruta -->
-      <div class="grid gap-8 max-lg:order-first md:grid-cols-2 lg:grid-cols-1">
+      <div class="mt-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
         <div>
-          <h2 id="direccion" class="eyebrow font-sans">Dirección</h2>
+          <h2 class="eyebrow font-sans">Dirección</h2>
           <address class="mt-2 font-display text-[1.75rem] font-semibold not-italic leading-[1.1] text-fg">
-            <span class="block">{STREET}</span>
-            <span class="block">{POSTAL_CODE} {CITY}</span>
+            {STREET}, {POSTAL_CODE} {CITY}
           </address>
-          {/* La ruta de Google, a todo el ancho; Apple Maps y Waze, lado a lado */}
-          <div class="mt-6 grid grid-cols-2 gap-3">
-            {
-              RUTAS.map((r) => (
-                <a
-                  href={r.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class:list={['btn w-full', r.estilo, r.estilo === 'btn-primary' && 'col-span-2']}
-                >
-                  <Icon name={r.icono} class="size-5" />
-                  {r.texto}
-                  <span class="sr-only">{NUEVA}</span>
-                </a>
-              ))
-            }
-          </div>
         </div>
-
-        <div>
-          {/* Uno por fila y a todo el ancho, como «Cómo llegar con Google Maps» (en media columna no cabe «Llamar al…») */}
-          <ContactActions primary={null} full class="flex-col" />
-          <Horario class="mt-6" />
-          <a href={MAPS} target="_blank" rel="noopener noreferrer" class="lnk mt-4 inline-flex min-h-11 items-center gap-2">
-            <Icon name="external-link" class="size-5" />Opiniones y fotos en Google Maps<span class="sr-only">{NUEVA}</span>
-          </a>
+        <div class="flex flex-wrap gap-3 max-sm:w-full">
+          {
+            RUTAS.map((r) => (
+              <a href={r.href} target="_blank" rel="noopener noreferrer" class:list={['btn max-sm:w-full', r.estilo]}>
+                <Icon name={r.icono} class="size-5" />
+                {r.texto}
+                <span class="sr-only"> (se abre en una pestaña nueva)</span>
+              </a>
+            ))
+          }
         </div>
       </div>
+      <Horario class="mt-8" />
     </div>
   </section>
 

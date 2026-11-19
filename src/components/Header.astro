@@ -6,14 +6,10 @@ import Icon from './Icon.astro';
 import ContactActions from './ContactActions.astro';
 import { BUSINESS, PHONE, PHONE_LABEL, ADDRESS } from '../data/business';
 
-// Enlace activo: 'page' si coincide exacta; 'true' si coincide por prefijo (o por `also`)
+// Enlace activo: 'page' si coincide exacta; 'true' si coincide por prefijo
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const current = (href: string, also?: string) =>
-  path === href
-    ? ('page' as const)
-    : href !== '/' && (path.startsWith(href) || (also && path.startsWith(also)))
-      ? ('true' as const)
-      : undefined;
+const current = (href: string) =>
+  path === href ? ('page' as const) : href !== '/' && path.startsWith(href) ? ('true' as const) : undefined;
 
 const NAV = [
   { href: '/taller-de-motos', label: 'Taller' },
@@ -21,8 +17,9 @@ const NAV = [
   { href: '/jardin-y-forestal', label: 'Jardín y forestal' },
   { href: '/ofertas', label: 'Ofertas' }, // por prefijo también /ofertas_moto y /ofertas_forestal
   { href: '/info', label: 'Quiénes somos' },
-  { href: '/contact', label: 'Contacto', also: '/location' },
-].map((l) => ({ ...l, current: current(l.href, l.also) }));
+  { href: '/location', label: 'Ubicación' },
+  { href: '/contact', label: 'Contacto' },
+].map((l) => ({ ...l, current: current(l.href) }));
 
 const MENU = [
   { href: '/', label: 'Inicio' },
@@ -31,8 +28,8 @@ const MENU = [
   { href: '/jardin-y-forestal', label: 'Jardín y forestal' },
   { href: '/ofertas', label: 'Ofertas' },
   { href: '/info', label: 'Quiénes somos' },
+  { href: '/location', label: 'Ubicación' },
   { href: '/contact', label: 'Contacto' },
-  { href: '/location', label: 'Cómo llegar' },
 ].map((l) => ({ ...l, current: current(l.href) }));
 ---
 

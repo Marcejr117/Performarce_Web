@@ -24,7 +24,7 @@ const SERVICIOS = [
 const EMPRESA = [
   { href: '/info', label: 'Quiénes somos' },
   { href: '/contact', label: 'Contacto' },
-  { href: '/location', label: 'Cómo llegar' },
+  { href: '/location', label: 'Ubicación' },
   { href: '/privacidad', label: 'Política de privacidad' },
 ];
 const REDES = [
@@ -94,7 +94,7 @@ const REDES = [
       <ul class="mt-3">
         <li>
           <a href={DIRECTIONS.google} target="_blank" rel="noopener noreferrer" class={item}>
-            {/* «Ruta en Google Maps» y no «Cómo llegar»: así se llama el enlace a /location de la última columna */}
+            {/* «Ruta en Google Maps»: el enlace a /location de la última columna se llama «Ubicación» */}
             <Icon name="route" class="size-5 text-link" />Ruta en Google Maps<span class="sr-only">{NUEVA}</span>
           </a>
         </li>
